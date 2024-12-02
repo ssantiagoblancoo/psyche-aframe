@@ -2,8 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>JOIN THE PSYCHE MISSION</title>
-    <meta name="description" content="JOIN THE PSYCHE MISSION">
+    <title>Observe 16-PSYCHE</title>
+    <meta name="description" content="Observe 16-PSYCHE">
+    <link rel="preload" href="assets/space.png" as="image">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
     <style>
@@ -13,48 +14,25 @@
         width: 100%;
         height: 100%;
         background: url('assets/space.png') no-repeat center center fixed;
-        background-size: cover;
+        background-color: black;
         display: flex;
         justify-content: center;
         align-items: center;
         color: white;
         font-family: Arial, sans-serif;
       }
-      #title {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        font-size: 2em;
-      }
     </style>
   </head>
   <body>
-    <a-scene>
+  <a-scene>
       <a-assets>
         <a-asset-item id="psyche" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
-        <img id="star-sky" src="assets/space.png">
       </a-assets>
       <a-entity light="type: ambient; intensity: 0.2"></a-entity>
       <a-entity light="type: directional; intensity: 0.5" position="-1 1 0"></a-entity>
-      <a-entity id="asteroid" obj-model="obj: #psyche" position="0 1 -5" scale="1 1 1" rotation="0 0 0" 
-                animation="property: rotation; to: 360 360 0; loop: true; dur: 20000; easing: linear"></a-entity>
-      <a-sky src="#star-sky"></a-sky>
+      <a-box id="asteroid" obj-model="obj: #psyche" position="0 1 -5" scale="1 1 1" rotation="0 0 0" 
+                animation="property: rotation; to: 360 360 360; loop: true; dur: 20000; easing: linear"></a-box>
       <a-camera look-controls="reverseMouseDrag: true"></a-camera>
     </a-scene>
-
-    <script>
-      AFRAME.registerComponent('center-pivot', {
-        init: function () {
-          var obj = this.el.getObject3D('mesh');
-          if (obj) {
-            obj.geometry.center();
-          }
-        }
-      });
-
-      document.querySelector('#asteroid').setAttribute('center-pivot', '');
-    </script>
   </body>
 </html>
