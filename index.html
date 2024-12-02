@@ -6,7 +6,7 @@
     <meta name="description" content="Observe 16-PSYCHE">
     <link rel="preload" href="assets/space.png" as="image">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.js"></script>
     <style>
       body, html {
         margin: 0;
@@ -21,18 +21,51 @@
         color: white;
         font-family: Arial, sans-serif;
       }
+      #toggle-container {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+      }
     </style>
   </head>
   <body>
-  <a-scene>
+    <div id="toggle-container">
+      <label for="mode-toggle">Switch to AR</label>
+      <input type="checkbox" id="mode-toggle">
+    </div>
+    <a-scene id="vr-scene">
       <a-assets>
         <a-asset-item id="psyche" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
       </a-assets>
       <a-entity light="type: ambient; intensity: 0.2"></a-entity>
       <a-entity light="type: directional; intensity: 0.5" position="-1 1 0"></a-entity>
       <a-box id="asteroid" obj-model="obj: #psyche" position="0 1 -5" scale="1 1 1" rotation="0 0 0" 
-                animation="property: rotation; to: 360 360 360; loop: true; dur: 20000; easing: linear"></a-box>
+             animation="property: rotation; to: 360 360 360; loop: true; dur: 20000; easing: linear"></a-box>
       <a-camera look-controls="reverseMouseDrag: true"></a-camera>
     </a-scene>
+    <a-scene id="ar-scene" embedded arjs hidden>
+      <a-assets>
+        <a-asset-item id="psyche-ar" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
+      </a-assets>
+      <a-marker preset="hiro">
+        <a-box id="asteroid-ar" obj-model="obj: #psyche-ar" position="0 0.5 0" scale="1 1 1" rotation="0 0 0" 
+               animation="property: rotation; to: 360 360 360; loop: true; dur: 20000; easing: linear"></a-box>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+    <script>
+      document.getElementById('mode-toggle').addEventListener('change', function(event) {
+        if (event.target.checked) {
+          document.getElementById('vr-scene').setAttribute('hidden', true);
+          document.getElementById('ar-scene').removeAttribute('hidden');
+          document.querySelector('body').style.background = 'none';
+        } else {
+          document.getElementById('vr-scene').removeAttribute('hidden');
+          document.getElementById('ar-scene').setAttribute('hidden', true);
+          document.querySelector('body').style.background = "url('assets/space.png') no-repeat center center fixed";
+        }
+      });
+    </script>
   </body>
 </html>
