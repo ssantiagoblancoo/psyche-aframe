@@ -1,6 +1,5 @@
 # psyche-aframe
----------------------------------
-${\textsf{\color{red} Welcome to the Psyche Mission }}$
+## ${\textsf{\color{red} Welcome to the Psyche Mission }}$
 ---------------------------------
 
 Project 25-320 NASA Psyche Mission
