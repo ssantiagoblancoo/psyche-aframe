@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAR with A-Frame</title>
+
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    
+    <!-- AR.js -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene 
+        embedded
+        vr-mode-ui="enabled: false"
+        arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
+        loading-screen="dotsColor: red; backgroundColor: black"
+        style="width: 100%; height: 100%; position: absolute;">
+        
+        <!-- Camera -->
+        <a-camera id="camera" position="0 1.6 0" look-controls></a-camera>
+
+        <!-- Object Placement Root -->
+        <a-entity id="object-root"></a-entity>
+
+        <!-- Grid for Placement Mode -->
+        <a-entity id="grid" visible="false">
+            <a-plane position="0 0 -2" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" opacity="0.5"></a-plane>
+        </a-entity>
+    </a-scene>
+
+    <!-- UI for Object Selection and Placement -->
+    <div id="ui">
+        <button onclick="previousObject()">&#9664;</button>
+        <button id="place-button" onclick="togglePlacementMode()">Box</button>
+        <button onclick="nextObject()">&#9654;</button>
+    </div>
+
+    <script>
+        const objects = ['Box', 'Sphere', 'Cone'];
+        let currentIndex = 0;
+        let placementMode = false;
+        let currentModel = null;
+
+        function updatePlaceButton() {
+            const placeButton = document.getElementById('place-button');
+            placeButton.textContent = placementMode ? `Confirm ${objects[currentIndex]}` : objects[currentIndex];
+        }
+
+        function previousObject() {
+            currentIndex = (currentIndex - 1 + objects.length) % objects.length;
+            updatePlaceButton();
+            if (placementMode) {
+                placeObject(currentModel, objects[currentIndex]);
+            }
+            console.log(`Selected object: ${objects[currentIndex]}`);
+        }
+
+        function nextObject() {
+            currentIndex = (currentIndex + 1) % objects.length;
+            updatePlaceButton();
+            if (placementMode) {
+                placeObject(currentModel, objects[currentIndex]);
+            }
+            console.log(`Selected object: ${objects[currentIndex]}`);
+        }
+
+        function togglePlacementMode() {
+            placementMode = !placementMode;
+            updatePlaceButton();
+
+            const grid = document.getElementById('grid');
+            grid.setAttribute('visible', placementMode);
+
+            if (placementMode) {
+                // Enter placement mode
+                if (currentModel) {
+                    currentModel.parentNode.removeChild(currentModel);
+                }
+                currentModel = document.createElement('a-entity');
+                placeObject(currentModel, objects[currentIndex]);
+                document.getElementById('object-root').appendChild(currentModel);
+
+                // Add event listeners for dragging
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('touchmove', onTouchMove);
+            } else {
+                // Confirm placement
+                console.log(`${objects[currentIndex]} was placed`);
+                currentModel = null;
+
+                // Remove event listeners for dragging
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('touchmove', onTouchMove);
+            }
+        }
+
+        function placeObject(model, type) {
+            switch (type.toLowerCase()) {
+                case 'box':
+                    model.setAttribute('geometry', 'primitive: box; height: 0.3; width: 0.3; depth: 0.3');
+                    model.setAttribute('material', 'color: blue');
+                    break;
+                case 'sphere':
+                    model.setAttribute('geometry', 'primitive: sphere; radius: 0.2');
+                    model.setAttribute('material', 'color: red');
+                    break;
+                case 'cone':
+                    model.setAttribute('geometry', 'primitive: cone; radiusBottom: 0.2; radiusTop: 0; height: 0.4');
+                    model.setAttribute('material', 'color: green');
+                    break;
+            }
+
+            // Set the initial position to be in front of the camera
+            model.setAttribute('position', '0 1.6 -2');
+
+            // Make the object interactive
+            model.setAttribute('class', 'interactive');
+            model.setAttribute('grabbable', '');
+            model.setAttribute('clickable', '');
+        }
+
+        function onMouseMove(event) {
+            if (currentModel) {
+                const camera = document.getElementById('camera');
+                const cameraPosition = camera.getAttribute('position');
+                const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                const vector = new THREE.Vector3(mouseX, mouseY, -1).unproject(camera.object3D);
+                const dir = vector.sub(camera.object3D.position).normalize();
+                const distance = -cameraPosition.z / dir.z;
+                const pos = camera.object3D.position.clone().add(dir.multiplyScalar(distance));
+                currentModel.setAttribute('position', pos);
+            }
+        }
+
+        function onTouchMove(event) {
+            if (currentModel && event.touches.length === 1) {
+                const touch = event.touches[0];
+                const camera = document.getElementById('camera');
+                const cameraPosition = camera.getAttribute('position');
+                const touchX = (touch.clientX / window.innerWidth) * 2 - 1;
+                const touchY = -(touch.clientY / window.innerHeight) * 2 + 1;
+                const vector = new THREE.Vector3(touchX, touchY, -1).unproject(camera.object3D);
+                const dir = vector.sub(camera.object3D.position).normalize();
+                const distance = -cameraPosition.z / dir.z;
+                const pos = camera.object3D.position.clone().add(dir.multiplyScalar(distance));
+                currentModel.setAttribute('position', pos);
+            }
+        }
+    </script>
+
+    <style>
+        #ui {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</body>
+</html>

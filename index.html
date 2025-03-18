@@ -6,7 +6,6 @@
     <meta name="description" content="Observe 16-PSYCHE">
     <link rel="preload" href="assets/space.png" as="image">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.js"></script>
     <style>
       body, html {
         margin: 0;
@@ -42,7 +41,7 @@
     </style>
   </head>
   <body>
-    <a-scene>
+    <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
         <a-asset-item id="psyche" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
       </a-assets>
