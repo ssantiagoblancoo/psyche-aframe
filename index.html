@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Observe 16-PSYCHE</title>
+    <title>Mission To Psyche</title>
     <meta name="description" content="Observe 16-PSYCHE">
     <link rel="preload" href="assets/space.png" as="image">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -21,22 +21,23 @@
         font-family: 'Times New Roman', Times, serif;
         overflow: hidden; /* Prevent scrollbars */
       }
+
       #explore-button {
         position: absolute;
-        bottom: 20px;
+        top: 0.1px;
         left: 50%;
         transform: translateX(-50%);
         padding: 10px 20px;
         font-size: 18px;
         color: white;
-        background-color: #007BFF;
+        background-color: #000000;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        z-index: 10; /* Ensure the button is on top */
       }
       #explore-button:hover {
-        background-color: #0056b3;
+        border: orange 2px solid;
+        color: orange;
       }
     </style>
   </head>
@@ -58,12 +59,24 @@
                       game collecting meteoroids: players point their phone around to find a meteoroid and hit a button to collect the meteoroid, this provides fast facts on Psyche\n
                       'Mission to Psyche': Start on the rocket going to psyche with a date of arrival (of the spacecraft landing on Psyche), surface of the asteroid you can interact with the terrain, atmosphere, learning more about the mission\n
                       These experiences are to be used in museums and learning environments all around the world\n\n
-                      Coming soon..."
+                      Look Around..."
+                color="yellow" width="6" align="center"></a-text>
+      </a-entity>
+      <a-entity position="12 0.5 -4" rotation="0 -40 0">
+        <a-text value="The Asteroid
+        Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology.\n
+        What gives asteroid Psyche great scientific interest is that it is likely rich in metal.\nIt may consist largely of metal from the core of a planetesimal, one of the building blocks of the Sun’s planetary system.\nAt Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal."
+                color="yellow" width="6" align="center"></a-text>
+      </a-entity>
+      <a-entity position="-12 0.5 -4" rotation="0 40 0">
+        <a-text value="The Spacecraft\n
+        The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court.\nThe body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop.\nThe spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system.\n\n
+        The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth."
                 color="yellow" width="6" align="center"></a-text>
       </a-entity>
       <a-camera look-controls="reverseMouseDrag: true"></a-camera>
     </a-scene>
-    <button id="explore-button" onclick="explorePsyche()">Explore Psyche</button>
+    <button id="explore-button" onclick="explorePsyche()">Click To Learn More About The Psyche Mission</button>
     <script>
       function explorePsyche() {
         window.location.href = "explore.html";
