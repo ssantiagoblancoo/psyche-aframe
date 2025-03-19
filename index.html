@@ -4,7 +4,13 @@
     <meta charset="utf-8">
     <title>Mission To Psyche</title>
     <meta name="description" content="Observe 16-PSYCHE">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preload" href="assets/space.png" as="image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <style>
       body, html {
@@ -18,13 +24,45 @@
         justify-content: center;
         align-items: center;
         color: white;
-        font-family: 'Times New Roman', Times, serif;
-        overflow: hidden; /* Prevent scrollbars */
+        font-family: 'Roboto Mono', monospace;
+        overflow: hidden;
+      }
+
+      #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: opacity 2s ease;
+      }
+      #overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #overlay-text {
+        font-size: 4vw; /* Responsive font size */
+        font-weight: 100;
+        color: orange;
+        text-align: center;
+      }
+      #psyche-span {
+        font-size: 15vw; /* Responsive font size */
+        font-weight: 200;
+        color: orange;
+        text-align: center;
+        margin-top: 20px;
       }
 
       #explore-button {
         position: absolute;
-        top: 0.1px;
+        bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
         padding: 10px 20px;
@@ -34,6 +72,7 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        z-index: 10; /* Ensure the button is above the scene */
       }
       #explore-button:hover {
         border: orange 2px solid;
@@ -42,6 +81,10 @@
     </style>
   </head>
   <body>
+    <div id="overlay" onclick="hideOverlay()">
+      <div id="overlay-text">NASA's Mission To A Metal World:</div>
+      <span id="psyche-span">PSYCHE</span>
+    </div>
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
         <a-asset-item id="psyche" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
@@ -62,15 +105,18 @@
                       Look Around..."
                 color="yellow" width="6" align="center"></a-text>
       </a-entity>
-      <a-entity position="12 0.5 -4" rotation="0 -40 0">
-        <a-text value="The Asteroid
+      <a-entity position="6 0.5 -2" rotation="0 -30 0">
+        <a-text value="The Asteroid\n
         Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology.\n
-        What gives asteroid Psyche great scientific interest is that it is likely rich in metal.\nIt may consist largely of metal from the core of a planetesimal, one of the building blocks of the Sun’s planetary system.\nAt Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal."
+        What gives asteroid Psyche great scientific interest is that it is likely rich in metal.\n
+        It may consist largely of metal from the core of a planetesimal, one of the building blocks of the Sun’s planetary system.\n
+        At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal."
                 color="yellow" width="6" align="center"></a-text>
       </a-entity>
-      <a-entity position="-12 0.5 -4" rotation="0 40 0">
+      <a-entity position="-6 0.5 -2" rotation="0 30 0">
         <a-text value="The Spacecraft\n
-        The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court.\nThe body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop.\nThe spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system.\n\n
+        The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court.\nThe body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop.\n
+        The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system.\n\n
         The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth."
                 color="yellow" width="6" align="center"></a-text>
       </a-entity>
@@ -78,6 +124,11 @@
     </a-scene>
     <button id="explore-button" onclick="explorePsyche()">Click To Learn More About The Psyche Mission</button>
     <script>
+      function hideOverlay() {
+        const overlay = document.getElementById('overlay');
+        overlay.classList.add('hidden');
+      }
+
       function explorePsyche() {
         window.location.href = "explore.html";
       }
