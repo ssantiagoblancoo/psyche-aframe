@@ -35,48 +35,49 @@
   <body>
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
-        <!-- Add any assets like textures or models here -->
-        </a-assets>
-        <!-- Spaceship interior -->
-         <!-- ceiling -->
-        <a-box position="0 5 0" depth="20" height="2" width="20" color="#fff"></a-box>
-        <!-- floor -->
-        <a-box position="0 -5 0" depth="20" height="2" width="20" color="#fff"></a-box>
+        <img id="tiles-texture" src="assets/textures/Tiles107_2K-JPG_Color.jpg">
+      </a-assets>
+      
+      <!-- Spaceship interior -->
+      <!-- ceiling -->
+      <a-box position="0 5 0" depth="20" height="2" width="20" material="src: #tiles-texture; repeat: 4 4"></a-box>
+      <!-- floor -->
+      <a-box position="0 -5 0" depth="20" height="2" width="20" material="src: #tiles-texture; repeat: 4 4"></a-box>
 
-        <!-- Columns-->
-        <a-box position="-10 0 -10" depth="1" height="10" width="1" color="#f0f"></a-box>
+      <!-- Columns-->
+      <a-box position="-10 0 -10" depth="1" height="10" width="1" color="#f0f"></a-box>
 
-        <!-- side pannels (left / right) -->
-        <a-box position="-10 0 5" depth="10" height="10" width="0.1" color="#f0f"></a-box>
-        <a-box position="10 0 0" depth="20" height="10" width="0.1" color="#fff"></a-box>  
+      <!-- side pannels (left / right) -->
+      <a-box position="-10 0 5" depth="10" height="10" width="0.1" color="#f0f"></a-box>
+      <a-box position="10 0 0" depth="20" height="10" width="0.1" color="#fff"></a-box>  
         
-        <!-- top portion -->
-        <a-box position="0 3.5 -5" depth="1" height="1" width="5" color="#fff"></a-box>
-        <!-- front window -->
-        <a-box position="0 0 -10" depth="0.1" height="5" width="10" color="#333"></a-box>
-        <!-- desk portion -->
-        <a-box position="0 -2.5 -10" depth="5" height="1" width="10" color="#fff"></a-box>
-        <a-box position="0 -4 -10" depth="5" height="2" width="10" color="#00f"></a-box>
+      <!-- top portion -->
+      <a-box position="0 3.5 -5" depth="1" height="1" width="5" color="#fff"></a-box>
+      <!-- front window -->
+      <a-box position="0 0 -10" depth="0.1" height="5" width="10" color="#333"></a-box>
+      <!-- desk portion -->
+      <a-box position="0 -2.5 -10" depth="5" height="1" width="10" color="#fff"></a-box>
+      <a-box position="0 -4 -10" depth="5" height="2" width="10" color="#00f"></a-box>
         
-        <!-- Command buttons -->
-        <a-box position="-1 -2 -8" depth="1" height="0.5" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
-        <a-box position="1 -2 -8" depth="1" height="0.5" width="1" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
+      <!-- Command buttons -->
+      <a-box position="-1 -2 -8" depth="1" height="0.5" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
+      <a-box position="1 -2 -8" depth="1" height="0.5" width="1" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
        
-        <!--Back Walls-->
-        <a-box position="6 0 10" depth="0.1" height="10" width="8" color="#333"></a-box>
-        <a-box position="-6 0 10" depth="0.1" height="10" width="8" color="#333"></a-box>
-        <!--Back corridor-->
-        <a-box position="0 5 12" depth="2" height="1" width="5" color="#f00"></a-box>  
-        <!-- <a-box position="0 3.5 11" depth="1" height="1" width="5" color="#fff"></a-box> -->
-        <a-box position="0 4 12" depth="4" height="1" width="5" color="#f00"></a-box>  
-        <a-box position="-2 0 12" depth="4" height="10" width="1" color="#f00"></a-box>  
-        <a-box position="2 0 12" depth="4" height="10" width="1" color="#f00"></a-box>  
-        <a-box position="0 -5 12" depth="4" height="1" width="5" color="#f00"></a-box>  
+      <!--Back Walls-->
+      <a-box position="6 0 10" depth="0.1" height="10" width="8" color="#333"></a-box>
+      <a-box position="-6 0 10" depth="0.1" height="10" width="8" color="#333"></a-box>
+      <!--Back corridor-->
+      <a-box position="0 5 12" depth="2" height="1" width="5" color="#f00"></a-box>  
+      <!-- <a-box position="0 3.5 11" depth="1" height="1" width="5" color="#fff"></a-box> -->
+      <a-box position="0 4 12" depth="4" height="1" width="5" color="#f00"></a-box>  
+      <a-box position="-2 0 12" depth="4" height="10" width="1" color="#f00"></a-box>  
+      <a-box position="2 0 12" depth="4" height="10" width="1" color="#f00"></a-box>  
+      <a-box position="0 -5 12" depth="4" height="1" width="5" color="#f00"></a-box>  
 
 
-        <a-entity camera look-controls>
-            <a-cursor color="white"></a-cursor>
-        </a-entity>
+      <a-entity camera look-controls>
+        <a-cursor color="white"></a-cursor>
+      </a-entity>
     </a-scene>
     <script>
       function redirectToObjectPlacement() {

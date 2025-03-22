@@ -60,23 +60,6 @@
         margin-top: 20px;
       }
 
-      #permission-message {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 18px;
-        color: white;
-        text-align: center;
-        background-color: rgba(0, 0, 0, 0.8);
-        padding: 20px;
-        border-radius: 10px;
-        z-index: 2000;
-      }
-      #permission-message.hidden {
-        display: none;
-      }
-
       #explore-button {
         position: absolute;
         bottom: 20px;
@@ -100,9 +83,6 @@
     <div id="overlay" onclick="hideOverlay()">
       <div id="overlay-text">NASA's Mission To A Metal World:</div>
       <span id="psyche-span">PSYCHE</span>
-    </div>
-    <div id="permission-message">
-      Please allow camera and motion permissions to explore the Psyche mission in AR/VR.
     </div>
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
@@ -151,13 +131,6 @@
       function explorePsyche() {
         window.location.href = "explore.html";
       }
-      // Hide the permission message after permissions are granted
-      window.addEventListener('load', () => {
-        const permissionMessage = document.getElementById('permission-message');
-        setTimeout(() => {
-          permissionMessage.classList.add('hidden');
-        }, 3000); // Hide after 3 seconds
-      });
     </script>
   </body>
 </html>
