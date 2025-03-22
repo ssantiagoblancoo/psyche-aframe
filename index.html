@@ -60,6 +60,23 @@
         margin-top: 20px;
       }
 
+      #permission-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 18px;
+        color: white;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 2000;
+      }
+      #permission-message.hidden {
+        display: none;
+      }
+
       #explore-button {
         position: absolute;
         bottom: 20px;
@@ -68,9 +85,8 @@
         padding: 10px 20px;
         font-size: 18px;
         color: white;
+        border: white 2px solid;
         background-color: #000000;
-        border: none;
-        border-radius: 5px;
         cursor: pointer;
         z-index: 10; /* Ensure the button is above the scene */
       }
@@ -84,6 +100,9 @@
     <div id="overlay" onclick="hideOverlay()">
       <div id="overlay-text">NASA's Mission To A Metal World:</div>
       <span id="psyche-span">PSYCHE</span>
+    </div>
+    <div id="permission-message">
+      Please allow camera and motion permissions to explore the Psyche mission in AR/VR.
     </div>
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
@@ -105,7 +124,7 @@
                       Look Around..."
                 color="yellow" width="6" align="center"></a-text>
       </a-entity>
-      <a-entity position="6 0.5 -2" rotation="0 -30 0">
+      <a-entity position="6 0.5 -4" rotation="0 -50 0">
         <a-text value="The Asteroid\n
         Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology.\n
         What gives asteroid Psyche great scientific interest is that it is likely rich in metal.\n
@@ -113,7 +132,7 @@
         At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal."
                 color="yellow" width="6" align="center"></a-text>
       </a-entity>
-      <a-entity position="-6 0.5 -2" rotation="0 30 0">
+      <a-entity position="-6 0.5 -2" rotation="0 50 0">
         <a-text value="The Spacecraft\n
         The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court.\nThe body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop.\n
         The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system.\n\n
@@ -132,6 +151,13 @@
       function explorePsyche() {
         window.location.href = "explore.html";
       }
+      // Hide the permission message after permissions are granted
+      window.addEventListener('load', () => {
+        const permissionMessage = document.getElementById('permission-message');
+        setTimeout(() => {
+          permissionMessage.classList.add('hidden');
+        }, 3000); // Hide after 3 seconds
+      });
     </script>
   </body>
 </html>

@@ -57,6 +57,7 @@
         <!-- desk portion -->
         <a-box position="0 -2.5 -10" depth="5" height="1" width="10" color="#fff"></a-box>
         <a-box position="0 -4 -10" depth="5" height="2" width="10" color="#00f"></a-box>
+        
         <!-- Command buttons -->
         <a-box position="-1 -2 -8" depth="1" height="0.5" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
         <a-box position="1 -2 -8" depth="1" height="0.5" width="1" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
@@ -73,9 +74,9 @@
         <a-box position="0 -5 12" depth="4" height="1" width="5" color="#f00"></a-box>  
 
 
-        <a-camera look-controls="reverseMouseDrag: true">
+        <a-entity camera look-controls>
             <a-cursor color="white"></a-cursor>
-        </a-camera>
+        </a-entity>
     </a-scene>
     <script>
       function redirectToObjectPlacement() {
