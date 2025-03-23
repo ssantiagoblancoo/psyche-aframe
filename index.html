@@ -60,6 +60,25 @@
         margin-top: 20px;
       }
 
+      #logos {
+        position: absolute;
+        bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+      }
+      #logos img {
+        height: 50px;
+        width: auto;
+      }
+      #logos .divider {
+        width: 2px;
+        height: 40px;
+        border-radius: 4px;
+        background-color: orange;
+      }
+
       #explore-button {
         position: absolute;
         bottom: 20px;
@@ -83,6 +102,11 @@
     <div id="overlay" onclick="hideOverlay()">
       <div id="overlay-text">NASA's Mission To A Metal World:</div>
       <span id="psyche-span">PSYCHE</span>
+      <div id="logos">
+        <img src="assets/nasa-logo.svg" alt="NASA Logo">
+        <div class="divider"></div>
+        <img src="assets/psyche-logo.svg" alt="Psyche Logo">
+      </div>
     </div>
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
@@ -93,31 +117,43 @@
       <a-entity id="asteroid" obj-model="obj: #psyche" position="0 1 -5" scale="0.5 0.5 0.5" rotation="0 0 0" 
                 animation="property: rotation; to: 360 360 360; loop: true; dur: 20000; easing: linear"></a-entity>
       <a-entity position="0 1.5 -6">
-        <a-text value="NASA and ASU are conducting research on a metal rich asteroid named 'Psyche'\n
+        <!-- Border (a-plane) -->
+        <a-plane position="0 0 -0.02" width="6.4" height="6.5" color="white"></a-plane>
+        <!-- Background (a-plane) -->
+        <a-plane position="0 0 -0.01" width="6.3" height="6.4" color="black"></a-plane>
+        <!-- Text -->
+        <a-text value="Psyche Mission: \n\n
+                      NASA and ASU are conducting research on a metal rich asteroid named 'Psyche'\n
                       Because of the complexity of the information, we were tasked with creating WebXR and VR experiences to educate the public about the mission\n
                       We are choosing to use Unity to create WebXR/AR/VR experiences with different facts pulled from papers.\n
-                      Our experiences include: a scavenger hunt and a game collecting meteoroids in the Psyche orbit in AR/WebXR, and 'Mission to Psyche' in VR which allows you to land on Psyche and explore the surface\n
-                      scavenger hunt: collecting different items related to Psyche, such as asteroid, spacecraft, potentially one of the instruments used to measure Psyche, etc, This provides more in depth information on each part\n
-                      game collecting meteoroids: players point their phone around to find a meteoroid and hit a button to collect the meteoroid, this provides fast facts on Psyche\n
-                      'Mission to Psyche': Start on the rocket going to psyche with a date of arrival (of the spacecraft landing on Psyche), surface of the asteroid you can interact with the terrain, atmosphere, learning more about the mission\n
                       These experiences are to be used in museums and learning environments all around the world\n\n
                       Look Around..."
-                color="yellow" width="6" align="center"></a-text>
+                color="white" width="6" align="center"></a-text>
       </a-entity>
-      <a-entity position="6 0.5 -4" rotation="0 -50 0">
-        <a-text value="The Asteroid\n
+      <a-entity position="6 0.5 -2" rotation="0 -50 0">
+        <!-- Border (a-plane) -->
+        <a-plane position="0 0 -0.02" width="6.4" height="6.5" color="blue"></a-plane>
+        <!-- Background (a-plane) -->
+        <a-plane position="0 0 -0.01" width="6.3" height="6.4" color="black"></a-plane>
+        <!-- Text -->
+        <a-text value="The Asteroid\n\n\n
         Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology.\n
         What gives asteroid Psyche great scientific interest is that it is likely rich in metal.\n
         It may consist largely of metal from the core of a planetesimal, one of the building blocks of the Sun’s planetary system.\n
         At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal."
-                color="yellow" width="6" align="center"></a-text>
+                color="white" width="6" align="center"></a-text>
       </a-entity>
       <a-entity position="-6 0.5 -2" rotation="0 50 0">
+        <!-- Border (a-plane) -->
+        <a-plane position="0 0 -0.02" width="6.4" height="6.5" color="blue"></a-plane>
+        <!-- Background (a-plane) -->
+        <a-plane position="0 0 -0.01" width="6.3" height="6.4" color="black"></a-plane>
+        <!-- Text -->
         <a-text value="The Spacecraft\n
         The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court.\nThe body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop.\n
         The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system.\n\n
         The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth."
-                color="yellow" width="6" align="center"></a-text>
+                color="white" width="6" align="center"></a-text>
       </a-entity>
       <a-camera look-controls="reverseMouseDrag: true"></a-camera>
     </a-scene>
