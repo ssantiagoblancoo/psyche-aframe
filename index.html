@@ -112,17 +112,28 @@
       <a-assets>
         <a-asset-item id="psyche" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
       </a-assets>
-      <a-entity light="type: ambient; intensity: 0.2"></a-entity>
-      <a-entity light="type: directional; intensity: 0.5" position="-1 1 0"></a-entity>
+
+      <!-- Directional Light -->
+      <a-entity light="type: directional; intensity: 0.8; color: white" position="-1 2 1"></a-entity>
+
+      <!-- Light for Psyche Mission Border -->
+      <a-entity light="type: point; intensity: 1; color: white" position="0 2 -6"></a-entity>
+
+      <!-- Light for Asteroid Border -->
+      <a-entity light="type: point; intensity: 1; color: white" position="6 2 -4"></a-entity>
+
+      <!-- Rotating Asteroid -->
       <a-entity id="asteroid" obj-model="obj: #psyche" position="0 1 -5" scale="0.5 0.5 0.5" rotation="0 0 0" 
-                animation="property: rotation; to: 360 360 360; loop: true; dur: 20000; easing: linear"></a-entity>
+        animation="property: rotation; to: 360 360 360; loop: true; dur: 20000; easing: linear">
+      </a-entity>
+
       <a-entity position="0 1.5 -6">
         <!-- Border (a-plane) -->
-        <a-plane position="0 0 -0.02" width="6.4" height="6.5" color="white"></a-plane>
+        <a-plane position="0 0 -0.02" width="6.4" height="6.5" color="blue"></a-plane>
         <!-- Background (a-plane) -->
         <a-plane position="0 0 -0.01" width="6.3" height="6.4" color="black"></a-plane>
         <!-- Text -->
-        <a-text value="Psyche Mission: \n\n
+        <a-text value="Psyche Mission \n\n
                       NASA and ASU are conducting research on a metal rich asteroid named 'Psyche'\n
                       Because of the complexity of the information, we were tasked with creating WebXR and VR experiences to educate the public about the mission\n
                       We are choosing to use Unity to create WebXR/AR/VR experiences with different facts pulled from papers.\n
@@ -149,10 +160,10 @@
         <!-- Background (a-plane) -->
         <a-plane position="0 0 -0.01" width="6.3" height="6.4" color="black"></a-plane>
         <!-- Text -->
-        <a-text value="The Spacecraft\n
-        The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court.\nThe body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop.\n
+        <a-text value="\nThe Spacecraft\n
+        The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court\n\nThe body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop.\n
         The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system.\n\n
-        The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth."
+        The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.\n\n"
                 color="white" width="6" align="center"></a-text>
       </a-entity>
       <a-camera look-controls="reverseMouseDrag: true"></a-camera>
