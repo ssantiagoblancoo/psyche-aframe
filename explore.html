@@ -36,29 +36,88 @@
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
         <img id="tiles-texture" src="assets/textures/Tiles107_2K-JPG_Color.jpg">
+        <img id="brushed-metal-texture" src="assets/textures/Brushed-Metal-Texture.jpg">
+        <img id="metal-texture" src="assets/textures/DiamondPlate001_2K-JPG_Color.jpg">
+        <img id="dark-tiles-texture" src="assets/textures/Tiles129B_2K-JPG_Color.jpg">
+        <img id="star-background" src="assets/space.png">
+
+        <img id="detail-hud" src="assets/Texturelabs_Details_181M.jpg">
+        
       </a-assets>
-      
+    
+      <!-- Starry Background -->
+      <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
+      animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
+    
       <!-- Spaceship interior -->
       <!-- ceiling -->
-      <a-box position="0 5 0" depth="20" height="2" width="20" material="src: #tiles-texture; repeat: 4 4"></a-box>
+      <a-box position="-6 5 0" depth="20" height="1" width="8" material="src: #tiles-texture; repeat: 4 4"></a-box>
+      <a-box position="6 5 0" depth="20" height="1" width="8" material="src: #tiles-texture; repeat: 4 4"></a-box>
+      <!-- Window Borders -->
+      <a-box position="-2 4.5 0" depth="16" height="1.5" width="0.5" material="src: #dark-tiles-texture; repeat: 4 4"></a-box>
+      <a-box position="2 4.5 0" depth="16" height="1.5" width="0.5" material="src: #dark-tiles-texture; repeat: 4 4"></a-box>
+      <!-- top portion -->
+      <a-box position="0 4 -9" depth="3.5" height="1" width="15" material="src: #tiles-texture; repeat: 4 4"></a-box>
+      <a-box position="0 4 8" depth="2" height="1.5" width="10" material="src: #tiles-texture; repeat: 4 4"></a-box>
+      
+
       <!-- floor -->
-      <a-box position="0 -5 0" depth="20" height="2" width="20" material="src: #tiles-texture; repeat: 4 4"></a-box>
+      <a-box position="0 -5 0" depth="20" height="2" width="20" material="src: #dark-tiles-texture; repeat: 10 10"></a-box>
 
       <!-- Columns-->
       <a-box position="-10 0 -10" depth="1" height="10" width="1" color="#f0f"></a-box>
 
-      <!-- side pannels (left / right) -->
-      <a-box position="-10 0 5" depth="10" height="10" width="0.1" color="#f0f"></a-box>
-      <a-box position="10 0 0" depth="20" height="10" width="0.1" color="#fff"></a-box>  
-        
-      <!-- top portion -->
-      <a-box position="0 3.5 -5" depth="1" height="1" width="5" color="#fff"></a-box>
-      <!-- front window -->
-      <a-box position="0 0 -10" depth="0.1" height="5" width="10" color="#333"></a-box>
+      <!-- side pannel (left) -->
+      <a-box position="-10 0 5" depth="10" height="10" width="0.1" color="#fff"></a-box>
+          <!-- PsycheOrbit Image on Top of the Left Side Panel -->
+          <a-box position="-10 0.5 4" depth="6" height="4" width="0.4" material="src: assets/PsycheOrbit.png;"></a-box>  
+        <!-- window wall -->
+      <!-- left -->
+      <a-box position="-10 0 -0.2" depth="1" height="10" width="0.1" color="#fff"></a-box>
+      <!-- right -->
+      <a-box position="-10 0 -8.5" depth="1" height="5.5" width="0.1" color="#fff"></a-box>
+      <!-- top -->
+      <a-box position="-10 3.5 -4.5" depth="9" height="2" width="0.1" color="#fff"></a-box>
+      <!-- bottom -->
+      <a-box position="-10 -3.5 -4.5" depth="9" height="2" width="0.1" color="#fff"></a-box>
+      
+          <!-- window border -->
+      <!-- left -->
+      <a-box position="-9.5 0 -0.5" depth="0.5" height="5.5" width="0.1" material="src: #metal-texture; repeat: 1 1 shader: standard"></a-box>
+      <!-- right -->
+      <a-box position="-9.5 0 -8" depth="0.5" height="5.5" width="0.1" color="#0056b3"></a-box>
+      <!-- top -->
+      <a-box position="-9.5 2.5 -4" depth="7.5" height="0.5" width="0.1" color="#0056b3"></a-box>
+      <!-- bottom -->
+      <a-box position="-9.5 -2.5 -4" depth="7.5" height="0.5" width="0.1" color="#0056b3"></a-box>
+      
+      <!-- side pannel (right) -->
+      <a-box position="10 0 0" depth="20" height="10" width="0.1" color="#fff"></a-box>
+      <a-box position="10 1 0" depth="6" height="4" width="0.2" material="src: #detail-hud;"></a-box>  
+        <!-- Spacecraft Diagram   -->
+        <a-box position="10 0 0" depth="20" height="10" width="0.1" color="#fff"></a-box>  
+        <!-- Table -->
+          <!-- Top -->
+          <a-box position="8 -2.5 0" depth="10" height="1" width="5" material="src: #metal-texture; repeat: 1 shader: standard"></a-box>
+          <!-- Legs -->
+          <a-box position="8 -4 4" depth="0.4" height="2" width="4" color="#00f"></a-box>
+          <a-box position="8 -4 -4" depth="0.4" height="2" width="4" color="#00f"></a-box>
+       
+        <!-- Cube -->
+        <a-box position="8 -1.5 2" depth="1" height="1" width="1" color="blue"></a-box>
+        <!-- Sphere -->
+        <a-sphere position="8 -1.5 0" radius="0.5" color="red"></a-sphere>
+        <!-- Cone -->
+        <a-cone position="8 -1.5 -2" radius-bottom="0.5" height="1" color="green"></a-cone>
+      
+      <!-- Front Panel -->
+      <a-box position="0 0 -10" depth="0.1" height="5" width="10" material="src: #detail-hud;"></a-box>
       <!-- desk portion -->
       <a-box position="0 -2.5 -10" depth="5" height="1" width="10" color="#fff"></a-box>
-      <a-box position="0 -4 -10" depth="5" height="2" width="10" color="#00f"></a-box>
-        
+        <!-- Legs -->
+        <a-box position="4 -4 -9.5" depth="4" height="2" width="0.4" color="#00f"></a-box>
+        <a-box position="-4 -4 -9.5" depth="4" height="2" width="0.4" color="#00f"></a-box>
+
       <!-- Command buttons -->
       <a-box position="-1 -2 -8" depth="1" height="0.5" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
       <a-box position="1 -2 -8" depth="1" height="0.5" width="1" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
@@ -75,9 +134,13 @@
       <a-box position="0 -5 12" depth="4" height="1" width="5" color="#f00"></a-box>  
 
 
-      <a-entity camera look-controls>
-        <a-cursor color="white"></a-cursor>
+      <a-entity id="camera" look-controls wasd-controls="acceleration: 50">
+        <!-- Cursor for Interaction -->
+        <a-cursor color="red"></a-cursor>
       </a-entity>
+      
+      <a-camera position="0 0 0" near="0.1" far="2000"></a-camera>
+      
     </a-scene>
     <script>
       function redirectToObjectPlacement() {
