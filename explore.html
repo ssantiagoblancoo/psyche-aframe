@@ -60,12 +60,18 @@
       <a-box position="0 4 -9" depth="3.5" height="1" width="15" material="src: #tiles-texture; repeat: 4 4"></a-box>
       <a-box position="0 4 8" depth="2" height="1.5" width="10" material="src: #tiles-texture; repeat: 4 4"></a-box>
       
-
       <!-- floor -->
       <a-box position="0 -5 0" depth="20" height="2" width="20" material="src: #dark-tiles-texture; repeat: 10 10"></a-box>
 
       <!-- Columns-->
-      <a-box position="-10 0 -10" depth="1" height="10" width="1" color="#f0f"></a-box>
+      <!-- White Cylinder Left -->
+      <a-cylinder position="-9.5 0 -9.5" radius="0.8" height="10" color="white"></a-cylinder>
+      <!-- White Cylinder Right -->
+      <a-cylinder position="9.5 0 -9.5" radius="0.8" height="10" color="white"></a-cylinder>
+      <!-- White Cylinder Left Back -->
+      <a-cylinder position="-9.5 0 9.5" radius="0.8" height="10" color="white"></a-cylinder>
+      <!-- White Cylinder Right Back -->
+      <a-cylinder position="9.5 0 9.5" radius="0.8" height="10" color="white"></a-cylinder>
 
       <!-- side pannel (left) -->
       <a-box position="-10 0 5" depth="10" height="10" width="0.1" color="#fff"></a-box>
@@ -83,13 +89,13 @@
       
           <!-- window border -->
       <!-- left -->
-      <a-box position="-9.5 0 -0.5" depth="0.5" height="5.5" width="0.1" material="src: #metal-texture; repeat: 1 1 shader: standard"></a-box>
+      <a-box position="-9.8 0 -0.5" depth="0.5" height="5.5" width="0.1" material="src: #metal-texture; repeat: 1 1 shader: standard"></a-box>
       <!-- right -->
-      <a-box position="-9.5 0 -8" depth="0.5" height="5.5" width="0.1" color="#0056b3"></a-box>
+      <a-box position="-9.8 0 -8" depth="0.5" height="5.5" width="0.1" color="#0056b3"></a-box>
       <!-- top -->
-      <a-box position="-9.5 2.5 -4" depth="7.5" height="0.5" width="0.1" color="#0056b3"></a-box>
+      <a-box position="-9.8 2.5 -4" depth="7.5" height="0.5" width="0.1" color="#0056b3"></a-box>
       <!-- bottom -->
-      <a-box position="-9.5 -2.5 -4" depth="7.5" height="0.5" width="0.1" color="#0056b3"></a-box>
+      <a-box position="-9.8 -2.5 -4" depth="7.5" height="0.5" width="0.1" color="#0056b3"></a-box>
       
       <!-- side pannel (right) -->
       <a-box position="10 0 0" depth="20" height="10" width="0.1" color="#fff"></a-box>
@@ -127,18 +133,39 @@
           <a-text value="Cone" color="white" align="center" position="0 0 0.01"></a-text>
         </a-entity>
 
-      
       <!-- Front Panel -->
-      <a-box position="0 0 -10" depth="0.1" height="5" width="10" material="src: #detail-hud;"></a-box>
+      <!-- Hexagon Window -->
+        <!-- Left-Up -->
+        <a-entity position="-4.5 2.8 -12" rotation="0 40 60" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <!-- Left-Down -->
+        <a-entity position="-4.5 -2.8 -12" rotation="0 40 120" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <!-- Right-Up -->
+        <a-entity position="4.5 2.8 -12" rotation="0 -40 -60" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <!-- Right-Down -->
+        <a-entity position="4.5 -2.8 -12" rotation="0 -40 -120" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <!-- Center Piece -->
+        <a-entity position="0 0 -14" rotation="0 0 0" geometry="primitive: circle; radius: 4; segments: 6" material="color: grey; side: double; wireframe: true"></a-entity>
+        <!-- Up -->
+        <a-entity position="0 4.2 -12" rotation="80 0 0" geometry="primitive: triangle; vertexA: 0 3 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <!-- Down -->
+        <a-entity position="0 -4.2 -12" rotation="-80 180 0" geometry="primitive: triangle; vertexA: 0 3 -3; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <!-- Left -->
+        <a-entity position="-5 0 -12" rotation="0 40 -90" geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <!-- Right -->
+        <a-entity position="5 0 -12" rotation="0 -40 90" geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+      <!-- desk -->
+      <!-- <a-box position="0 -2 -10" depth="0.1" height="3" width="10"></a-box> -->
+      <!-- HUD -->
+      <!-- <a-box position="0 -1.5 -9.5" rotation="-25 0 0" depth="0.1" height="1.5" width="10" material="src: #detail-hud;"></a-box> -->
       <!-- desk portion -->
-      <a-box position="0 -2.5 -10" depth="5" height="1" width="10" color="#fff"></a-box>
+      <a-box position="0 -2.8 -9" depth="2" height="0.2" width="10" color="#fff"></a-box>
         <!-- Legs -->
-        <a-box position="4 -4 -9.5" depth="4" height="2" width="0.4" color="#00f"></a-box>
-        <a-box position="-4 -4 -9.5" depth="4" height="2" width="0.4" color="#00f"></a-box>
+        <a-box position="4 -4 -9" depth="2" height="2" width="0.4" color="#00f"></a-box>
+        <a-box position="-4 -4 -9" depth="2" height="2" width="0.4" color="#00f"></a-box>
 
       <!-- Command buttons -->
-      <a-box position="-1 -2 -8" depth="1" height="0.5" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
-      <a-box position="1 -2 -8" depth="1" height="0.5" width="1" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
+      <a-box position="-1 -2 -8.5" depth="0.5" height="0.5" width="0.5" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
+      <a-box position="1 -2 -8.5" depth="0.5" height="0.5" width="0.5" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
        
       <!--Back Walls-->
       <a-box position="6 0 10" depth="0.1" height="10" width="8" color="#333"></a-box>
