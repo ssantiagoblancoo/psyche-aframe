@@ -126,7 +126,7 @@
           <!-- Legs -->
           <a-box position="8 -4 4" depth="0.4" height="2" width="4" color="#00f"></a-box>
           <a-box position="8 -4 -4" depth="0.4" height="2" width="4" color="#00f"></a-box>
-       
+      <a-entity id="psyche-objects">
         <!-- Cube -->
         <a-box position="8 -1.5 2" depth="1" height="1" width="1" color="blue"></a-box>
         <!-- Cube Text -->
@@ -150,9 +150,11 @@
           <a-plane width="1.5" height="0.5" color="black" opacity="0.2"></a-plane>
           <a-text value="Cone" color="white" align="center" position="0 0 0.01"></a-text>
         </a-entity>
+      </a-entity>
 
       <!-- Front Panel -->
       <!-- Hexagon Window -->
+      <a-entity id="hexagon-window">
         <!-- Left-Up -->
         <a-entity position="-4.5 2.8 -12" rotation="0 40 60" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
         <!-- Left-Down -->
@@ -171,39 +173,125 @@
         <a-entity position="-5 0 -12" rotation="0 40 -90" geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" material="color: transparent; side: double; wireframe: true"></a-entity>
         <!-- Right -->
         <a-entity position="5 0 -12" rotation="0 -40 90" geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" material="color: transparent; side: double; wireframe: true"></a-entity>
-      
-      <!-- desk -->
-      <a-box position="0 -2 -10" depth="0.1" height="2" width="10"></a-box>
-      <!-- HUD -->
-      <a-box position="0 -2 -9.5" rotation="-20 0 0" depth="0.1" height="2" width="10" material="src: #detail-hud;"></a-box>
-      <!-- desk portion -->
-      <a-box position="0 -2.8 -9" depth="2" height="0.2" width="10" color="#fff"></a-box>
-        <!-- Legs -->
-        <a-box position="4 -4 -9" depth="2" height="2" width="0.4" color="#00f"></a-box>
-        <a-box position="-4 -4 -9" depth="2" height="2" width="0.4" color="#00f"></a-box>
-      <!-- Command buttons -->
-      <a-box position="-1 -2.5 -8.5" depth="0.5" height="0.2" width="0.5" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
-      <a-box position="1 -2.5 -8.5" depth="0.5" height="0.2" width="0.5" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
-       
-      <!--Back Walls-->
-      <a-box position="6 0 10" depth="0.1" height="10" width="8" color="#333"></a-box>
-      <a-box position="-6 0 10" depth="0.1" height="10" width="8" color="#333"></a-box>
+      </a-entity>
+
+      <!-- Desk -->
+      <a-entity id="front-desk">
+        <a-box position="0 -2 -10" depth="0.1" height="2" width="10"></a-box>
+        <!-- HUD -->
+        <a-box position="0 -2 -9.5" rotation="-20 0 0" depth="0.1" height="2" width="10" material="src: #detail-hud;"></a-box>
+        <!-- desk portion -->
+        <a-box position="0 -2.8 -9" depth="2" height="0.2" width="10" color="#fff"></a-box>
+          <!-- Legs -->
+          <a-box position="4 -4 -9" depth="2" height="2" width="0.4" color="#00f"></a-box>
+          <a-box position="-4 -4 -9" depth="2" height="2" width="0.4" color="#00f"></a-box>
+        <!-- Command buttons -->
+        <a-box position="-1 -2.5 -8.5" depth="0.5" height="0.2" width="0.5" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
+        <a-box position="1 -2.5 -8.5" depth="0.5" height="0.2" width="0.5" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
+      </a-entity>
+
+      <!--Back Gate-->
+      <a-box position="9.5 0 10" depth="0.1" height="10" width="7" color="#333"></a-box>
+      <a-box position="-9.5 0 10" depth="0.1" height="10" width="7" color="#333"></a-box>
       <!--Back corridor-->
-      <a-box position="0 5 12" depth="2" height="1" width="5" color="#f00"></a-box>  
-      <!-- <a-box position="0 3.5 11" depth="1" height="1" width="5" color="#fff"></a-box> -->
-      <a-box position="0 4 12" depth="4" height="1" width="5" color="#f00"></a-box>  
-      <a-box position="-2 0 12" depth="4" height="10" width="1" color="#f00"></a-box>  
-      <a-box position="2 0 12" depth="4" height="10" width="1" color="#f00"></a-box>  
-      <a-box position="0 -5 12" depth="4" height="1" width="5" color="#f00"></a-box>  
+      <!-- Ceiling Wall -->
+      <a-box position="0 4.5 20" depth="20" height="0.2" width="18" color="#888"></a-box>
+      <!-- Floor Wall -->
+      <a-box position="0 -4 20" depth="20" height="0.2" width="18" color="#888"></a-box>
+      
+      <!-- Doors and Corridors -->
+      <a-entity id="full-corridor">
+        <!-- Right Side Wall (Top Section) -->
+        <a-box position="-7 3.3 12" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
+        <!-- Right Side Wall (Middle Section) -->
+        <a-box position="-6.2 0 12" depth="4" height="3" width="0.2" color="#888"></a-box>
+        <!-- Right Side Wall (Bottom Section) -->
+        <a-box position="-7 -3.3 12" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
 
+        <!-- Left Side Wall (Top Section) -->
+        <a-box position="7 3.3 12" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
+        <!-- Right Side Wall (Middle Section) -->
+        <a-box position="6.2 0 12" depth="4" height="3" width="0.2" color="#888"></a-box>
+        <!-- Right Side Wall (Bottom Section) -->
+        <a-box position="7 -3.3 12" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
+        
+        <!-- BREAK LEFT AND RIGHT Corridor -->
+        
+        <!-- Filler Wall -->
+        <a-box position="-10 3 14" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
+        <a-box position="-9.5 0 14" depth="0.1" height="3" width="7" color="#333"></a-box>
+        <a-box position="-10 -3 14" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
+        <!-- Right Side Wall (Top Section) -->
+        <a-box position="-7 3.3 20" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
+        <!-- Right Side Wall (Middle Section) -->
+        <a-box position="-6.2 0 20" depth="4" height="3" width="0.2" color="#888"></a-box>
+        <!-- Right Side Wall (Bottom Section) -->
+        <a-box position="-7 -3.3 20" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
+        
+        <!-- Filler Wall -->
+        <a-box position="10 3 14" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
+        <a-box position="9.5 0 14" depth="0.1" height="3" width="7" color="#333"></a-box>
+        <a-box position="10 -3 14" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
+        <!-- Left Side Wall (Top Section) -->
+        <a-box position="7 3.3 20" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
+        <!-- Right Side Wall (Middle Section) -->
+        <a-box position="6.2 0 20" depth="4" height="3" width="0.2" color="#888"></a-box>
+        <!-- Right Side Wall (Bottom Section) -->
+        <a-box position="7 -3.3 20" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
 
-      <a-entity id="camera" look-controls wasd-controls="acceleration: 50">
+        <!-- BREAK Corridor -->
+
+        <!-- Filler Wall -->
+        <a-box position="-10 3 18" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
+        <a-box position="-9.5 0 18" depth="0.1" height="3" width="7" color="#333"></a-box>
+        <a-box position="-10 -3 18" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
+        <!-- Right Side Wall (Top Section) -->
+        <a-box position="-7 3.3 28" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
+        <!-- Right Side Wall (Middle Section) -->
+        <a-box position="-6.2 0 28" depth="4" height="3" width="0.2" color="#888"></a-box>
+        <!-- Right Side Wall (Bottom Section) -->
+        <a-box position="-7 -3.3 28" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
+        <!-- Filler Wall -->
+        <a-box position="-10 3 22" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
+        <a-box position="-9.5 0 22" depth="0.1" height="3" width="7" color="#333"></a-box>
+        <a-box position="-10 -3 22" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
+        
+
+        <!-- Filler Wall -->
+        <a-box position="10 3 18" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
+        <a-box position="9.5 0 18" depth="0.1" height="3" width="7" color="#333"></a-box>
+        <a-box position="10 -3 18" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
+        <!-- Left Side Wall (Top Section) -->
+        <a-box position="7 3.3 28" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
+        <!-- Right Side Wall (Middle Section) -->
+        <a-box position="6.2 0 28" depth="4" height="3" width="0.2" color="#888"></a-box>
+        <!-- Right Side Wall (Bottom Section) -->
+        <a-box position="7 -3.3 28" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
+        <!-- Filler Wall -->
+        <a-box position="10 3 22" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
+        <a-box position="9.5 0 22" depth="0.1" height="3" width="7" color="#333"></a-box>
+        <a-box position="10 -3 22" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
+        
+
+        <!-- ENDS -->
+        <!-- Filler Wall -->
+        <a-box position="-10 3 26" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
+        <a-box position="-9.5 0 26" depth="0.1" height="3" width="7" color="#333"></a-box>
+        <a-box position="-10 -3 26" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
+        <!-- Filler Wall -->
+        <a-box position="10 3 26" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
+        <a-box position="9.5 0 26" depth="0.1" height="3" width="7" color="#333"></a-box>
+        <a-box position="10 -3 26" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
+        
+        <!-- END OF CORRIDOR -->
+        <a-box position="0 0 30" depth="0.1" height="10" width="20" color="#fff"></a-box>
+
+      </a-entity>
+
+      <a-camera id="camera" position="0 0 20" near="0.1" far="2000">
         <!-- Cursor for Interaction -->
         <a-cursor color="red"></a-cursor>
-      </a-entity>
-      
-      <a-camera position="0 0 0" near="0.1" far="2000"></a-camera>
-      
+      </a-camera>
     </a-scene>
     <script>
       function redirectToObjectPlacement() {
