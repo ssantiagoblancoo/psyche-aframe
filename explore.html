@@ -94,8 +94,11 @@
       <!-- side pannel (left) -->
       <a-box position="-10 0 5" depth="10" height="10" width="0.1" color="#fff"></a-box>
           <!-- PsycheOrbit Image on Top of the Left Side Panel -->
-          <a-box position="-10 0.5 4" depth="6" height="4" width="0.4" material="src: assets/PsycheOrbit.png;"></a-box>  
-        <!-- window wall -->
+          <a-box position="-10 1 4" depth="8" height="7" width="0.4" material="src: assets/PsycheOrbit.png;"></a-box>  
+        <!-- Button -->
+        <a-box position="-9.8 -3 4" depth="4" height="0.5" width="0.1" color="#f00"></a-box>
+       
+      <!-- window wall -->
       <!-- left -->
       <a-box position="-10 0 -0.2" depth="1" height="10" width="0.1" color="#fff"></a-box>
       <!-- right -->
@@ -119,12 +122,76 @@
         <a-entity position="-9.8 0 -4" rotation="0 90 0" geometry="primitive: circle; radius: 4; segments: 8" material="color: white; side: double; wireframe: true"></a-entity>
       </a-entity>
 
+      <a-assets>
+        <!-- Planet Textures -->
+        <img id="sun-texture" src="assets/textures/sun-texture.png">
+        <img id="earth-texture" src="assets/textures/earth-texture.png">
+        <img id="mars-texture" src="assets/textures/mars-texture.jpg">
+        <img id="psyche-texture" src="assets/textures/psyche-texture.png">
+        <img id="jupiter-texture" src="assets/textures/jupiter-texture.jpg">
+      </a-assets>
       <!-- Solar System -->
-      <!-- Sun -->
-      <a-sphere position="-30 2 -8" radius="1" color="red"></a-sphere>
-      <!-- Earth -->
-      <a-sphere position="-29 1.6 -8.5" radius="0.5" color="blue"></a-sphere>
+      <!-- MAKE LABELS POINT AT WINDOW -->
+      <script>
+        AFRAME.registerComponent('look-at', {
+          schema: { type: 'selector' },
+          init: function () {
+            this.target = this.data;
+          },
+          tick: function () {
+            if (!this.target) return;
+            this.el.object3D.lookAt(this.target.object3D.position);
+          }
+        });
+      </script>
+      <!-- Solar System -->
+      <a-entity id="solar-system" position="-20 2 -8" rotation="0 0 -25">
+        <!-- Sun -->
+        <a-sphere id="sun" position="0 0 0" radius="2" material="src: #sun-texture"></a-sphere>
+        <a-entity position="2 1 1" look-at="#window">
+          <a-plane width="2" height="0.5" color="black" opacity="0.3" position="0 0 -0.01"></a-plane>
+          <a-text value="Sun" color="white" align="center" width="10"></a-text>
+        </a-entity>
 
+        <!-- Earth -->
+        <a-entity id="earth-orbit" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+          <a-sphere id="earth" position="3 0 0" radius="0.5" material="src: #earth-texture"></a-sphere>
+          <a-entity position="3 0 1" look-at="#window">
+            <a-plane width="2" height="0.5" color="black" opacity="0.3" position="0 0 -0.01"></a-plane>
+            <a-text value="Earth" color="white" align="center" width="8"></a-text>
+          </a-entity>
+        </a-entity>
+
+        <!-- Mars -->
+        <a-entity id="mars-orbit" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 15000; easing: linear">
+          <a-sphere id="mars" position="5 0 0" radius="0.4" material="src: #mars-texture"></a-sphere>
+          <a-entity position="5 0 1" look-at="#window">
+            <a-plane width="2" height="0.5" color="black" opacity="0.3" position="0 0 -0.01"></a-plane>
+            <a-text value="Mars" color="white" align="center" width="8"></a-text>
+          </a-entity>
+        </a-entity>
+
+        <!-- Psyche -->
+        <a-entity id="psyche-orbit" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear">
+          <a-sphere id="psyche" position="6 0 0" radius="0.3" material="src: #psyche-texture"></a-sphere>
+          <a-entity position="6 0 1" look-at="#window">
+            <a-plane width="2" height="0.5" color="black" opacity="0.3" position="0 0 -0.01"></a-plane>
+            <a-text value="Psyche" color="white" align="center" width="8"></a-text>
+          </a-entity>
+        </a-entity>
+
+        <!-- Jupiter -->
+        <a-entity id="jupiter-orbit" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; easing: linear">
+          <a-sphere id="jupiter" position="8 0 0" radius="1" material="src: #jupiter-texture"></a-sphere>
+          <a-entity position="8 0 2" look-at="#window">
+            <a-plane width="2" height="0.5" color="black" opacity="0.3" position="0 0 -0.01"></a-plane>
+            <a-text value="Jupiter" color="white" align="center" width="8"></a-text>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+      
+      <!-- Window Target -->
+      <a-entity id="window" position="0 0 -4"></a-entity>
 
       <!-- side pannel (right) -->
       <a-box position="10 0 0" depth="20" height="10" width="0.1" color="#fff"></a-box>
@@ -138,6 +205,7 @@
           <a-box position="8 -4 4" depth="0.4" height="2" width="4" color="#00f"></a-box>
           <a-box position="8 -4 -4" depth="0.4" height="2" width="4" color="#00f"></a-box>
       <!-- PSYCHE OBJECTS -->
+       <!-- CLICK OBJECT ANIMATE A 3D rotation effect like select character screen -->
       <a-entity id="psyche-objects">
         <!-- Cube -->
         <a-box position="8 -1.5 2" depth="1" height="1" width="1" color="blue"></a-box>
