@@ -560,6 +560,11 @@
         <!-- Cursor for Interaction -->
         <a-cursor color="red"></a-cursor>
       </a-camera>
+
+      <!-- Oculus Controllers -->
+    <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+    <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+
     </a-scene>
     <script>
       function redirectToObjectPlacement() {
