@@ -166,6 +166,16 @@
         The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.\n\n"
                 color="white" width="6" align="center"></a-text>
       </a-entity>
+      <a-entity id="explore-button" position="0 -1 -2.5" rotation="-10 0 0 " visible="false">
+        <a-plane width="3.1" height="0.6" color="#fff" class="clickable" position="0 0 -.01"></a-plane>
+        <a-plane width="3" height="0.5" color="#000" class="clickable"
+                 event-set__mouseenter="scale: 1.1 1.1 1"
+                 event-set__mouseleave="scale: 1 1 1"
+                 event-set__click="color: #333"
+                 onclick="explorePsyche()"></a-plane>
+        <a-text value="Click to learn more about Psyche" color="white" align="center" position="0 0 0.01" width="4"></a-text>
+        <a-light type="point" intensity="1" color="#ffffff" position="0 0 0.5" distance="1"></a-light>
+      </a-entity>
       <a-camera look-controls="reverseMouseDrag: true"></a-camera>
     </a-scene>
     <button id="explore-button" onclick="explorePsyche()">Click To Learn More About The Psyche Mission</button>
@@ -178,6 +188,23 @@
       function explorePsyche() {
         window.location.href = "explore.html";
       }
+
+      // Function to redirect to the explore page
+      function explorePsyche() {
+        window.location.href = "explore.html";
+      }
+
+      // Show the 3D button only in VR mode
+      const scene = document.querySelector('a-scene');
+      const exploreButton = document.getElementById('explore-button');
+
+      scene.addEventListener('enter-vr', () => {
+        exploreButton.setAttribute('visible', true); // Show the button in VR mode
+      });
+
+      scene.addEventListener('exit-vr', () => {
+        exploreButton.setAttribute('visible', false); // Hide the button when exiting VR mode
+      });
     </script>
   </body>
 </html>

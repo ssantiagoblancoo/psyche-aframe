@@ -42,15 +42,24 @@
         <img id="white-walls" src="assets/textures/white-walls.jpg">
         <img id="star-background" src="assets/space.png">
         <img id="switches-buttons" src="assets/textures/switches-buttons.jpg">
-
         <img id="detail-hud" src="assets/Texturelabs_Details_181M.jpg">
-        
       </a-assets>
     
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
       animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
     
+      <!-- Add VR Hand Controls -->
+      <a-entity id="left-hand" hand-controls="hand: left"></a-entity>
+      <a-entity id="right-hand" hand-controls="hand: right"></a-entity>
+
+      <!-- Add Interactable Objects -->
+    <a-box position="0 1 -3" depth="1" height="1" width="1" color="blue" class="clickable"
+    event-set__mouseenter="scale: 1.2 1.2 1.2"
+    event-set__mouseleave="scale: 1 1 1"
+    event-set__click="color: red"></a-box>
+
+
       <!-- Spaceship interior -->
       <!-- ceiling -->
       <a-box position="-6 5 0" depth="20" height="1" width="8" material="src: #white-walls; repeat: 1 4; shader: standard"></a-box>
