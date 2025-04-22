@@ -46,6 +46,14 @@
         <img id="detail-hud" src="assets/Texturelabs_Details_181M.jpg">
       </a-assets>
     
+      <a-camera id="camera" position="0 0 0">
+        <!-- Cursor for Interaction -->
+        <a-cursor raycaster="objects: .clickable" color="red"></a-cursor>
+      </a-camera>
+      <!-- VR Controllers or Hands -->
+      <a-entity sphere-collider="objects: a-box" super-hands id="left-hand" hand-controls="hand: left; handModelStyle: highPoly" raycaster="objects: .clickable"></a-entity>
+      <a-entity sphere-collider="objects: a-box" super-hands id="right-hand" hand-controls="hand: right; handModelStyle: highPoly" raycaster="objects: .clickable"></a-entity>
+
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
       animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
@@ -273,7 +281,7 @@
       
       <!-- PSYCHE OBJECTS -->
 <!-- Description Panel -->
-<a-entity id="description-panel" position="0 2 -5" rotation="0 -90 0" visible="false" class="clickable">
+<a-entity id="description-panel" rotation="0 -90 0" visible="false" class="clickable">
   <a-plane width="4.2" height="4.2" color="black" position="0 0 -0.02"></a-plane>
   <a-plane width="4.1" height="4.1" color="orange" position="0 0 -0.01"></a-plane>
   <a-plane width="4" height="4" color="black" opacity="0.8"></a-plane>
@@ -325,19 +333,19 @@
       <a-entity id="psyche-objects">
         <!-- Psyche -->
         <a-box position="8 -1.5 -3" depth="1" height="1" width="1" material="src: #psyche-texture;" class="clickable"
-              onclick="showDescription('Psyche', 'Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology. \n \n What gives asteroid Psyche great scientific interest is that it is likely rich in metal. \n\n It may consist largely of metal from the core of a planetesimal, one of the building blocks of the Suns planetary system. \n\n At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal.', 'psyche-label', '8 1.5 -3')"
+              onclick="showDescription('Psyche', 'Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology. \n \n What gives asteroid Psyche great scientific interest is that it is likely rich in metal. \n\n It may consist largely of metal from the core of a planetesimal, one of the building blocks of the Suns planetary system. \n\n At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal.', 'psyche-label', '8 1.8 -3')"
               animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
               animation__bounce="property: position; dir: alternate; dur: 2200; loop: true; to: 8 -1 -3"></a-box>
         <!-- Psyche Label -->
         <a-entity id="psyche-label" position="6 -2 -2.5" rotation="-20 -90 0"
-                  onclick="showDescription('Psyche', 'Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology. \n \n What gives asteroid Psyche great scientific interest is that it is likely rich in metal. \n\n It may consist largely of metal from the core of a planetesimal, one of the building blocks of the Suns planetary system. \n\n At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal.', 'psyche-label', '8 1.5 -3')">
+                  onclick="showDescription('Psyche', 'Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology. \n \n What gives asteroid Psyche great scientific interest is that it is likely rich in metal. \n\n It may consist largely of metal from the core of a planetesimal, one of the building blocks of the Suns planetary system. \n\n At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal.', 'psyche-label', '8 1.8 -3')">
           <a-plane width="2" height="0.5" color="black" opacity="0.6" class="clickable"></a-plane>
           <a-text value="Psyche Material" color="white" align="center" position="0 0 0.01"></a-text>
         </a-entity>
 
       <!-- Clock Object -->
       <a-entity id="clock-entity" position="8 -1.5 0" class="clickable"
-      onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.5 0')">
+      onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.8 0')">
       <!-- Spinning Clock -->
         <a-box depth="2.5" height="1" width="0.3" color="black" class="clickable" 
          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
@@ -357,7 +365,7 @@
         </a-entity>
         <!-- Clock Label -->
         <a-entity id="clock-label" position="6 -2 0" rotation="-20 -90 0" class="clickable"
-        onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.5 0')">
+        onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.8 0')">
           <a-plane width="1.5" height="0.5" color="black" opacity="0.6" class="clickable"></a-plane>
           <a-text value="Launch Time" color="white" align="center" position="0 0 0.01" class="clickable"></a-text>
         </a-entity>
@@ -391,12 +399,12 @@
 
       <!-- Spacecraft -->
       <a-box position="8 -1.5 3" depth="1" height="1" width="1" color="blue" class="clickable"
-        onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.5 3')"
+        onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.8 3')"
         animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
         animation__bounce="property: position; dir: alternate; dur: 2000; loop: true; to: 8 -1 3"></a-box>
       <!-- Spacecraft Label -->
       <a-entity id="spacecraft-label" position="6 -2 2.5" rotation="-20 -90 0" class="clickable" 
-                onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.5 3')">
+                onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.8 3')">
         <a-plane width="1.5" height="0.5" color="black" opacity="0.6" class="clickable"></a-plane>
         <a-text value="Spacecraft" color="white" align="center" position="0 0 0.01" class="clickable"></a-text>
       </a-entity>
@@ -566,18 +574,6 @@
         <a-box position="0 0 30" depth="0.1" height="10" width="20" material="src: #white-walls; repeat: 1 1 shader: standard"></a-box>
 
       </a-entity>
-
-      <a-camera id="camera" position="0 0 0">
-        <!-- Cursor for Interaction -->
-        <a-cursor raycaster="objects: .clickable" color="red"></a-cursor>
-      </a-camera>
-      
-      <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: right"></a-entity>
-
-      <!-- VR Controllers or Hands -->
-    <a-entity id="left-hand" hand-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-    <a-entity id="right-hand" hand-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-
     </a-scene>
     <script>
       function redirectToObjectPlacement() {
