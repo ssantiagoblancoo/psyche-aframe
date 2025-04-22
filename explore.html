@@ -574,10 +574,10 @@
       
       <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: right"></a-entity>
 
-      <!-- Oculus Controllers -->
-      <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-      <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-    
+      <!-- VR Controllers or Hands -->
+    <a-entity id="left-hand" hand-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+    <a-entity id="right-hand" hand-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+
     </a-scene>
     <script>
       function redirectToObjectPlacement() {
