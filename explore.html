@@ -36,6 +36,7 @@
   <body>
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
+        <audio id="background-music" src="soundtrack/space-by-sebastian-blanco.m4a"></audio>
         <img id="tiles-texture" src="assets/textures/Tiles107_2K-JPG_Color.jpg">
         <img id="brushed-metal-texture" src="assets/textures/Brushed-Metal-Texture.jpg">
         <img id="metal-texture" src="assets/textures/DiamondPlate001_2K-JPG_Color.jpg">
@@ -46,6 +47,9 @@
         <img id="detail-hud" src="assets/Texturelabs_Details_181M.jpg">
       </a-assets>
     
+      <!-- Background Sound -->
+      <a-sound id="background-sound" src="#background-music" autoplay="true" loop="true" volume="0.5" position="0 0 0"></a-sound>
+
       <a-camera id="camera" position="0 0 0">
         <!-- Cursor for Interaction -->
         <a-cursor raycaster="objects: .clickable" color="red"></a-cursor>
