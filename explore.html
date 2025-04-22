@@ -51,15 +51,29 @@
       <!-- Background Sound -->
       <a-sound id="background-sound" src="#background-music" autoplay="true" loop="true" volume="0.5" position="0 0 0"
       onloadeddata="console.log('Sound loaded!')"></a-sound>
+      <Script>
+        // Detect if the user is on a mobile device
+        function isMobile() {
+          return /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+        }
 
+        // Disable movement controls on mobile
+        document.addEventListener('DOMContentLoaded', () => {
+          const cameraRig = document.querySelector('#camera-rig');
+          if (isMobile()) {
+            cameraRig.removeAttribute('movement-controls'); // Disable movement controls
+            console.log('Movement controls disabled for mobile.');
+          }
+        });
+      </Script>
       <!-- Camera Rig for Movement -->
-      <a-entity id="camera-rig" movement-controls="fly: false" gamepad-controls="enabled: true" dynamic-body>
+      <a-entity id="camera-rig" dynamic-body>
         <!-- Camera -->
         <a-camera id="camera" position="0 0 0"></a-camera>
-      
+    
         <!-- Left Hand Controller -->
         <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable; interval: 100" line="color: orange; opacity: 0.75"></a-entity>
-      
+    
         <!-- Right Hand Controller -->
         <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable; interval: 100" line="color: orange; opacity: 0.75"></a-entity>
       </a-entity>
