@@ -54,13 +54,14 @@
         <!-- Cursor for Interaction -->
         <a-cursor raycaster="objects: .clickable" color="red"></a-cursor>
       </a-camera>
+      
       <!-- Left Hand or Controller -->
-      <a-entity id="left-hand" hand-controls="hand: left" oculus-touch-controls="hand: left" 
-      raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+      <a-entity id="left-hand" tracked-controls="hand: left" hand-controls="hand: left"
+      oculus-touch-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
 
       <!-- Right Hand or Controller -->
-      <a-entity id="right-hand" hand-controls="hand: right" oculus-touch-controls="hand: right" 
-      raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+      <a-entity id="right-hand" tracked-controls="hand: right" hand-controls="hand: right"
+      oculus-touch-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
 
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
@@ -68,8 +69,8 @@
   
       <!-- Add Interactable Objects -->
       <a-box hoverable grabbable stretchable draggable droppable color="blue" position="0 1 -1" depth="1" height="1" width="1" color="blue" class="clickable"
-      event-set__mouseenter="scale: 1.2 1.2 1.2"
-      event-set__mouseleave="scale: 1 1 1"
+      event-set__mouseenter="scale: 1 1 1"
+      event-set__mouseleave="scale: 0.5 0.5 0.5"
       event-set__click="color: red"></a-box>
 
 
