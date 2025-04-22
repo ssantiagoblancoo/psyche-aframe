@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Explore Psyche</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
     <style>
       body, html {
         margin: 0;
@@ -54,7 +55,7 @@
       <a-entity id="right-hand" hand-controls="hand: right"></a-entity>
 
       <!-- Add Interactable Objects -->
-    <a-box position="0 1 -3" depth="1" height="1" width="1" color="blue" class="clickable"
+    <a-box hoverable grabbable stretchable draggable droppable color="blue" position="0 1 -3" depth="1" height="1" width="1" color="blue" class="clickable"
     event-set__mouseenter="scale: 1.2 1.2 1.2"
     event-set__mouseleave="scale: 1 1 1"
     event-set__click="color: red"></a-box>
@@ -272,7 +273,7 @@
       
       <!-- PSYCHE OBJECTS -->
 <!-- Description Panel -->
-<a-entity id="description-panel" position="0 2 -5" rotation="0 -90 0" visible="false">
+<a-entity id="description-panel" position="0 2 -5" rotation="0 -90 0" visible="false" class="clickable">
   <a-plane width="4.2" height="4.2" color="black" position="0 0 -0.02"></a-plane>
   <a-plane width="4.1" height="4.1" color="orange" position="0 0 -0.01"></a-plane>
   <a-plane width="4" height="4" color="black" opacity="0.8"></a-plane>
@@ -323,35 +324,44 @@
       <!-- Psyche Objects -->
       <a-entity id="psyche-objects">
         <!-- Psyche -->
-        <a-box position="8 -1.5 -3" depth="1" height="1" width="1" material="src: #psyche-texture;" 
+        <a-box position="8 -1.5 -3" depth="1" height="1" width="1" material="src: #psyche-texture;" class="clickable"
+              onclick="showDescription('Psyche', 'Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology. \n \n What gives asteroid Psyche great scientific interest is that it is likely rich in metal. \n\n It may consist largely of metal from the core of a planetesimal, one of the building blocks of the Suns planetary system. \n\n At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal.', 'psyche-label', '8 1.5 -3')"
               animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
               animation__bounce="property: position; dir: alternate; dur: 2200; loop: true; to: 8 -1 -3"></a-box>
         <!-- Psyche Label -->
-        <a-entity id="psyche-label" position="8 -0.5 -3" rotation="0 -90 0" class="clickable" 
+        <a-entity id="psyche-label" position="6 -2 -2.5" rotation="-20 -90 0"
                   onclick="showDescription('Psyche', 'Only the 16th asteroid to be discovered, Psyche was found in 1852 by Italian astronomer Annibale de Gasparis, who named it for the goddess of the soul in ancient Greek mythology. \n \n What gives asteroid Psyche great scientific interest is that it is likely rich in metal. \n\n It may consist largely of metal from the core of a planetesimal, one of the building blocks of the Suns planetary system. \n\n At Psyche scientists will explore, for the first time ever, a world made not of rock or ice, but rich in metal.', 'psyche-label', '8 1.5 -3')">
-          <a-plane width="1.5" height="0.5" color="black" opacity="0.2"></a-plane>
-          <a-text value="Psyche" color="white" align="center" position="0 0 0.01"></a-text>
+          <a-plane width="2" height="0.5" color="black" opacity="0.6" class="clickable"></a-plane>
+          <a-text value="Psyche Material" color="white" align="center" position="0 0 0.01"></a-text>
         </a-entity>
 
-      <!-- Clock with Attached Labels -->
-      <a-entity id="clock-entity" position="8 -1.5 0"                   
-        onclick="showDescription('October 13, 2023', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'launch-label', '8 1.5 0')">
-        <!-- Spinning Rectangle -->
-        <a-box depth="2.5" height="1" width="0.3" color="black" 
+      <!-- Clock Object -->
+      <a-entity id="clock-entity" position="8 -1.5 0" class="clickable"
+      onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.5 0')">
+      <!-- Spinning Clock -->
+        <a-box depth="2.5" height="1" width="0.3" color="black" class="clickable" 
          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
          animation__bounce="property: position; dir: alternate; dur: 2100; loop: true; to: 0 0.5 0">
-         <a-box depth="2.55" height="1.06" width="0.29" color="white"></a-box>
-          <!-- Clock Labels (inside the box) -->
-          <a-entity id="clock-labels" rotation="0 -90 0">
-            <!-- Front Face -->
-            <a-text id="clock-label-front" value="0 days, 0 hours, 0 minutes, 0 seconds" color="orange" align="center" position="0 0.15 0.2" rotation="0 0 0" width="7"></a-text>
-            <a-text value="days | hours | minutes | seconds" color="white" align="center" position="0 -0.2 0.2" rotation="0 0 0" width="4"></a-text>
-            <!-- Back Face -->
-            <a-text id="clock-label-back" value="0 days, 0 hours, 0 minutes, 0 seconds" color="orange" align="center" position="0 0.15 -0.2" rotation="0 180 0" width="7"></a-text>
-            <a-text value="days | hours | minutes | seconds" color="white" align="center" position="0 -0.2 -0.2" rotation="0 180 0" width="4"></a-text>
-          </a-entity>
-        </a-box>
-      </a-entity>
+         <a-box depth="2.55" height="1.06" width="0.29" color="white" class="clickable"></a-box>
+            <!-- Clock Labels (inside the box) -->
+            <a-entity id="clock-labels" rotation="0 -90 0">
+              <!-- Front Face -->
+              <a-text class="clickable" id="clock-label-front" value="0 days, 0 hours, 0 minutes, 0 seconds" color="orange" align="center" position="0 0.15 0.2" rotation="0 0 0" width="7"></a-text>
+              <a-text class="clickable" value="days | hours | minutes | seconds" color="white" align="center" position="0 -0.2 0.2" rotation="0 0 0" width="4"></a-text>
+              <!-- Back Face -->
+              <a-text id="clock-label-back" value="0 days, 0 hours, 0 minutes, 0 seconds" color="orange" align="center" position="0 0.15 -0.2" rotation="0 180 0" width="7"></a-text>
+              <a-text value="days | hours | minutes | seconds" color="white" align="center" position="0 -0.2 -0.2" rotation="0 180 0" width="4"></a-text>
+            </a-entity>
+          </a-box>
+          
+        </a-entity>
+        <!-- Clock Label -->
+        <a-entity id="clock-label" position="6 -2 0" rotation="-20 -90 0" class="clickable"
+        onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.5 0')">
+          <a-plane width="1.5" height="0.5" color="black" opacity="0.6" class="clickable"></a-plane>
+          <a-text value="Launch Time" color="white" align="center" position="0 0 0.01" class="clickable"></a-text>
+        </a-entity>
+      
 
       <script>
         // Initialize the start time (Psyche was launched on October 13, 2023. 2:19:42 UTC)
@@ -380,14 +390,15 @@
       </script>
 
       <!-- Spacecraft -->
-      <a-box position="8 -1.5 3" depth="1" height="1" width="1" color="blue" 
-      animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
-      animation__bounce="property: position; dir: alternate; dur: 2000; loop: true; to: 8 -1 3"></a-box>
+      <a-box position="8 -1.5 3" depth="1" height="1" width="1" color="blue" class="clickable"
+        onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.5 3')"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
+        animation__bounce="property: position; dir: alternate; dur: 2000; loop: true; to: 8 -1 3"></a-box>
       <!-- Spacecraft Label -->
-      <a-entity id="spacecraft-label" position="8 -0.5 3" rotation="0 -90 0" class="clickable" 
+      <a-entity id="spacecraft-label" position="6 -2 2.5" rotation="-20 -90 0" class="clickable" 
                 onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.5 3')">
-        <a-plane width="1.5" height="0.5" color="black" opacity="0.2"></a-plane>
-        <a-text value="Spacecraft" color="white" align="center" position="0 0 0.01"></a-text>
+        <a-plane width="1.5" height="0.5" color="black" opacity="0.6" class="clickable"></a-plane>
+        <a-text value="Spacecraft" color="white" align="center" position="0 0 0.01" class="clickable"></a-text>
       </a-entity>
 
       <!-- Front Panel -->
@@ -556,15 +567,17 @@
 
       </a-entity>
 
-      <a-camera id="camera" position="0 0 0" near="0.1" far="2000">
+      <a-camera id="camera" position="0 0 0">
         <!-- Cursor for Interaction -->
-        <a-cursor color="red"></a-cursor>
+        <a-cursor raycaster="objects: .clickable" color="red"></a-cursor>
       </a-camera>
+      
+      <a-entity sphere-collider="objects: a-box" super-hands hand-controls="hand: right"></a-entity>
 
       <!-- Oculus Controllers -->
-    <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-    <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-
+      <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+      <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+    
     </a-scene>
     <script>
       function redirectToObjectPlacement() {
