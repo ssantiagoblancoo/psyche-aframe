@@ -368,11 +368,11 @@
           <a-text value="Psyche Material" color="white" align="center" position="0 0 0.01"></a-text>
         </a-entity>
 
-      <!-- Clock Object -->
-      <a-entity id="clock-entity" position="8 -1.5 0" class="clickable"
-      onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.8 0')">
-      <!-- Spinning Clock -->
-        <a-box depth="2.5" height="1" width="0.3" color="black" 
+    <!-- Clock Object -->
+    <a-entity id="clock-entity" position="8 -1.5 0" class="clickable"
+              onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.8 0')">
+        <!-- Spinning Clock -->
+        <a-box depth="2.5" height="1" width="0.3" color="black" class="clickable" 
          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
          animation__bounce="property: position; dir: alternate; dur: 2100; loop: true; to: 0 0.5 0">
          <a-box depth="2.55" height="1.06" width="0.29" color="white"></a-box>
