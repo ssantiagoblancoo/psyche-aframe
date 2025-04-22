@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Explore Psyche</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
     <style>
       body, html {
@@ -51,22 +51,18 @@
         <a-cursor raycaster="objects: .clickable" color="red"></a-cursor>
       </a-camera>
       <!-- VR Controllers or Hands -->
-      <a-entity sphere-collider="objects: a-box" super-hands id="left-hand" hand-controls="hand: left; handModelStyle: highPoly" raycaster="objects: .clickable"></a-entity>
-      <a-entity sphere-collider="objects: a-box" super-hands id="right-hand" hand-controls="hand: right; handModelStyle: highPoly" raycaster="objects: .clickable"></a-entity>
-
+      <a-entity id="left-hand" hand-controls="hand: left" position="0 1.5 -0.5"></a-entity>
+      <a-entity id="right-hand" hand-controls="hand: right" position="0 1.5 -0.5"></a-entity>
+      
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
       animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
-    
-      <!-- Add VR Hand Controls -->
-      <a-entity id="left-hand" hand-controls="hand: left"></a-entity>
-      <a-entity id="right-hand" hand-controls="hand: right"></a-entity>
-
+  
       <!-- Add Interactable Objects -->
-    <a-box hoverable grabbable stretchable draggable droppable color="blue" position="0 1 -3" depth="1" height="1" width="1" color="blue" class="clickable"
-    event-set__mouseenter="scale: 1.2 1.2 1.2"
-    event-set__mouseleave="scale: 1 1 1"
-    event-set__click="color: red"></a-box>
+      <a-box hoverable grabbable stretchable draggable droppable color="blue" position="0 1 -3" depth="1" height="1" width="1" color="blue" class="clickable"
+      event-set__mouseenter="scale: 1.2 1.2 1.2"
+      event-set__mouseleave="scale: 1 1 1"
+      event-set__click="color: red"></a-box>
 
 
       <!-- Spaceship interior -->
