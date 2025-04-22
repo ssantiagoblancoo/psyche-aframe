@@ -5,6 +5,7 @@
     <title>Explore Psyche</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
     <style>
       body, html {
         margin: 0;
@@ -34,7 +35,7 @@
     </style>
   </head>
   <body>
-    <a-scene loading-screen="dotsColor: red; backgroundColor: black">
+    <a-scene physics="gravity: -9.8" loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
         <audio id="background-music" src="soundtrack/space-by-sebastian-blanco.m4a"></audio>
         <img id="tiles-texture" src="assets/textures/Tiles107_2K-JPG_Color.jpg">
@@ -48,30 +49,34 @@
       </a-assets>
     
       <!-- Background Sound -->
-      <a-sound id="background-sound" src="#background-music" autoplay="true" loop="true" volume="0.5" position="0 0 0"></a-sound>
+      <a-sound id="background-sound" src="#background-music" autoplay="true" loop="true" volume="0.5" position="0 0 0"
+      onloadeddata="console.log('Sound loaded!')"></a-sound>
 
       <!-- Camera Rig for Movement -->
-      <a-entity id="camera-rig" movement-controls="fly: true">
+      <a-entity id="camera-rig" movement-controls="fly: false" gamepad-controls="enabled: true" dynamic-body>
         <!-- Camera -->
-        <a-camera id="camera" position="0 1.6 0">
-          <a-cursor raycaster="objects: .clickable" color="red"></a-cursor>
-        </a-camera>
-
+        <a-camera id="camera" position="0 0 0"></a-camera>
+      
         <!-- Left Hand Controller -->
-        <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-
+        <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable; interval: 100" line="color: orange; opacity: 0.75"></a-entity>
+      
         <!-- Right Hand Controller -->
-        <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+        <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable; interval: 100" line="color: orange; opacity: 0.75"></a-entity>
       </a-entity>
+
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
       animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
   
-      <!-- Add Interactable Objects -->
-      <a-box hoverable grabbable stretchable draggable droppable color="blue" position="0 1 -1" depth="1" height="1" width="1" color="blue" class="clickable"
-      event-set__mouseenter="scale: 1 1 1"
-      event-set__mouseleave="scale: 0.5 0.5 0.5"
+      <!-- Blue Box (Throwable) -->
+      <a-box id="blue-box" position="0 1 -1" depth="1" height="1" width="1" color="blue" class="clickable"
+      dynamic-body
+      hoverable grabbable stretchable draggable droppable
+      event-set__mouseenter="scale: 1.2 1.2 1.2"
+      event-set__mouseleave="scale: 1 1 1"
       event-set__click="color: red"></a-box>
+      <!-- Ground -->
+      <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" color="#7BC8A4" static-body></a-plane>
 
 
       <!-- Spaceship interior -->
@@ -285,55 +290,55 @@
           <a-box position="8 -4 -4" depth="0.2" height="2.5" width="4" material="src: #metal-texture; repeat: 1 shader: standard"></a-box>
       
       <!-- PSYCHE OBJECTS -->
-<!-- Description Panel -->
-<a-entity id="description-panel" rotation="0 -90 0" visible="false" class="clickable">
-  <a-plane width="4.2" height="4.2" color="black" position="0 0 -0.02"></a-plane>
-  <a-plane width="4.1" height="4.1" color="orange" position="0 0 -0.01"></a-plane>
-  <a-plane width="4" height="4" color="black" opacity="0.8"></a-plane>
-  <a-text id="description-title" value="" color="white" align="center" position="0 1.5 0.01" width="5"></a-text>
-  <a-text id="description-content" value="" color="white" align="center" position="0 -0.5 0.01" width="4"></a-text>
-</a-entity>
+      <!-- Description Panel -->
+      <a-entity id="description-panel" rotation="0 -90 0" visible="false" class="clickable">
+        <a-plane width="4.2" height="4.2" color="black" position="0 0 -0.02"></a-plane>
+        <a-plane width="4.1" height="4.1" color="orange" position="0 0 -0.01"></a-plane>
+        <a-plane width="4" height="4" color="black" opacity="0.8"></a-plane>
+        <a-text id="description-title" value="" color="white" align="center" position="0 1.5 0.01" width="5"></a-text>
+        <a-text id="description-content" value="" color="white" align="center" position="0 -0.5 0.01" width="4"></a-text>
+      </a-entity>
 
-<script>
-  let isDescriptionVisible = false; // Track the state of the description panel
-  let lastClickedLabel = null; // Track the last clicked label
+      <script>
+        let isDescriptionVisible = false; // Track the state of the description panel
+        let lastClickedLabel = null; // Track the last clicked label
 
-  function showDescription(title, description, labelId, position) {
-    const panel = document.querySelector('#description-panel');
-    const titleText = document.querySelector('#description-title');
-    const contentText = document.querySelector('#description-content');
-    const currentLabel = document.querySelector(`#${labelId}`);
+        function showDescription(title, description, labelId, position) {
+          const panel = document.querySelector('#description-panel');
+          const titleText = document.querySelector('#description-title');
+          const contentText = document.querySelector('#description-content');
+          const currentLabel = document.querySelector(`#${labelId}`);
 
-    // Hide the previous label if it exists and is not the current one
-    if (lastClickedLabel && lastClickedLabel !== currentLabel) {
-      lastClickedLabel.setAttribute('visible', true); // Show the previous label
-    }
+          // Hide the previous label if it exists and is not the current one
+          if (lastClickedLabel && lastClickedLabel !== currentLabel) {
+            lastClickedLabel.setAttribute('visible', true); // Show the previous label
+          }
 
-    if (isDescriptionVisible && lastClickedLabel === currentLabel) {
-      // Hide the description panel and show the smaller label
-      panel.setAttribute('visible', false);
-      currentLabel.setAttribute('visible', true); // Show the smaller label
-      isDescriptionVisible = false;
-      lastClickedLabel = null; // Reset the last clicked label
-    } else {
-      // Update the text values
-      titleText.setAttribute('value', `${title}\n_________________`);
-      contentText.setAttribute('value', description);
+          if (isDescriptionVisible && lastClickedLabel === currentLabel) {
+            // Hide the description panel and show the smaller label
+            panel.setAttribute('visible', false);
+            currentLabel.setAttribute('visible', true); // Show the smaller label
+            isDescriptionVisible = false;
+            lastClickedLabel = null; // Reset the last clicked label
+          } else {
+            // Update the text values
+            titleText.setAttribute('value', `${title}\n_________________`);
+            contentText.setAttribute('value', description);
 
-      // Update the position of the panel
-      panel.setAttribute('position', position);
+            // Update the position of the panel
+            panel.setAttribute('position', position);
 
-      // Make the panel visible
-      panel.setAttribute('visible', true);
+            // Make the panel visible
+            panel.setAttribute('visible', true);
 
-      // Hide the smaller label
-      currentLabel.setAttribute('visible', false);
+            // Hide the smaller label
+            currentLabel.setAttribute('visible', false);
 
-      isDescriptionVisible = true;
-      lastClickedLabel = currentLabel; // Store the current label
-    }
-  }
-</script>
+            isDescriptionVisible = true;
+            lastClickedLabel = currentLabel; // Store the current label
+          }
+        }
+      </script>
       <!-- Psyche Objects -->
       <a-entity id="psyche-objects">
         <!-- Psyche -->
@@ -352,15 +357,15 @@
       <a-entity id="clock-entity" position="8 -1.5 0" class="clickable"
       onclick="showDescription('Launch Time', 'PSYCHE WAS LAUNCHED. \n\n NASA selected SpaceX of Hawthorne, California, to provide launch services for the Psyche mission. Psyche successfully launched at 10:19 a.m. EDT Friday, October 13, 2023 aboard a SpaceX Falcon Heavy rocket from Launch Pad 39A at NASAs Kennedy Space Center in Florida. \n\n Primary Mission Duration: 26 months at the Psyche asteroid \n\n Arrival at Asteroid: Mid-2029', 'clock-label', '8 1.8 0')">
       <!-- Spinning Clock -->
-        <a-box depth="2.5" height="1" width="0.3" color="black" class="clickable" 
+        <a-box depth="2.5" height="1" width="0.3" color="black" 
          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
          animation__bounce="property: position; dir: alternate; dur: 2100; loop: true; to: 0 0.5 0">
-         <a-box depth="2.55" height="1.06" width="0.29" color="white" class="clickable"></a-box>
+         <a-box depth="2.55" height="1.06" width="0.29" color="white"></a-box>
             <!-- Clock Labels (inside the box) -->
             <a-entity id="clock-labels" rotation="0 -90 0">
               <!-- Front Face -->
-              <a-text class="clickable" id="clock-label-front" value="0 days, 0 hours, 0 minutes, 0 seconds" color="orange" align="center" position="0 0.15 0.2" rotation="0 0 0" width="7"></a-text>
-              <a-text class="clickable" value="days | hours | minutes | seconds" color="white" align="center" position="0 -0.2 0.2" rotation="0 0 0" width="4"></a-text>
+              <a-text id="clock-label-front" value="0 days, 0 hours, 0 minutes, 0 seconds" color="orange" align="center" position="0 0.15 0.2" rotation="0 0 0" width="7"></a-text>
+              <a-text value="days | hours | minutes | seconds" color="white" align="center" position="0 -0.2 0.2" rotation="0 0 0" width="4"></a-text>
               <!-- Back Face -->
               <a-text id="clock-label-back" value="0 days, 0 hours, 0 minutes, 0 seconds" color="orange" align="center" position="0 0.15 -0.2" rotation="0 180 0" width="7"></a-text>
               <a-text value="days | hours | minutes | seconds" color="white" align="center" position="0 -0.2 -0.2" rotation="0 180 0" width="4"></a-text>
@@ -418,23 +423,41 @@
       <!-- Hexagon Window -->
       <a-entity id="hexagon-window">
         <!-- Left-Up -->
-        <a-entity position="-4.5 2.8 -12" rotation="0 40 60" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <a-entity position="-4.5 2.8 -12" rotation="0 40 60" 
+                  geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
         <!-- Left-Down -->
-        <a-entity position="-4.5 -2.8 -12" rotation="0 40 120" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <a-entity position="-4.5 -2.8 -12" rotation="0 40 120" 
+                  geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
         <!-- Right-Up -->
-        <a-entity position="4.5 2.8 -12" rotation="0 -40 -60" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <a-entity position="4.5 2.8 -12" rotation="0 -40 -60" 
+                  geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
         <!-- Right-Down -->
-        <a-entity position="4.5 -2.8 -12" rotation="0 -40 -120" geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <a-entity position="4.5 -2.8 -12" rotation="0 -40 -120" 
+                  geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
         <!-- Center Piece -->
-        <a-entity position="0 0 -14" rotation="0 0 0" geometry="primitive: circle; radius: 4; segments: 6" material="color: grey; side: double; wireframe: true"></a-entity>
+        <a-entity position="0 0 -14" rotation="0 0 0" 
+                  geometry="primitive: circle; radius: 4; segments: 6" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
         <!-- Up -->
-        <a-entity position="0 4.2 -12" rotation="80 0 0" geometry="primitive: triangle; vertexA: 0 3 0; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <a-entity position="0 4.2 -12" rotation="80 0 0" 
+                  geometry="primitive: triangle; vertexA: 0 3 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
         <!-- Down -->
-        <a-entity position="0 -4.2 -12" rotation="-80 180 0" geometry="primitive: triangle; vertexA: 0 3 -3; vertexB: -2 -2 0; vertexC: 2 -2 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <a-entity position="0 -4.2 -12" rotation="-80 180 0" 
+                  geometry="primitive: triangle; vertexA: 0 3 -3; vertexB: -2 -2 0; vertexC: 2 -2 0" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
         <!-- Left -->
-        <a-entity position="-5 0 -12" rotation="0 40 -90" geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <a-entity position="-5 0 -12" rotation="0 40 -90" 
+                  geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
         <!-- Right -->
-        <a-entity position="5 0 -12" rotation="0 -40 90" geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" material="color: transparent; side: double; wireframe: true"></a-entity>
+        <a-entity position="5 0 -12" rotation="0 -40 90" 
+                  geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" 
+                  material="color: grey; side: double; wireframe: true"></a-entity>
       </a-entity>
 
       <!-- Desk -->
