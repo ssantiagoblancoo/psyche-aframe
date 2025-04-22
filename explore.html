@@ -50,16 +50,20 @@
         <!-- Cursor for Interaction -->
         <a-cursor raycaster="objects: .clickable" color="red"></a-cursor>
       </a-camera>
-      <!-- VR Controllers or Hands -->
-      <a-entity id="left-hand" hand-controls="hand: left" position="0 1.5 -0.5"></a-entity>
-      <a-entity id="right-hand" hand-controls="hand: right" position="0 1.5 -0.5"></a-entity>
-      
+      <!-- Left Hand or Controller -->
+      <a-entity id="left-hand" hand-controls="hand: left" oculus-touch-controls="hand: left" 
+      raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+
+      <!-- Right Hand or Controller -->
+      <a-entity id="right-hand" hand-controls="hand: right" oculus-touch-controls="hand: right" 
+      raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
       animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
   
       <!-- Add Interactable Objects -->
-      <a-box hoverable grabbable stretchable draggable droppable color="blue" position="0 1 -3" depth="1" height="1" width="1" color="blue" class="clickable"
+      <a-box hoverable grabbable stretchable draggable droppable color="blue" position="0 1 -1" depth="1" height="1" width="1" color="blue" class="clickable"
       event-set__mouseenter="scale: 1.2 1.2 1.2"
       event-set__mouseleave="scale: 1 1 1"
       event-set__click="color: red"></a-box>
