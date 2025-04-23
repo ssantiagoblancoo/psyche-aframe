@@ -69,7 +69,7 @@
       <!-- Camera Rig for Movement -->
       <a-entity id="camera-rig" dynamic-body>
         <!-- Camera -->
-        <a-camera id="camera" position="0 0 0" raycaster="objects: .clickable; far: 10" 
+        <a-camera id="camera" position="0 0 0" raycaster="objects: .clickable; far: 20" 
         cursor="fuse: false; rayOrigin: mouse"></a-camera>
     
         <!-- Left Hand Controller -->
@@ -82,17 +82,6 @@
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
       animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
-  
-      <!-- Blue Box (Throwable) -->
-      <a-box id="blue-box" position="0 1 -1" depth="1" height="1" width="1" color="blue" class="clickable"
-      dynamic-body
-      hoverable grabbable stretchable draggable droppable
-      event-set__mouseenter="scale: 1.2 1.2 1.2"
-      event-set__mouseleave="scale: 1 1 1"
-      event-set__click="color: red"></a-box>
-      <!-- Ground -->
-      <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" color="#7BC8A4" static-body></a-plane>
-
 
       <!-- Spaceship interior -->
       <!-- ceiling -->
@@ -166,15 +155,16 @@
         <a-light type="point" intensity="1" position="9.8 -4.5 0" distance="15" color="white"></a-light>
       </a-entity>
     
-      <!-- side pannel (left) -->
-      <a-box position="-10 0 5" depth="10" height="10" width="0.1" material="color: #fff; emissive: #ffffff; emissiveIntensity: 0.5; shader: standard"></a-box>          <!-- PsycheOrbit Image on Top of the Left Side Panel -->
+      <!-- left side pannel (left) -->
+      <a-box position="-10 0 5" depth="10" height="10" width="0.1" material="color: #fff; emissive: #ffffff; emissiveIntensity: 0.5; shader: standard"></a-box>          
+      <!-- PsycheOrbit Image on Top of the Left Side Panel -->
           <a-box position="-10 1 4" depth="8" height="7" width="0.4" material="src: assets/PsycheOrbit.png; shader: standard; side: double"></a-box>
           <!-- Light for PsycheOrbit -->
           <a-light type="point" intensity="1.5" position="-8 1 4" distance="60" angle="45" penumbra="0.5" color="white"></a-light>
         <!-- Button -->
-        <a-box position="-9.9 -3 4" depth="6" height="0.5" width="0.1" color="#000" class="clickable" onclick="launchPlayer()"></a-box>
+        <a-box position="-9.8 -2.8 3" depth="6" height="0.7" width="0.1" color="#000" class="clickable" onclick="launchPlayer()"></a-box>
         <!-- Button Text -->
-        <a-entity position="-9.7 -3 4" rotation="0 90 0"> 
+        <a-entity position="-9.7 -2.8 3" rotation="0 90 0" class="clickable" onclick="launchPlayer()"> 
           <a-text value="Click here to open Psyche view of solar system" color="white" align="center" width="6"></a-text>
         </a-entity>
         <!-- Embedded Player Container -->
@@ -306,7 +296,7 @@
       
       <!-- PSYCHE OBJECTS -->
       <!-- Description Panel -->
-      <a-entity id="description-panel" rotation="0 -90 0" visible="false" class="clickable">
+      <a-entity id="description-panel" visible="false" class="clickable">
         <a-plane width="4.2" height="4.2" color="black" position="0 0 -0.02"></a-plane>
         <a-plane width="4.1" height="4.1" color="orange" position="0 0 -0.01"></a-plane>
         <a-plane width="4" height="4" color="black" opacity="0.8"></a-plane>
@@ -318,7 +308,7 @@
         let isDescriptionVisible = false; // Track the state of the description panel
         let lastClickedLabel = null; // Track the last clicked label
 
-        function showDescription(title, description, labelId, position) {
+        function showDescription(title, description, labelId, position, rotation="0 -90 0") {
           const panel = document.querySelector('#description-panel');
           const titleText = document.querySelector('#description-title');
           const contentText = document.querySelector('#description-content');
@@ -340,8 +330,9 @@
             titleText.setAttribute('value', `${title}\n_________________`);
             contentText.setAttribute('value', description);
 
-            // Update the position of the panel
+            // Update the position and rotation of the panel
             panel.setAttribute('position', position);
+            panel.setAttribute('rotation', rotation);
 
             // Make the panel visible
             panel.setAttribute('visible', true);
@@ -487,10 +478,19 @@
           <a-box position="4 -4 -9.5" depth="1.5" height="2.2" width="0.4" material="src: #dark-tiles-texture; repeat: 4 shader: standard"></a-box>
           <a-box position="-4 -4 -9.5" depth="1.5" height="2.2" width="0.4" material="src: #dark-tiles-texture; repeat: 4 shader: standard"></a-box>
         <!-- Command buttons -->
-         <!--Red-->
-        <a-box position="-1 -2.8 -8.5" depth="0.5" height="0.2" width="0.5" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="alert('Button 1 clicked')"></a-box>
-        <!--Green-->
-        <a-box position="1 -2.8 -8.5" depth="0.5" height="0.2" width="0.5" color="#0F4" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectToObjectPlacement()"></a-box>
+         <!-- Red Go Back Button -->
+        <a-box position="-3 -2.8 -8.5" depth="0.5" height="0.4" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectTo()"></a-box>
+        <a-entity id="reset-label" position="-3 -2.8 -8.2">
+          <a-plane width="1" height="0.2" color="black" opacity="0.6"></a-plane>
+          <a-text value="RESET" color="white" align="center" position="0 0 0.01"></a-text>
+        </a-entity>
+        <!--Blue Information Button -->
+        <a-box position="0 -2.8 -8.5" depth="0.5" height="0.4" width="1" color="#04F" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="showDescription('Info Help', 'On Mobile \n Move phone around to explore the room. \n Click on various buttons / objects to learn more about the Psyche mission. \n\n On VR \n Make sure your headset and controllers are connected. \n Point at the buttons / objects with your controller and using the trigger click on them to learn more about the mission \n\n', 'info-label', '0 1 -8.5', '0 0 0')"></a-box>
+        <a-entity id="info-label" position="0 -2.8 -8.2"
+          onclick="showDescription('Info Help', 'On Mobile \n Move phone around to explore the room. \n Click on various buttons / objects to learn more about the Psyche mission. \n\n\n\n On VR \n Make sure your headset and controllers are connected. \n Point at the buttons / objects with your controller and using the trigger click on them to learn more about the mission \n\n\n\n', 'info-label', '0 1 -8.5', '0 0 0')">
+          <a-plane width="1.5" height="0.2" color="black" opacity="0.6" class="clickable"></a-plane>
+          <a-text value="Information" color="white" align="center" position="0 0 0.01"></a-text>
+        </a-entity>
       </a-entity>
 
       <!--Back Gate-->
@@ -619,8 +619,8 @@
       </a-entity>
     </a-scene>
     <script>
-      function redirectToObjectPlacement() {
-        window.location.href = "objectPlacement.html";
+      function redirectTo() {
+        window.location.href = "index.html";
       }
     </script>
   </body>
