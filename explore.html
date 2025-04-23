@@ -54,18 +54,36 @@
       <a-sound id="background-sound" src="#background-music" autoplay="true" loop="true" volume="0.5" position="0 0 0"
       onloadeddata="console.log('Sound loaded!')"></a-sound>
       <script>
+        const backgroundSound = document.querySelector('#background-sound');
+
+        // Listen for the sound-loaded event
+        backgroundSound.addEventListener('sound-loaded', () => {
+          console.log("Sound loaded and ready to play");
+        });
+
         // Resume AudioContext after user interaction
         function resumeAudioContext() {
           const audioContext = AFRAME.scenes[0].audioContext;
+
           if (audioContext && audioContext.state === 'suspended') {
             audioContext.resume().then(() => {
-              console.log("AudioContext resumed: Space - Sebastian Blanco");
+              console.log("AudioContext resumed");
+              if (!backgroundSound.components.sound.isPlaying) {
+                backgroundSound.components.sound.playSound(); // Play the sound only if it's not already playing
+                console.log("Space - Sebastian Blanco is playing"); // When the sound starts playing
+              }
             }).catch((err) => {
               console.error("Error resuming AudioContext:", err);
             });
+          } else {
+            // Play the sound only if it's not already playing
+            if (!backgroundSound.components.sound.isPlaying) {
+              backgroundSound.components.sound.playSound();
+              console.log("Space - Sebastian Blanco is playing"); // When the sound starts playing
+            }
           }
         }
-      
+
         // Add event listeners for user interaction
         document.addEventListener('click', resumeAudioContext);
         document.addEventListener('touchstart', resumeAudioContext);
