@@ -7,7 +7,7 @@
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/feiss/aframe-html-shader@1.0.0/dist/aframe-html-shader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <style>
       body, html {
         margin: 0;
@@ -50,43 +50,30 @@
         <img id="detail-hud" src="assets/Texturelabs_Details_181M.jpg">
       </a-assets>
     
-      <!-- Background Sound -->
-      <a-sound id="background-sound" src="#background-music" autoplay="true" loop="true" volume="0.5" position="0 0 0"
-      onloadeddata="console.log('Sound loaded!')"></a-sound>
       <script>
-        const backgroundSound = document.querySelector('#background-sound');
-
-        // Listen for the sound-loaded event
-        backgroundSound.addEventListener('sound-loaded', () => {
-          console.log("Sound loaded and ready to play");
+        // Define the background sound using Howler.js
+        const backgroundSound = new Howl({
+          src: ['soundtrack/space-by-sebastian-blanco.m4a'], // Path to your audio file
+          loop: true, // Enable looping
+          volume: 0.5, // Set volume
+          onload: () => {
+            console.log("Sound loaded and ready to play");
+          },
+          onplay: () => {
+            console.log("Space - Sebastian Blanco is playing");
+          }
         });
-
-        // Resume AudioContext after user interaction
-        function resumeAudioContext() {
-          const audioContext = AFRAME.scenes[0].audioContext;
-
-          if (audioContext && audioContext.state === 'suspended') {
-            audioContext.resume().then(() => {
-              console.log("AudioContext resumed");
-              if (!backgroundSound.components.sound.isPlaying) {
-                backgroundSound.components.sound.playSound(); // Play the sound only if it's not already playing
-                console.log("Space - Sebastian Blanco is playing"); // When the sound starts playing
-              }
-            }).catch((err) => {
-              console.error("Error resuming AudioContext:", err);
-            });
-          } else {
-            // Play the sound only if it's not already playing
-            if (!backgroundSound.components.sound.isPlaying) {
-              backgroundSound.components.sound.playSound();
-              console.log("Space - Sebastian Blanco is playing"); // When the sound starts playing
-            }
+      
+        // Function to start the audio after user interaction
+        function startBackgroundSound() {
+          if (!backgroundSound.playing()) {
+            backgroundSound.play();
           }
         }
-
+      
         // Add event listeners for user interaction
-        document.addEventListener('click', resumeAudioContext);
-        document.addEventListener('touchstart', resumeAudioContext);
+        document.addEventListener('click', startBackgroundSound);
+        document.addEventListener('touchstart', startBackgroundSound);
       </script>
 
       <Script>
