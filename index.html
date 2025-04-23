@@ -2,7 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Mission To Psyche</title>
+    <title>Immerse Into Psyche</title>
+    <link rel="icon" href="assets/textures/psyche-texture.png" type="image/png">
     <meta name="description" content="Observe 16-PSYCHE">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preload" href="assets/space.png" as="image">
@@ -12,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <style>
       body, html {
         margin: 0;
@@ -181,11 +183,34 @@
       <!-- Oculus Controllers -->
     <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
     <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-
     </a-scene>
     
     <button id="explore-button" onclick="explorePsyche()">Click To Learn More About The Psyche Mission</button>
     <script>
+      // Background sound using Howler.js
+      const backgroundSound = new Howl({
+        src: ['soundtrack/space-by-sebastian-blanco.m4a'], // Path to your audio file
+        loop: true, // Enable looping
+        volume: 0.5, // Set volume
+        onload: () => {
+          console.log("Sound loaded and ready to play");
+        },
+        onplay: () => {
+          console.log("Space - Sebastian Blanco is playing");
+        }
+      });
+
+      // Function to start the audio after user interaction
+      function startBackgroundSound() {
+        if (!backgroundSound.playing()) {
+          backgroundSound.play();
+        }
+      }
+
+      // Add event listeners for user interaction
+      document.addEventListener('click', startBackgroundSound);
+      document.addEventListener('touchstart', startBackgroundSound);
+
       function hideOverlay() {
         const overlay = document.getElementById('overlay');
         overlay.classList.add('hidden');
