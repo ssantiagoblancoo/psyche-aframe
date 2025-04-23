@@ -6,6 +6,7 @@
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/feiss/aframe-html-shader@1.0.0/dist/aframe-html-shader.min.js"></script>
     <style>
       body, html {
         margin: 0;
@@ -51,6 +52,17 @@
       <!-- Background Sound -->
       <a-sound id="background-sound" src="#background-music" autoplay="true" loop="true" volume="0.5" position="0 0 0"
       onloadeddata="console.log('Sound loaded!')"></a-sound>
+      <script>
+        //Resume AudioContect after user clicks
+        document.addEventListener('click', () => {
+          const audioContext = AFRAME.scenes[0].audioContext;
+          if (audioContext && audioContext.state === 'suspended') {
+            audioContext.resume();
+            console.log("Started Playing - Space by Sebastian Blanco")
+          }
+        });
+      </script>
+
       <Script>
         // Detect if the user is on a mobile device
         function isMobile() {
@@ -625,11 +637,3 @@
     </script>
   </body>
 </html>
-<!-- 
-To get the touch controls mapped, put this on your rig:
-
-<a-entity id="left-hand" oculus-touch-controls="hand: left"></a-entity>
-
-To setup the listeners you just need to do this:
-
-document.querySelector("#left-hand").addEventListener("xbuttondown", xbuttondown); -->
