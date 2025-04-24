@@ -99,10 +99,37 @@
                   cursor="fuse: false; rayOrigin: mouse"></a-camera>
       
         <!-- Left Hand Controller -->
-        <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
-        <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
-
+        <a-entity id="left-hand" meta-touch-controls="hand: left" thumbstick-movement></a-entity>
+        <!-- Right Hand Controller -->
+        <a-entity id="right-hand" meta-touch-controls="hand: right" thumbstick-movement></a-entity>
       </a-entity>
+      <!-- MOVING WITH THUMBSTICKS -->
+      <script>
+        // Register the thumbstick-movement component
+        AFRAME.registerComponent('thumbstick-movement', {
+          init: function () {
+            this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
+          },
+          onThumbstickMoved: function (evt) {
+            const cameraRig = document.querySelector('#camera-rig');
+            const movementSpeed = 0.1; // Adjust movement speed as needed
+      
+            // Move forward/backward
+            if (evt.detail.y < -0.1) {
+              cameraRig.object3D.position.z -= movementSpeed;
+            } else if (evt.detail.y > 0.1) {
+              cameraRig.object3D.position.z += movementSpeed;
+            }
+      
+            // Move left/right
+            if (evt.detail.x < -0.1) {
+              cameraRig.object3D.position.x -= movementSpeed;
+            } else if (evt.detail.x > 0.1) {
+              cameraRig.object3D.position.x += movementSpeed;
+            }
+          }
+        });
+      </script>
 
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
