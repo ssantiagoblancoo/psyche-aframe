@@ -99,14 +99,14 @@
                   cursor="fuse: false; rayOrigin: mouse"></a-camera>
       
         <!-- Left Hand Controller -->
-        <a-entity id="left-hand" oculus-touch-controls="hand: left" 
+        <a-entity id="left-hand" meta-touch-controls="hand: left" 
                   raycaster="objects: .clickable; interval: 100" 
                   line="color: orange; opacity: 0.75" 
                   super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els">
         </a-entity>
       
         <!-- Right Hand Controller -->
-        <a-entity id="right-hand" oculus-touch-controls="hand: right" 
+        <a-entity id="right-hand" meta-touch-controls="hand: right" 
                   raycaster="objects: .clickable; interval: 100" 
                   line="color: orange; opacity: 0.75" 
                   super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els">
