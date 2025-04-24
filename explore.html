@@ -93,16 +93,24 @@
         });
       </Script>
       <!-- Camera Rig for Movement -->
-      <a-entity id="camera-rig" dynamic-body>
+      <a-entity id="camera-rig" movement-controls="speed: 0.1" dynamic-body>
         <!-- Camera -->
         <a-camera id="camera" position="0 0 0" raycaster="objects: .clickable; far: 20" 
-        cursor="fuse: false; rayOrigin: mouse"></a-camera>
-    
+                  cursor="fuse: false; rayOrigin: mouse"></a-camera>
+      
         <!-- Left Hand Controller -->
-        <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable; interval: 100" line="color: orange; opacity: 0.75"></a-entity>
-    
+        <a-entity id="left-hand" oculus-touch-controls="hand: left" 
+                  raycaster="objects: .clickable; interval: 100" 
+                  line="color: orange; opacity: 0.75" 
+                  super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els">
+        </a-entity>
+      
         <!-- Right Hand Controller -->
-        <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable; interval: 100" line="color: orange; opacity: 0.75"></a-entity>
+        <a-entity id="right-hand" oculus-touch-controls="hand: right" 
+                  raycaster="objects: .clickable; interval: 100" 
+                  line="color: orange; opacity: 0.75" 
+                  super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els">
+        </a-entity>
       </a-entity>
 
       <!-- Starry Background -->
