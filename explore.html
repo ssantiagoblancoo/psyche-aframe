@@ -99,14 +99,22 @@
                   cursor="fuse: false; rayOrigin: mouse"></a-camera>
       
         <!-- Left Hand Controller -->
-        <a-entity id="left-hand" meta-touch-controls="hand: left" thumbstick-movement></a-entity>
+        <a-entity id="left-hand" meta-touch-controls="hand: left" thumbstick-movement-left></a-entity>
         <!-- Right Hand Controller -->
-        <a-entity id="right-hand" meta-touch-controls="hand: right" thumbstick-movement></a-entity>
+        <a-entity id="right-hand" meta-touch-controls="hand: right" thumbstick-movement-right></a-entity>
       </a-entity>
       <!-- MOVING WITH THUMBSTICKS -->
       <script>
-        // Register the thumbstick-movement component
-        AFRAME.registerComponent('thumbstick-movement', {
+        // Define boundaries
+        const boundaries = {
+          minX: -10,
+          maxX: 10,
+          minZ: -20,
+          maxZ: 20
+        };
+
+        // Component for left joystick movement
+        AFRAME.registerComponent('thumbstick-movement-left', {
           init: function () {
             this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
           },
@@ -126,6 +134,31 @@
               cameraRig.object3D.position.x -= movementSpeed;
             } else if (evt.detail.x > 0.1) {
               cameraRig.object3D.position.x += movementSpeed;
+            }
+          }
+        });
+      
+        // Component for right joystick camera rotation
+        AFRAME.registerComponent('thumbstick-movement-right', {
+          init: function () {
+            this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
+          },
+          onThumbstickMoved: function (evt) {
+            const camera = document.querySelector('#camera');
+            const rotationSpeed = 2; // Adjust rotation speed as needed
+      
+            // Rotate left/right
+            if (evt.detail.x < -0.1) {
+              camera.object3D.rotation.y += rotationSpeed * Math.PI / 180; // Rotate left
+            } else if (evt.detail.x > 0.1) {
+              camera.object3D.rotation.y -= rotationSpeed * Math.PI / 180; // Rotate right
+            }
+      
+            // Rotate up/down
+            if (evt.detail.y < -0.1) {
+              camera.object3D.rotation.x -= rotationSpeed * Math.PI / 180; // Look up
+            } else if (evt.detail.y > 0.1) {
+              camera.object3D.rotation.x += rotationSpeed * Math.PI / 180; // Look down
             }
           }
         });
