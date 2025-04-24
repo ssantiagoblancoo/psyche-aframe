@@ -99,10 +99,18 @@
                   cursor="fuse: false; rayOrigin: mouse"></a-camera>
       
         <!-- Left Hand Controller -->
-        <a-entity id="left-hand" meta-touch-controls="hand: left" thumbstick-movement-left></a-entity>
+        <a-entity id="left-hand" meta-touch-controls="hand: left" 
+                  raycaster="objects: .clickable; interval: 100" 
+                  line="color: orange; opacity: 0.75" 
+                  thumbstick-movement-left super-hands>
+        </a-entity>
       
         <!-- Right Hand Controller -->
-        <a-entity id="right-hand" meta-touch-controls="hand: right" thumbstick-movement-right></a-entity>
+        <a-entity id="right-hand" meta-touch-controls="hand: right" 
+                  raycaster="objects: .clickable; interval: 100" 
+                  line="color: orange; opacity: 0.75" 
+                  thumbstick-movement-right super-hands>
+        </a-entity>
       </a-entity>
       
       <script>
@@ -116,73 +124,57 @@
       
         // Component for left joystick movement
         AFRAME.registerComponent('thumbstick-movement-left', {
-          init: function () {
-            this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
+          schema: {
+            speed: { type: 'number', default: 0.05 } // Adjust movement speed
           },
-          onThumbstickMoved: function (evt) {
+          init: function () {
+            this.direction = { x: 0, y: 0 };
+            this.el.addEventListener('thumbstickmoved', (evt) => {
+              this.direction.x = evt.detail.x;
+              this.direction.y = evt.detail.y;
+            });
+          },
+          tick: function () {
             const cameraRig = document.querySelector('#camera-rig');
-            const movementSpeed = 0.1; // Adjust movement speed as needed
-      
-            // Get current position
             const position = cameraRig.object3D.position;
-      
-            // Calculate new position
-            let newX = position.x;
-            let newZ = position.z;
-      
-            if (evt.detail.y < -0.1) {
-              newZ -= movementSpeed; // Move forward
-            } else if (evt.detail.y > 0.1) {
-              newZ += movementSpeed; // Move backward
-            }
-      
-            if (evt.detail.x < -0.1) {
-              newX -= movementSpeed; // Move left
-            } else if (evt.detail.x > 0.1) {
-              newX += movementSpeed; // Move right
-            }
-      
+
+            // Calculate new position based on thumbstick input
+            let newX = position.x + this.direction.x * this.data.speed;
+            let newZ = position.z + this.direction.y * this.data.speed;
+
             // Clamp position to boundaries
             newX = Math.max(boundaries.minX, Math.min(boundaries.maxX, newX));
             newZ = Math.max(boundaries.minZ, Math.min(boundaries.maxZ, newZ));
-      
-            // Update position using setAttribute
+
+            // Update position
             cameraRig.setAttribute('position', { x: newX, y: position.y, z: newZ });
           }
         });
-      
+
         // Component for right joystick camera rotation
         AFRAME.registerComponent('thumbstick-movement-right', {
-          init: function () {
-            this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
+          schema: {
+            rotationSpeed: { type: 'number', default: 1 } // Adjust rotation speed
           },
-          onThumbstickMoved: function (evt) {
+          init: function () {
+            this.rotation = { x: 0, y: 0 };
+            this.el.addEventListener('thumbstickmoved', (evt) => {
+              this.rotation.x = evt.detail.y;
+              this.rotation.y = evt.detail.x;
+            });
+          },
+          tick: function () {
             const camera = document.querySelector('#camera');
-            const rotationSpeed = 2; // Adjust rotation speed as needed
-      
-            // Get current rotation
             const rotation = camera.getAttribute('rotation');
-      
-            // Calculate new rotation
-            let newRotationY = rotation.y;
-            let newRotationX = rotation.x;
-      
-            if (evt.detail.x < -0.1) {
-              newRotationY += rotationSpeed; // Rotate left
-            } else if (evt.detail.x > 0.1) {
-              newRotationY -= rotationSpeed; // Rotate right
-            }
-      
-            if (evt.detail.y < -0.1) {
-              newRotationX -= rotationSpeed; // Look up
-            } else if (evt.detail.y > 0.1) {
-              newRotationX += rotationSpeed; // Look down
-            }
-      
+
+            // Calculate new rotation based on thumbstick input
+            let newRotationY = rotation.y - this.rotation.y * this.data.rotationSpeed;
+            let newRotationX = rotation.x - this.rotation.x * this.data.rotationSpeed;
+
             // Clamp vertical rotation to prevent flipping
             newRotationX = Math.max(-90, Math.min(90, newRotationX));
-      
-            // Update rotation using setAttribute
+
+            // Update rotation
             camera.setAttribute('rotation', { x: newRotationX, y: newRotationY, z: rotation.z });
           }
         });
