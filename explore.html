@@ -103,29 +103,28 @@
       <!-- Camera Rig for Movement -->
       <a-entity id="camera-rig" movement-controls="speed: 0.1" dynamic-body>
         <!-- Camera -->
-        <a-camera id="camera" position="0 0 0" raycaster="objects: .clickable; far: 20" 
+        <a-camera id="camera" position="0 1.6 0" raycaster="objects: .clickable; far: 20" 
                   cursor="fuse: false; rayOrigin: mouse"></a-camera>
-
-        <!-- Left Hand Controller -->
+      
+        <!-- Left Hand Controller (Movement) -->
         <a-entity id="left-hand" laser-controls="hand: left" 
-        raycaster="objects: .clickable; interval: 100" 
-        line="color: orange; opacity: 0.75"></a-entity>
-
-
-        <!-- Right Hand Controller -->
+                  raycaster="objects: .clickable; interval: 100; far: 20" 
+                  line="color: orange; opacity: 0.75" thumbstick-movement-left></a-entity>
+      
+        <!-- Right Hand Controller (Camera Rotation) -->
         <a-entity id="right-hand" laser-controls="hand: right" 
-        raycaster="objects: .clickable; interval: 100" 
-        line="color: orange; opacity: 0.75"></a-entity>
-
+                  raycaster="objects: .clickable; interval: 100; far: 10" 
+                  line="color: orange; opacity: 0.75" thumbstick-movement-right></a-entity>
+      
         <!-- Left Hand Tracking with Laser -->
         <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left" 
-        raycaster="objects: .clickable; interval: 100" 
-        line="color: orange; opacity: 0.75" visible="false"></a-entity>
-
+                  raycaster="objects: .clickable; interval: 100; far: 20" 
+                  line="color: orange; opacity: 0.75" visible="false"></a-entity>
+      
         <!-- Right Hand Tracking with Laser -->
         <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right" 
-        raycaster="objects: .clickable; interval: 100" 
-        line="color: orange; opacity: 0.75" visible="false"></a-entity>
+                  raycaster="objects: .clickable; interval: 100; far: 20" 
+                  line="color: orange; opacity: 0.75" visible="false"></a-entity>
       </a-entity>
 
       <script>
@@ -173,52 +172,40 @@
       
         // Component for left joystick movement
         AFRAME.registerComponent('thumbstick-movement-left', {
-          schema: {
-            speed: { type: 'number', default: 0.05 } // Adjust movement speed
-          },
           init: function () {
-            this.direction = { x: 0, y: 0 };
-            this.el.addEventListener('thumbstickmoved', (evt) => {
-              this.direction.x = evt.detail.x;
-              this.direction.y = evt.detail.y;
-            });
+            this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
           },
-          tick: function () {
+          onThumbstickMoved: function (evt) {
             const cameraRig = document.querySelector('#camera-rig');
+            const movementSpeed = 0.1; // Adjust movement speed as needed
+
+            // Get current position
             const position = cameraRig.object3D.position;
 
             // Calculate new position based on thumbstick input
-            let newX = position.x + this.direction.x * this.data.speed;
-            let newZ = position.z + this.direction.y * this.data.speed;
-
-            // Clamp position to boundaries
-            newX = Math.max(boundaries.minX, Math.min(boundaries.maxX, newX));
-            newZ = Math.max(boundaries.minZ, Math.min(boundaries.maxZ, newZ));
+            let newX = position.x + evt.detail.x * movementSpeed;
+            let newZ = position.z + evt.detail.y * movementSpeed;
 
             // Update position
             cameraRig.setAttribute('position', { x: newX, y: position.y, z: newZ });
           }
         });
 
-        // Component for right joystick camera rotation
+        // Component for right controller camera rotation
         AFRAME.registerComponent('thumbstick-movement-right', {
-          schema: {
-            rotationSpeed: { type: 'number', default: 1 } // Adjust rotation speed
-          },
           init: function () {
-            this.rotation = { x: 0, y: 0 };
-            this.el.addEventListener('thumbstickmoved', (evt) => {
-              this.rotation.x = evt.detail.y;
-              this.rotation.y = evt.detail.x;
-            });
+            this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
           },
-          tick: function () {
+          onThumbstickMoved: function (evt) {
             const camera = document.querySelector('#camera');
+            const rotationSpeed = 2; // Adjust rotation speed as needed
+
+            // Get current rotation
             const rotation = camera.getAttribute('rotation');
 
             // Calculate new rotation based on thumbstick input
-            let newRotationY = rotation.y - this.rotation.y * this.data.rotationSpeed;
-            let newRotationX = rotation.x - this.rotation.x * this.data.rotationSpeed;
+            let newRotationY = rotation.y - evt.detail.x * rotationSpeed;
+            let newRotationX = rotation.x - evt.detail.y * rotationSpeed;
 
             // Clamp vertical rotation to prevent flipping
             newRotationX = Math.max(-90, Math.min(90, newRotationX));
