@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/super-hands@^3.0.5/dist/super-hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/feiss/aframe-html-shader@1.0.0/dist/aframe-html-shader.min.js"></script>
     <style>
       body, html {
         margin: 0;
@@ -411,7 +412,6 @@
           <a-text value="Launch Time" color="white" align="center" position="0 0 0.01" class="clickable"></a-text>
         </a-entity>
       
-
       <script>
         // Initialize the start time (Psyche was launched on October 13, 2023. 2:19:42 UTC)
         const startTime = new Date('October 13, 2023 10:19:42 EDT');
@@ -533,7 +533,7 @@
       <!-- Ceiling Wall -->
       <a-box position="0 4.5 20" depth="20" height="0.2" width="18" material="src: #white-walls; repeat: 2 2; shader: standard"></a-box>
       <!-- Floor Wall -->
-      <a-box position="0 -4 20" depth="20" height="0.2" width="18" material="src: #dark-tiles-texture; repeat: 6 6; shader: standard"></a-box>
+      <a-box position="0 -4 20" depth="20" height="0.2" width="22" material="src: #dark-tiles-texture; repeat: 6 6; shader: standard"></a-box>
       
       <!-- Doors and Corridors -->
       <a-entity id="full-corridor">
@@ -569,7 +569,42 @@
         <a-light type="point" intensity="5" position="-10 2 16" distance="6" color="#ff0000"></a-light>
         <!-- Corridor Left Side-->
         <a-light type="point" intensity="5" position="10 2 16" distance="6" color="#ff0000"></a-light>   
-
+        <!-- PSYCHE 360 VID position="8.5 0 16" rotation="0 -90 0" -->
+        <a-entity id="arcade-display" position="0 0 -3" rotation="0 0 0">
+          <!-- Label on top -->
+          <a-entity id="arcade-label" position="0 2 0.6">
+            <a-box width="2" height="0.3" depth="0.1" color="black"></a-box>
+            <a-text value="PSYCHE 360 Video" color="Orange" align="center" width="3" position="0 -0.04 0.1"></a-text>
+          </a-entity>
+          <!-- Arcade Display -->
+          <a-box width="2.5" height="3.6" depth="0.1" material="src: #detail-hud" position="0 -0.1 0.01"></a-box>
+          <a-box width="2.5" height="4" depth="0.1" color="white"></a-box>
+          <!-- Stand -->
+          <a-box width="2.5" height="2.5" depth="0.6" material="src: #white-walls; repeat: 1 4; shader: standard" position="0 -2.4 0.3"></a-box>
+          <!-- Flat Pieces -->
+          <a-box width="2.5" height="0.4" depth="0.6" material="src: #white-walls;" position="0 2 0.3"></a-box>
+          <a-box width="0.1" height="6" depth="1" material="src: #white-walls;" position="1.2 -1.2 0.1"></a-box>
+          <a-box width="0.1" height="6" depth="1" material="src: #white-walls;" position="-1.2 -1.2 0.1"></a-box>
+          <!-- Play Button -->
+          <a-entity id="play-button" position="0 -1.1 0.4">
+            <a-box width="0.4" height="0.1" depth="0.2" color="orange" class="clickable" onclick="openYouTubeFullscreen()"></a-box>
+            <a-text value="Click To Watch Video" color="white" align="center" position="0 0.3 0.2" width="3"></a-text>
+          </a-entity>
+        </a-entity>
+        
+        <script>
+          function openYouTubeFullscreen() {
+            const url = "https://www.youtube.com/embed/fRChtFMx144?autoplay=1&rel=0";
+            const fullscreenWindow = window.open(
+              url,
+              "_blank",
+              "toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=1920,height=1080"
+            );
+            if (!fullscreenWindow) {
+              alert("Please allow pop-ups to view the video in fullscreen.");
+            }
+          }
+        </script>
 
         <!-- Red Lights Between Second Doors -->
         <!-- Corridor Right Side-->
