@@ -107,24 +107,25 @@
                   cursor="fuse: false; rayOrigin: mouse"></a-camera>
 
         <!-- Left Hand Controller -->
-        <a-entity id="left-hand" meta-touch-controls="hand: left" 
-                  raycaster="objects: .clickable; interval: 100" 
-                  line="color: orange; opacity: 0.75" 
-                  thumbstick-movement-left super-hands visible="false">
-        </a-entity>
+        <a-entity id="left-hand" laser-controls="hand: left" 
+        raycaster="objects: .clickable; interval: 100" 
+        line="color: orange; opacity: 0.75"></a-entity>
+
 
         <!-- Right Hand Controller -->
-        <a-entity id="right-hand" meta-touch-controls="hand: right" 
-                  raycaster="objects: .clickable; interval: 100" 
-                  line="color: orange; opacity: 0.75" 
-                  thumbstick-movement-right super-hands visible="false">
-        </a-entity>
+        <a-entity id="right-hand" laser-controls="hand: right" 
+        raycaster="objects: .clickable; interval: 100" 
+        line="color: orange; opacity: 0.75"></a-entity>
 
-        <!-- Left Hand Tracking -->
-        <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left" visible="false"></a-entity>
+        <!-- Left Hand Tracking with Laser -->
+        <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left" 
+        raycaster="objects: .clickable; interval: 100" 
+        line="color: orange; opacity: 0.75" visible="false"></a-entity>
 
-        <!-- Right Hand Tracking -->
-        <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right" visible="false"></a-entity>
+        <!-- Right Hand Tracking with Laser -->
+        <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right" 
+        raycaster="objects: .clickable; interval: 100" 
+        line="color: orange; opacity: 0.75" visible="false"></a-entity>
       </a-entity>
 
       <script>
