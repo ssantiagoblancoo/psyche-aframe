@@ -95,24 +95,25 @@
       <!-- Camera Rig for Movement -->
       <a-entity id="camera-rig" movement-controls="speed: 0.1" dynamic-body>
         <!-- Camera -->
-        <a-camera id="camera" position="0 0 0" raycaster="objects: .clickable; far: 20" 
+        <a-camera id="camera" position="0 1.6 0" raycaster="objects: .clickable; far: 20" 
                   cursor="fuse: false; rayOrigin: mouse"></a-camera>
       
         <!-- Left Hand Controller -->
         <a-entity id="left-hand" meta-touch-controls="hand: left" thumbstick-movement-left></a-entity>
+      
         <!-- Right Hand Controller -->
         <a-entity id="right-hand" meta-touch-controls="hand: right" thumbstick-movement-right></a-entity>
       </a-entity>
-      <!-- MOVING WITH THUMBSTICKS -->
+      
       <script>
         // Define boundaries
         const boundaries = {
           minX: -10,
           maxX: 10,
-          minZ: -20,
-          maxZ: 20
+          minZ: -10,
+          maxZ: 10
         };
-
+      
         // Component for left joystick movement
         AFRAME.registerComponent('thumbstick-movement-left', {
           init: function () {
@@ -122,19 +123,31 @@
             const cameraRig = document.querySelector('#camera-rig');
             const movementSpeed = 0.1; // Adjust movement speed as needed
       
-            // Move forward/backward
+            // Get current position
+            const position = cameraRig.object3D.position;
+      
+            // Calculate new position
+            let newX = position.x;
+            let newZ = position.z;
+      
             if (evt.detail.y < -0.1) {
-              cameraRig.object3D.position.z -= movementSpeed;
+              newZ -= movementSpeed; // Move forward
             } else if (evt.detail.y > 0.1) {
-              cameraRig.object3D.position.z += movementSpeed;
+              newZ += movementSpeed; // Move backward
             }
       
-            // Move left/right
             if (evt.detail.x < -0.1) {
-              cameraRig.object3D.position.x -= movementSpeed;
+              newX -= movementSpeed; // Move left
             } else if (evt.detail.x > 0.1) {
-              cameraRig.object3D.position.x += movementSpeed;
+              newX += movementSpeed; // Move right
             }
+      
+            // Clamp position to boundaries
+            newX = Math.max(boundaries.minX, Math.min(boundaries.maxX, newX));
+            newZ = Math.max(boundaries.minZ, Math.min(boundaries.maxZ, newZ));
+      
+            // Update position using setAttribute
+            cameraRig.setAttribute('position', { x: newX, y: position.y, z: newZ });
           }
         });
       
@@ -147,19 +160,30 @@
             const camera = document.querySelector('#camera');
             const rotationSpeed = 2; // Adjust rotation speed as needed
       
-            // Rotate left/right
+            // Get current rotation
+            const rotation = camera.getAttribute('rotation');
+      
+            // Calculate new rotation
+            let newRotationY = rotation.y;
+            let newRotationX = rotation.x;
+      
             if (evt.detail.x < -0.1) {
-              camera.object3D.rotation.y += rotationSpeed * Math.PI / 180; // Rotate left
+              newRotationY += rotationSpeed; // Rotate left
             } else if (evt.detail.x > 0.1) {
-              camera.object3D.rotation.y -= rotationSpeed * Math.PI / 180; // Rotate right
+              newRotationY -= rotationSpeed; // Rotate right
             }
       
-            // Rotate up/down
             if (evt.detail.y < -0.1) {
-              camera.object3D.rotation.x -= rotationSpeed * Math.PI / 180; // Look up
+              newRotationX -= rotationSpeed; // Look up
             } else if (evt.detail.y > 0.1) {
-              camera.object3D.rotation.x += rotationSpeed * Math.PI / 180; // Look down
+              newRotationX += rotationSpeed; // Look down
             }
+      
+            // Clamp vertical rotation to prevent flipping
+            newRotationX = Math.max(-90, Math.min(90, newRotationX));
+      
+            // Update rotation using setAttribute
+            camera.setAttribute('rotation', { x: newRotationX, y: newRotationY, z: rotation.z });
           }
         });
       </script>
