@@ -100,33 +100,8 @@
           }
         });
       </Script>
-      <!-- Camera Rig for Movement -->
-      <a-entity id="camera-rig" movement-controls="speed: 0.1" dynamic-body>
-        <!-- Camera -->
-        <a-camera id="camera" position="0 1.6 0" raycaster="objects: .clickable; far: 20" 
-                  cursor="fuse: false; rayOrigin: mouse"></a-camera>
-      
-        <!-- Left Hand Controller (Movement) -->
-        <a-entity id="left-hand" laser-controls="hand: left" 
-                  raycaster="objects: .clickable; interval: 100; far: 20" 
-                  line="color: orange; opacity: 0.75" thumbstick-movement-left></a-entity>
-      
-        <!-- Right Hand Controller (Camera Rotation) -->
-        <a-entity id="right-hand" laser-controls="hand: right" 
-                  raycaster="objects: .clickable; interval: 100; far: 10" 
-                  line="color: orange; opacity: 0.75" thumbstick-movement-right></a-entity>
-      
-        <!-- Left Hand Tracking with Laser -->
-        <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left" 
-                  raycaster="objects: .clickable; interval: 100; far: 20" 
-                  line="color: orange; opacity: 0.75" visible="false"></a-entity>
-      
-        <!-- Right Hand Tracking with Laser -->
-        <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right" 
-                  raycaster="objects: .clickable; interval: 100; far: 20" 
-                  line="color: orange; opacity: 0.75" visible="false"></a-entity>
-      </a-entity>
 
+      <!-- CONTROLLER OR HANDS -->
       <script>
         // Function to enable or disable hand tracking and controllers
         function updateControlMode() {
@@ -160,7 +135,35 @@
         // Initial check on page load
         document.addEventListener('DOMContentLoaded', updateControlMode);
       </script>
+
+      <!-- Camera Rig for Movement -->
+      <a-entity id="camera-rig" movement-controls="speed: 0.1" dynamic-body>
+        <!-- Camera -->
+        <a-camera id="camera" position="0 0 0" raycaster="objects: .clickable; far: 20" 
+          cursor="fuse: false; rayOrigin: mouse"></a-camera>
       
+        <!-- Left Hand Controller (Movement) -->
+        <a-entity id="left-hand" laser-controls="hand: left" 
+          raycaster="objects: .clickable; interval: 100; far: 10" 
+          line="color: orange; opacity: 0.75" thumbstick-movement-left></a-entity>
+      
+        <!-- Right Hand Controller (Camera Rotation) -->
+        <a-entity id="right-hand" laser-controls="hand: right" 
+          raycaster="objects: .clickable; interval: 100; far: 10" 
+          line="color: orange; opacity: 0.75" thumbstick-rotate-camera></a-entity>
+      
+        <!-- Left Hand Tracking with Laser -->
+        <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left" 
+          raycaster="objects: .clickable; interval: 100; far: 10" 
+          line="color: orange; opacity: 0.75" visible="false"></a-entity>
+      
+        <!-- Right Hand Tracking with Laser -->
+        <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right" 
+          raycaster="objects: .clickable; interval: 100; far: 10" 
+          line="color: orange; opacity: 0.75" visible="false"></a-entity>
+      </a-entity>
+
+      <!-- MOVEMENT -->
       <script>
         // Define boundaries
         const boundaries = {
@@ -171,47 +174,38 @@
         };
       
         // Component for left joystick movement
-        AFRAME.registerComponent('thumbstick-movement-left', {
+        AFRAME.registerComponent('thumbstick-rotate-camera', {
           init: function () {
             this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
+            this.lastDirection = 0; // To prevent continuous rotation
           },
           onThumbstickMoved: function (evt) {
             const cameraRig = document.querySelector('#camera-rig');
-            const movementSpeed = 0.1; // Adjust movement speed as needed
+            const rotationStep = 45; // Rotate in 45-degree increments
 
-            // Get current position
-            const position = cameraRig.object3D.position;
-
-            // Calculate new position based on thumbstick input
-            let newX = position.x + evt.detail.x * movementSpeed;
-            let newZ = position.z + evt.detail.y * movementSpeed;
-
-            // Update position
-            cameraRig.setAttribute('position', { x: newX, y: position.y, z: newZ });
-          }
-        });
-
-        // Component for right controller camera rotation
-        AFRAME.registerComponent('thumbstick-movement-right', {
-          init: function () {
-            this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
-          },
-          onThumbstickMoved: function (evt) {
-            const camera = document.querySelector('#camera');
-            const rotationSpeed = 2; // Adjust rotation speed as needed
-
-            // Get current rotation
-            const rotation = camera.getAttribute('rotation');
-
-            // Calculate new rotation based on thumbstick input
-            let newRotationY = rotation.y - evt.detail.x * rotationSpeed;
-            let newRotationX = rotation.x - evt.detail.y * rotationSpeed;
-
-            // Clamp vertical rotation to prevent flipping
-            newRotationX = Math.max(-90, Math.min(90, newRotationX));
-
-            // Update rotation
-            camera.setAttribute('rotation', { x: newRotationX, y: newRotationY, z: rotation.z });
+            // Detect horizontal thumbstick movement
+            if (evt.detail.x > 0.95 && this.lastDirection !== 1) {
+              // Rotate right
+              const currentRotation = cameraRig.getAttribute('rotation');
+              cameraRig.setAttribute('rotation', {
+                x: currentRotation.x,
+                y: currentRotation.y - rotationStep,
+                z: currentRotation.z
+              });
+              this.lastDirection = 1; // Prevent continuous rotation
+            } else if (evt.detail.x < -0.95 && this.lastDirection !== -1) {
+              // Rotate left
+              const currentRotation = cameraRig.getAttribute('rotation');
+              cameraRig.setAttribute('rotation', {
+                x: currentRotation.x,
+                y: currentRotation.y + rotationStep,
+                z: currentRotation.z
+              });
+              this.lastDirection = -1; // Prevent continuous rotation
+            } else if (Math.abs(evt.detail.x) < 0.1) {
+              // Reset direction when thumbstick is released
+              this.lastDirection = 0;
+            }
           }
         });
       </script>
