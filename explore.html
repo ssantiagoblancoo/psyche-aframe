@@ -49,6 +49,14 @@
         <img id="star-background" src="assets/space.png">
         <img id="switches-buttons" src="assets/textures/switches-buttons.jpg">
         <img id="detail-hud" src="assets/Texturelabs_Details_181M.jpg">
+
+        <img id="multispectral-image" src="assets/psyche-images/multispectral-imager.avif" />
+        <img id="spectrometer-image" src="assets/psyche-images/spectrometer.avif" />
+        <img id="magnetometer-image" src="assets/psyche-images/magnetometer.avif" />
+        <img id="radio-image" src="assets/psyche-images/radio-science.avif" />
+        <img id="dsoc-image" src="assets/psyche-images/dsoc.avif" />
+
+        <a-asset-item id="psyche" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
       </a-assets>
     
       <script>
@@ -649,10 +657,83 @@
         <!-- Red Lights Between First Doors -->
         <!-- Corridor Right Side-->
         <a-light type="point" intensity="5" position="-10 2 16" distance="6" color="#ff0000"></a-light>
-        <!-- Instrument Gallery position="-8.5 0 16" rotation="0 30 0" -->
-        <a-entity id="instrument-gallery" position="-8.5 0 16" rotation="0 30 0">
-          <a-box></a-box>
+        <!-- Instrument Gallery position="-8.5 0 16" rotation="0 90 0" -->
+        <a-entity id="instrument-gallery" position="0 0 -5" rotation="0 0 0">
+          <!-- Left Navigation Button -->
+          <a-box id="left-button" position="-1.5 0 0.01" depth="0.01" height="2" width="0.3" color="black" class="clickable" onclick="navigateGallery(-1)">
+            <a-text value="<" color="white" align="center" position="0 0 0.1" width="2"></a-text>
+          </a-box>
+          <!-- Right Navigation Button -->
+          <a-box id="right-button" position="1.5 0 0.01" depth="0.01" height="2" width="0.3" color="black" class="clickable" onclick="navigateGallery(1)">
+            <a-text value=">" color="white" align="center" position="0 0 0.1" width="2"></a-text>
+          </a-box>
+        
+          <!-- Planes for Instruments -->
+          <a-plane id="plane-0" position="0 0 0" width="3" height="2" color="black" visible="true">
+            <a-plane id="multispectral-imager" position="0 2 0.5" rotation="30 0 0" width="3" height="2"
+              material="src: #multispectral-image" visible="true"></a-plane>
+            <a-cylinder position="0 1.1 0" radius="0.1" height="3" color="grey" rotation="0 0 90"></a-cylinder>
+            <a-text value="\n\nThe Multispectral Imager provides high-resolution images using filters to discriminate between Psyche metallic and silicate constituents.
+             \nThe instrument consists of a pair of identical cameras designed to acquire geologic, compositional, and topographic data.
+             \nThe purpose of the second camera is to provide redundancy for mission-critical optical navigation. 
+             \nThe team is based at Arizona State University."color="white" align="center" position="0 0.05 0.1" width="2.5"></a-text>
+          </a-plane>
+
+          <a-plane id="plane-1" position="0 0 0" width="3" height="2" color="black" visible="false">
+            <a-plane id="spectrometer" position="0 2 0.5" rotation="30 0 0" width="3" height="2"
+              material="src: #spectrometer-image" visible="true"></a-plane>
+            <a-cylinder position="0 1.1 0" radius="0.1" height="3" color="grey" rotation="0 0 90"></a-cylinder>
+            <a-text value="\n\nThe Gamma-Ray and Neutron Spectrometer will detect, measure, and map Psyche elemental composition.
+            \nThe instrument is mounted on a 6-foot (2-meter) boom to distance the sensors from background radiation created by energetic particles interacting with the spacecraft and to provide an unobstructed field of view. 
+            \nThe team is based at the Applied Physics Laboratory at Johns Hopkins University." color="white" align="center" position="0 0.05 0.1" width="2.5"></a-text>
+          </a-plane>
+
+          <a-plane id="plane-2" position="0 0 0" width="3" height="2" color="black" visible="false">
+            <a-plane id="magnetometer" position="0 2 0.5" rotation="30 0 0" width="3" height="2"
+              material="src: #magnetometer-image" visible="true"></a-plane>
+            <a-cylinder position="0 1.1 0" radius="0.1" height="3" color="grey" rotation="0 0 90"></a-cylinder>
+            <a-text value="\n\nThe Psyche Magnetometer is designed to detect and measure the remanent magnetic field of the asteroid. 
+            \nIt is composed of two identical high-sensitivity magnetic field sensors located at the middle and outer end of a 6-foot (2-meter) boom. 
+            \nThe team is based at Massachusetts Institute of Technology and Technical University of Denmark (DTU)." color="white" align="center" position="0 0.05 0.1" width="2.5"></a-text>
+          </a-plane>
+
+          <a-plane id="plane-3" position="0 0 0" width="3" height="2" color="black" visible="false">
+            <a-plane id="radio-science" position="0 2 0.5" rotation="30 0 0" width="3" height="2"
+              material="src: #radio-image" visible="true"></a-plane>
+            <a-cylinder position="0 1.1 0" radius="0.1" height="3" color="grey" rotation="0 0 90"></a-cylinder>
+            <a-text value="\n\nThe Psyche mission will use the X-band radio telecommunications system to measure Psyche gravity field to high precision. 
+            \nWhen combined with topography derived from onboard imagery, this will provide information on the interior structure of Psyche. 
+            \nThe team is based at Massachusetts Institute of Technology and the Jet Propulsion Laboratory." color="white" align="center" position="0 0.05 0.1" width="2.5"></a-text>
+          </a-plane>
+
+          <a-plane id="plane-4" position="0 0 0" width="3" height="2" color="black" visible="false">
+            <a-plane id="DSOC" position="0 2 0.5" rotation="30 0 0" width="3" height="2"
+              material="src: #dsoc-image" visible="true"></a-plane>
+            <a-cylinder position="0 1.1 0" radius="0.1" height="3" color="grey" rotation="0 0 90"></a-cylinder>
+            <a-text value="\n\nThe Psyche mission will test a sophisticated new laser communication technology that encodes data in photons (rather than radio waves) to communicate between a probe in deep space and Earth. 
+            \nUsing light instead of radio allows the spacecraft to communicate more data in a given amount of time. 
+            \nThe Deep Space Optical Communication (DSOC) team is based at the Jet Propulsion Laboratory." color="white" align="center" position="0 0.05 0.1" width="2.5"></a-text>
+          </a-plane>
         </a-entity>
+        
+        <script>
+          // JavaScript to handle carousel navigation
+          let currentPlaneIndex = 0; // Track the currently visible plane
+          const totalPlanes = 5; // Total number of planes
+        
+          function navigateGallery(direction) {
+            // Hide the current plane
+            const currentPlane = document.querySelector(`#plane-${currentPlaneIndex}`);
+            currentPlane.setAttribute('visible', false);
+        
+            // Update the index based on the direction (-1 for left, 1 for right)
+            currentPlaneIndex = (currentPlaneIndex + direction + totalPlanes) % totalPlanes;
+        
+            // Show the new plane
+            const newPlane = document.querySelector(`#plane-${currentPlaneIndex}`);
+            newPlane.setAttribute('visible', true);
+          }
+        </script>
 
         <!-- Corridor Left Side-->
         <a-light type="point" intensity="5" position="10 2 16" distance="6" color="#ff0000"></a-light>   
@@ -698,10 +779,51 @@
         <!-- Red Lights Between Second Doors -->
         <!-- Corridor Right Side-->
         <a-light type="point" intensity="5" position="-10 2 18" distance="6" color="#ff0000"></a-light>
-        <!-- Interactable Object position="-9 0 24" rotation="0 30 0" -->
-        <a-entity id="interactable-item" position="-9 0 24" rotation="0 30 0">
-          <a-box></a-box>
+        <!-- Interactable Psyche position="-9 0 24" rotation="0 30 0" -->
+        
+        <!-- Asteroid -->
+        <a-entity id="asteroid" obj-model="obj: #psyche" position="2 0 -4" scale="0.5 0.5 0.5" rotation="0 0 0"
+          class="clickable"
+          material="src: #psyche-texture; color: white; metalness: 0.8; roughness: 0.3; emissive: #555; emissiveIntensity: 0.02"
+          animation__scale-in="property: scale; to: 1 1 1; dur: 500; startEvents: zoom-in"
+          animation__scale-out="property: scale; to: 0.5 0.5 0.5; dur: 500; startEvents: zoom-out"
+          raycaster-listener>
         </a-entity>
+
+        <script>
+          // Register a component to handle raycaster interactions
+          AFRAME.registerComponent('raycaster-listener', {
+          init: function () {
+          // Listen for the click event to zoom in
+          this.el.addEventListener('mousedown', (evt) => {
+          const intersection = evt.detail.intersection; // Get the intersection point
+          if (intersection) {
+            this.zoomAsteroid();
+          }
+          });
+
+          // Listen for the mouseup or touchend event to zoom out
+          this.el.addEventListener('mouseup', () => {
+          this.resetAsteroid();
+          });
+          this.el.addEventListener('touchend', () => {
+          this.resetAsteroid();
+          });
+          },
+          zoomAsteroid: function () {
+          const asteroid = this.el;
+
+          // Trigger the zoom-in animation
+          asteroid.emit('zoom-in');
+          },
+          resetAsteroid: function () {
+          const asteroid = this.el;
+
+          // Trigger the zoom-out animation
+          asteroid.emit('zoom-out');
+          }
+          });
+        </script>
         
         <!-- Corridor Left Side-->
         <a-light type="point" intensity="5" position="10 2 18" distance="6" color="#ff0000"></a-light>   

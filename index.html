@@ -113,6 +113,7 @@
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
         <a-asset-item id="psyche" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
+        <img id="psyche-texture" src="assets/textures/psyche-texture.png">
       </a-assets>
 
       <!-- Directional Light -->
@@ -126,6 +127,7 @@
 
       <!-- Rotating Asteroid -->
       <a-entity id="asteroid" obj-model="obj: #psyche" position="0 -1 -5" scale="0.5 0.5 0.5" rotation="0 0 0" 
+        material="src: #psyche-texture; color: white; metalness: 0.8; roughness: 0.4; emissive: #555; emissiveIntensity: 0.02"
         animation="property: rotation; to: 360 360 360; loop: true; dur: 20000; easing: linear">
       </a-entity>
 
