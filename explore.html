@@ -105,21 +105,61 @@
         <!-- Camera -->
         <a-camera id="camera" position="0 0 0" raycaster="objects: .clickable; far: 20" 
                   cursor="fuse: false; rayOrigin: mouse"></a-camera>
-      
+
         <!-- Left Hand Controller -->
         <a-entity id="left-hand" meta-touch-controls="hand: left" 
                   raycaster="objects: .clickable; interval: 100" 
                   line="color: orange; opacity: 0.75" 
-                  thumbstick-movement-left super-hands>
+                  thumbstick-movement-left super-hands visible="false">
         </a-entity>
-      
+
         <!-- Right Hand Controller -->
         <a-entity id="right-hand" meta-touch-controls="hand: right" 
                   raycaster="objects: .clickable; interval: 100" 
                   line="color: orange; opacity: 0.75" 
-                  thumbstick-movement-right super-hands>
+                  thumbstick-movement-right super-hands visible="false">
         </a-entity>
+
+        <!-- Left Hand Tracking -->
+        <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left" visible="false"></a-entity>
+
+        <!-- Right Hand Tracking -->
+        <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right" visible="false"></a-entity>
       </a-entity>
+
+      <script>
+        // Function to enable or disable hand tracking and controllers
+        function updateControlMode() {
+          const leftHand = document.querySelector('#left-hand');
+          const rightHand = document.querySelector('#right-hand');
+          const leftHandTracking = document.querySelector('#left-hand-tracking');
+          const rightHandTracking = document.querySelector('#right-hand-tracking');
+
+          // Check if controllers are connected
+          const controllers = Array.from(navigator.getGamepads()).filter((gamepad) => gamepad !== null);
+
+          if (controllers.length > 0) {
+            // Enable controller functionality
+            leftHand.setAttribute('visible', true);
+            rightHand.setAttribute('visible', true);
+            leftHandTracking.setAttribute('visible', false);
+            rightHandTracking.setAttribute('visible', false);
+          } else {
+            // Enable hand tracking functionality
+            leftHand.setAttribute('visible', false);
+            rightHand.setAttribute('visible', false);
+            leftHandTracking.setAttribute('visible', true);
+            rightHandTracking.setAttribute('visible', true);
+          }
+        }
+
+        // Listen for controller connection and disconnection events
+        window.addEventListener('gamepadconnected', updateControlMode);
+        window.addEventListener('gamepaddisconnected', updateControlMode);
+
+        // Initial check on page load
+        document.addEventListener('DOMContentLoaded', updateControlMode);
+      </script>
       
       <script>
         // Define boundaries
