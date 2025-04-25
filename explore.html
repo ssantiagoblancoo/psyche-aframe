@@ -224,7 +224,7 @@
           },
           onThumbstickMoved: function (evt) {
             // Adjust rotation delta based on thumbstick input
-            this.rotationDelta = evt.detail.x * this.data.rotationSpeed;
+            this.rotationDelta = -evt.detail.x * this.data.rotationSpeed;
           }
         });
       </script>
