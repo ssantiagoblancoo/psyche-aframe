@@ -100,6 +100,27 @@
         color: orange;
       }
     </style>
+    
+      <script>
+        // Request motion permissions on iOS
+        document.addEventListener('DOMContentLoaded', () => {
+          if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+            DeviceMotionEvent.requestPermission()
+              .then((response) => {
+                if (response === 'granted') {
+                  console.log('Motion permission granted.');
+                } else {
+                  console.log('Motion permission denied.');
+                }
+              })
+              .catch((error) => {
+                console.error('Error requesting motion permission:', error);
+              });
+          } else {
+            console.log('DeviceMotionEvent.requestPermission is not required or not supported.');
+          }
+        });
+      </script>
   </head>
   <body>
     <script>
@@ -120,7 +141,7 @@
         <img src="assets/psyche-logo.svg" alt="Psyche Logo">
       </div>
     </div>
-    <a-scene loading-screen="dotsColor: red; backgroundColor: black">
+    <a-scene loading-screen="dotsColor: red; backgroundColor: black" device-orientation-permission-ui="enabled: false">
       <a-assets>
         <img id="star-background" src="assets/space.png">
         <a-asset-item id="psyche" src="assets/objects/psyche-asteroid.obj"></a-asset-item>
