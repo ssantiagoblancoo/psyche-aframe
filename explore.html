@@ -177,7 +177,7 @@
       <!-- Camera Rig for Movement -->
       <a-entity id="camera-rig" movement-controls="speed: 0.1" dynamic-body>
         <!-- Camera -->
-        <a-camera id="camera" position="0 0 0" raycaster="objects: .clickable; far: 20" 
+        <a-camera id="camera" position="0 0 0" rotation="0 0 0" raycaster="objects: .clickable; far: 20" 
           cursor="fuse: false; rayOrigin: mouse"></a-camera>
       
         <!-- Left Hand Controller (Movement) -->
@@ -254,6 +254,18 @@
           // Apply movement deltas to the camera rig's position
           const newX = position.x + this.movementDelta.x;
           const newZ = position.z + this.movementDelta.z;
+          const rotation = camera.getAttribute('rotation');
+
+          // Calculate forward and sideways movement based on camera rotation
+          const radY = THREE.MathUtils.degToRad(rotation.y); // Convert Y rotation to radians
+          const forwardX = -Math.sin(radY) * this.movementDelta.z;
+          const forwardZ = -Math.cos(radY) * this.movementDelta.z;
+          const sidewaysX = Math.cos(radY) * this.movementDelta.x;
+          const sidewaysZ = -Math.sin(radY) * this.movementDelta.x;
+
+          // Combine forward and sideways movement
+          const forwX = position.x + forwardX + sidewaysX;
+          const forwZ = position.z + forwardZ + sidewaysZ;
 
           // Clamp position to boundaries
           const clampedX = Math.max(boundaries.minX, Math.min(boundaries.maxX, newX));
