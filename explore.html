@@ -178,39 +178,29 @@
       </a-entity>
       <!-- CAMERA Joystick -->
       <script>
-        // Component for right controller lateral camera rotation
+        // Component for smooth right controller camera rotation
         AFRAME.registerComponent('thumbstick-rotate-camera', {
+          schema: {
+            rotationSpeed: { type: 'number', default: 1 } // Adjust rotation speed
+          },
           init: function () {
+            this.rotationDelta = 0; // Track rotation delta
             this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
-            this.lastDirection = 0; // To prevent continuous rotation
+          },
+          tick: function () {
+            const cameraRig = document.querySelector('#camera-rig');
+            if (this.rotationDelta !== 0) {
+              const currentRotation = cameraRig.getAttribute('rotation');
+              cameraRig.setAttribute('rotation', {
+                x: currentRotation.x,
+                y: currentRotation.y + this.rotationDelta,
+                z: currentRotation.z
+              });
+            }
           },
           onThumbstickMoved: function (evt) {
-            const cameraRig = document.querySelector('#camera-rig');
-            const rotationStep = 45; // Rotate in 45-degree increments
-      
-            // Detect horizontal thumbstick movement
-            if (evt.detail.x > 0.95 && this.lastDirection !== 1) {
-              // Rotate right
-              const currentRotation = cameraRig.getAttribute('rotation');
-              cameraRig.setAttribute('rotation', {
-                x: currentRotation.x,
-                y: currentRotation.y - rotationStep,
-                z: currentRotation.z
-              });
-              this.lastDirection = 1; // Prevent continuous rotation
-            } else if (evt.detail.x < -0.95 && this.lastDirection !== -1) {
-              // Rotate left
-              const currentRotation = cameraRig.getAttribute('rotation');
-              cameraRig.setAttribute('rotation', {
-                x: currentRotation.x,
-                y: currentRotation.y + rotationStep,
-                z: currentRotation.z
-              });
-              this.lastDirection = -1; // Prevent continuous rotation
-            } else if (Math.abs(evt.detail.x) < 0.1) {
-              // Reset direction when thumbstick is released
-              this.lastDirection = 0;
-            }
+            // Adjust rotation delta based on thumbstick input
+            this.rotationDelta = evt.detail.x * this.data.rotationSpeed;
           }
         });
       </script>
@@ -221,35 +211,38 @@
           minX: -10,
           maxX: 10,
           minZ: -10,
-          maxZ: 10
+          maxZ: 40
         };
       
         // Component for left joystick movement
         AFRAME.registerComponent('thumbstick-movement-left', {
-          init: function () {
-            this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
-          },
-          onThumbstickMoved: function (evt) {
-            const cameraRig = document.querySelector('#camera-rig');
-            const movementSpeed = 0.1; // Adjust movement speed as needed
+        schema: {
+          movementSpeed: { type: 'number', default: 0.1 } // Adjust movement speed
+        },
+        init: function () {
+          this.movementDelta = { x: 0, z: 0 }; // Track movement deltas
+          this.el.addEventListener('thumbstickmoved', this.onThumbstickMoved.bind(this));
+        },
+        tick: function () {
+          const cameraRig = document.querySelector('#camera-rig');
+          const position = cameraRig.getAttribute('position');
 
-            // Get current position
-            const position = cameraRig.getAttribute('position');
+          // Apply movement deltas to the camera rig's position
+          const newX = position.x + this.movementDelta.x;
+          const newZ = position.z + this.movementDelta.z;
 
-            // Calculate new position based on thumbstick input
-            let newX = position.x + evt.detail.x * movementSpeed;
-            let newZ = position.z + evt.detail.y * movementSpeed;
+          // Clamp position to boundaries
+          const clampedX = Math.max(boundaries.minX, Math.min(boundaries.maxX, newX));
+          const clampedZ = Math.max(boundaries.minZ, Math.min(boundaries.maxZ, newZ));
 
-            // Clamp position to boundaries
-            newX = Math.max(boundaries.minX, Math.min(boundaries.maxX, newX));
-            newZ = Math.max(boundaries.minZ, Math.min(boundaries.maxZ, newZ));
-
-            // Update position only if it has changed
-            if (newX !== position.x || newZ !== position.z) {
-              cameraRig.setAttribute('position', { x: newX, y: position.y, z: newZ });
-            }
-          }
-        });
+          cameraRig.setAttribute('position', { x: clampedX, y: position.y, z: clampedZ });
+        },
+        onThumbstickMoved: function (evt) {
+          // Adjust movement deltas based on thumbstick input
+          this.movementDelta.x = evt.detail.x * this.data.movementSpeed;
+          this.movementDelta.z = evt.detail.y * this.data.movementSpeed;
+        }
+      });
       </script>
 
       <!-- Starry Background -->
