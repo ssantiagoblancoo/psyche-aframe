@@ -123,15 +123,6 @@
       </script>
   </head>
   <body>
-    <script>
-      AFRAME.registerSystem('motion-permission-dialog', {
-        init: function () {
-          // Override the default behavior to suppress the motion permission dialog
-          this.el.sceneEl.emit('motionpermissionaccepted');
-        }
-      });
-    </script>
-
     <div id="overlay" onclick="hideOverlay()">
       <div id="overlay-text">NASA's Mission To A Metal World:</div>
       <span id="psyche-span">PSYCHE</span>
