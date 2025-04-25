@@ -102,6 +102,15 @@
     </style>
   </head>
   <body>
+    <script>
+      AFRAME.registerSystem('motion-permission-dialog', {
+        init: function () {
+          // Override the default behavior to suppress the motion permission dialog
+          this.el.sceneEl.emit('motionpermissionaccepted');
+        }
+      });
+    </script>
+
     <div id="overlay" onclick="hideOverlay()">
       <div id="overlay-text">NASA's Mission To A Metal World:</div>
       <span id="psyche-span">PSYCHE</span>
@@ -215,8 +224,10 @@
         <a-text value="Click to learn more about Psyche" color="white" align="center" position="0 0 0.01" width="4"></a-text>
         <a-light type="point" intensity="1" color="#ffffff" position="0 0 0.5" distance="1"></a-light>
       </a-entity>
-      <a-camera look-controls="reverseMouseDrag: true"></a-camera>
-
+      
+      <a-camera id="camera" position="0 1.6 0" look-controls="pointerLockEnabled: false; magicWindowTrackingEnabled: true" 
+      raycaster="objects: .clickable; far: 20" cursor="fuse: false; rayOrigin: mouse"></a-camera>
+      
       <!-- CONTROLLER OR HANDS -->
       <script>
         // IF VR, automatically load as VR
