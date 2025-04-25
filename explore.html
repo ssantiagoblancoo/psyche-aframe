@@ -38,7 +38,7 @@
     </style>
   </head>
   <body>
-    <a-scene physics="gravity: -9.8" loading-screen="dotsColor: red; backgroundColor: black">
+    <a-scene stats physics="gravity: -9.8" loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
         <a-sound id="background-music" src="soundtrack/space-by-sebastian-blanco.m4a" autoplay></a-sound>
         <img id="tiles-texture" src="assets/textures/Tiles107_2K-JPG_Color.jpg">
@@ -56,9 +56,11 @@
         <img id="radio-image" src="assets/psyche-images/radio-science.avif" />
         <img id="dsoc-image" src="assets/psyche-images/dsoc.avif" />
 
-        <a-asset-item id="psyche" src="assets/PSYCHE_20170116_DEC.obj"></a-asset-item>
+        <a-asset-item id="spacecraft-glb" src="assets/objects/spacecraft-interior.glb"></a-asset-item>
+        <a-asset-item id="psyche" src="assets/objects/psyche-asteroid.obj"></a-asset-item>
       </a-assets>
     
+      <!-- Backgroun sound Howler -->
       <script>
         // Define the background sound using Howler.js
         const backgroundSound = new Howl({
@@ -85,6 +87,7 @@
         document.addEventListener('touchstart', startBackgroundSound);
       </script>
 
+      <!-- Check if mobile or VR -->
       <Script>
         // Detect if the user is on a mobile device
         function isMobile() {
@@ -243,84 +246,15 @@
       animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
 
       <!-- Spaceship interior -->
-      <!-- ceiling -->
-      <a-box position="-6 5 0" depth="20" height="1" width="8" material="src: #white-walls; repeat: 1 4; shader: standard"></a-box>
-      <a-box position="6 5 0" depth="20" height="1" width="8" material="src: #white-walls; repeat: 1 4; shader: standard"></a-box>
-      <!-- floor -->
-      <a-box position="0 -5 0" depth="20" height="2" width="20" material="src: #dark-tiles-texture; repeat: 10 10"></a-box>
+      <a-entity gltf-model="#spacecraft-glb" position="0 0 0" scale="1 1 1"></a-entity>
 
-      <!-- TOP Borders -->
-      <a-box position="-2 4.5 0" depth="16" height="1.5" width="0.5" material="src: #dark-tiles-texture; repeat: 4 4"></a-box>
-      <a-box position="2 4.5 0" depth="16" height="1.5" width="0.5" material="src: #dark-tiles-texture; repeat: 4 4"></a-box>
-      
-      <!-- Cylinders-->
-      <!-- Horizontal Front portion -->
-        <!-- TOP -->
-        <a-cylinder position="0 5 -9.8" radius="0.8" height="20" color="white" rotation="0 0 90"></a-cylinder>
-        <!-- Bottom -->
-        <a-cylinder position="0 -4.5 -9.8" radius="0.8" height="20" color="white" rotation="0 0 90"></a-cylinder>
-      <!-- Horizontal Back portion -->
-        <!-- TOP -->
-        <a-cylinder position="0 5 9.8" radius="0.8" height="20" color="white" rotation="0 0 90"></a-cylinder>
-        <!-- Bottom -->
-        <a-cylinder position="0 -4.5 9.8" radius="0.8" height="20" color="white" rotation="0 0 90"></a-cylinder>
-        
-      <!-- White Cylinder Left with Light -->
-      <a-entity>
-        <a-cylinder position="-9.5 0 -9.5" radius="0.8" height="10" color="white"></a-cylinder>
-        <a-light type="point" intensity="0.5" position="-9.5 0 -9.5" distance="15" color="white"></a-light>
-      </a-entity>
-      <!-- White Cylinder Right with Light -->
-      <a-entity>
-        <a-cylinder position="9.5 0 -9.5" radius="0.8" height="10" color="white"></a-cylinder>
-        <a-light type="point" intensity="0.5" position="9.5 0 -9.5" distance="15" color="white"></a-light>
+      <!-- LOCKED ROOM (VR Only) -->
+      <a-box position="0 0 10.2" depth="0.1" height="12" width="18" color="#000" opacity="0.6"></a-box>
+      <!-- Text for Locked Room -->
+      <a-entity position="0 0 9.8" rotation="0 180 0">
+          <a-text value="LOCKED ROOM (Wear VR Headset)" color="red" opacity="0.8" align="center" width="10"></a-text>
       </a-entity>
 
-      <!-- White Cylinder Left Back with Light -->
-      <a-entity>
-        <a-cylinder position="-9.5 0 9.5" radius="0.8" height="10" color="white"></a-cylinder>
-        <a-light type="point" intensity="0.5" position="-9.5 0 9.5" distance="15" color="white"></a-light>
-      </a-entity>
-
-      <!-- White Cylinder Right Back with Light -->
-      <a-entity>
-        <a-cylinder position="9.5 0 9.5" radius="0.8" height="10" color="white"></a-cylinder>
-        <a-light type="point" intensity="0.5" position="9.5 0 9.5" distance="15" color="white"></a-light>
-      </a-entity>
-
-      <!-- Cylinder Left Wall -->
-      <!-- Top -->
-      <a-entity>
-        <a-cylinder position="-9.8 4.5 0" radius="0.8" height="20" color="white" rotation="90 0 0"></a-cylinder>
-        <a-light type="point" intensity="20" position="-9.8 4.5 0" distance="15" color="white"></a-light>
-      </a-entity>
-
-      <!-- Bottom -->
-      <a-entity>
-        <a-cylinder position="-9.8 -4.5 0" radius="0.8" height="20" color="white" rotation="90 0 0"></a-cylinder>
-        <a-light type="point" intensity="20" position="-9.8 -4.5 0" distance="15" color="white"></a-light>
-      </a-entity>
-
-      <!-- Cylinder Right Wall -->
-      <!-- Top Of Objects-->
-      <a-entity>
-        <a-cylinder position="9.8 4.5 0" radius="0.8" height="20" color="white" rotation="90 0 0"></a-cylinder>
-        <!-- LEFT -->
-        <a-light type="point" intensity="2" position="8.5 -1.4 -3.6" color="orange"></a-light>
-        <a-light type="point" intensity="3" position="9.8 3.8 -3.6" color="white"></a-light>
-        <!-- CENTER -->
-        <a-light type="point" intensity="2" position="8.5 -1.4 0" color="orange"></a-light>
-        <a-light type="point" intensity="3" position="9.8 3.8 0" color="white"></a-light>
-        <!-- RIGHT -->
-        <a-light type="point" intensity="2" position="8.5 -1.4 3.6" color="orange"></a-light>
-        <a-light type="point" intensity="3" position="9.8 3.8 3.6" color="white"></a-light>
-      </a-entity>
-
-      <!-- Bottom -->
-      <a-entity>
-        <a-cylinder position="9.8 -4.5 0" radius="0.8" height="20" color="white" rotation="90 0 0"></a-cylinder>
-      </a-entity>
-    
       <!-- left side pannel (left) -->
       <a-box position="-10 0 5" depth="10" height="10" width="0.1" material="color: #fff; emissive: #ffffff; emissiveIntensity: 0.5; shader: standard"></a-box>          
       <!-- PsycheOrbit Image on Top of the Left Side Panel -->
@@ -339,6 +273,7 @@
           <button onclick="closePlayer()" style="position: absolute; top: 10px; right: 10px; z-index: 1001; background: red; color: white; border: none; padding: 10px; cursor: pointer;">Close</button>
         </div>
         
+        <!-- LAUNCH PLAYER -->
         <script>
           function launchPlayer() {
             const playerContainer = document.getElementById('player-container');
@@ -354,39 +289,16 @@
             playerContainer.style.display = 'none';
           }
         </script>
-
-      <!-- window wall -->
-      <!-- left -->
-      <a-box position="-10 0 -0.2" depth="1" height="10" width="0.1" material="color: #fff; emissive: #ffffff; emissiveIntensity: 0.5; shader: standard"></a-box>
-      <!-- right -->
-      <a-box position="-10 0 -8.5" depth="1" height="5.5" width="0.1" material="color: #fff; emissive: #ffffff; emissiveIntensity: 0.5; shader: standard"></a-box>
-      <!-- top -->
-      <a-box position="-10 3.5 -4.5" depth="9" height="2" width="0.1" material="color: #fff; emissive: #ffffff; emissiveIntensity: 0.5; shader: standard"></a-box>
-      <!-- bottom -->
-      <a-box position="-10 -3.5 -4.5" depth="9" height="2" width="0.1" material="color: #fff; emissive: #ffffff; emissiveIntensity: 0.5; shader: standard"></a-box>
-      
-          <!-- window border -->
-            <!-- left -->
-            <a-box position="-9.8 0 -0.5" depth="0.5" height="5.5" width="0.1" material="src: #dark-tiles-texture; repeat: 1 1 shader: standard"></a-box>
-            <!-- right -->
-            <a-box position="-9.8 0 -8" depth="0.5" height="5.5" width="0.1" material="src: #dark-tiles-texture; repeat: 1 1 shader: standard"></a-box>
-            <!-- top -->
-            <a-box position="-9.8 2.5 -4" depth="7.5" height="0.5" width="0.1" material="src: #dark-tiles-texture; repeat: 1 1 shader: standard"></a-box>
-            <!-- bottom -->
-            <a-box position="-9.8 -2.5 -4" depth="7.5" height="0.5" width="0.1" material="src: #dark-tiles-texture; repeat: 1 1 shader: standard"></a-box>
-            <a-entity id="hexagon-window">
-              <!-- Center Piece -->
-              <a-entity position="-10 0 -4" rotation="0 90 0" geometry="primitive: circle; radius: 4; segments: 8" material="color: white; side: double; wireframe: true"></a-entity>
-            </a-entity>
-
+        
+      <!-- Planet Textures -->
       <a-assets>
-        <!-- Planet Textures -->
         <img id="sun-texture" src="assets/textures/sun-texture.png">
         <img id="earth-texture" src="assets/textures/earth-texture.png">
         <img id="mars-texture" src="assets/textures/mars-texture.jpg">
         <img id="psyche-texture" src="assets/textures/psyche-texture.png">
         <img id="jupiter-texture" src="assets/textures/jupiter-texture.jpg">
       </a-assets>
+
       <!-- Solar System -->
       <!-- MAKE LABELS POINT AT WINDOW -->
       <script>
@@ -446,20 +358,26 @@
           </a-entity>
         </a-entity>
       </a-entity>
-      
       <!-- Window Target -->
       <a-entity id="window" position="0 0 -4"></a-entity>
 
-      <!-- side pannel (right) -->
-      <a-box position="10 0 0" depth="20" height="10" width="0.1" material="src: #white-walls; repeat: 4 4; shader: standard"></a-box>
-      <!-- <a-box position="10 1 0" depth="6" height="4" width="0.2" material="src: assets/PsycheSpacecraft.png;"></a-box>   -->
-        <!-- Table -->
-          <!-- Top -->
-          <a-box position="8 -2.5 0" depth="10" height="0.1" width="5" color="grey"></a-box>
-          <!-- Legs -->
-          <a-box position="8 -4 4" depth="0.2" height="2.5" width="4" material="src: #metal-texture; repeat: 1 shader: standard"></a-box>
-          <a-box position="8 -4 -4" depth="0.2" height="2.5" width="4" material="src: #metal-texture; repeat: 1 shader: standard"></a-box>
+      <!-- FRONT DESK -->
+      <!-- Command buttons -->
+      <!-- Red Go Back Button -->
+      <a-box position="-3 -2.8 -8.5" depth="0.5" height="0.4" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectTo()"></a-box>
+      <a-entity id="reset-label" position="-3 -2.8 -8.2">
+        <a-plane width="1" height="0.2" color="black" opacity="0.6"></a-plane>
+        <a-text value="RESET" color="white" align="center" position="0 0 0.01"></a-text>
+      </a-entity>
       
+      <!--Blue Information Button -->
+      <a-box position="0 -2.8 -8.5" depth="0.5" height="0.4" width="1" color="#04F" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="showDescription('Info Help', 'On Mobile \n Move phone around to explore the room. \n Click on various buttons / objects to learn more about the Psyche mission. \n\n On VR \n Make sure your headset and controllers are connected. \n Point at the buttons / objects with your controller and using the trigger click on them to learn more about the mission \n\n', 'info-label', '0 1 -8.5', '0 0 0')"></a-box>
+      <a-entity id="info-label" position="0 -2.8 -8.2"
+        onclick="showDescription('Info Help', 'On Mobile \n Move phone around to explore the room. \n Click on various buttons / objects to learn more about the Psyche mission. \n\n\n\n On VR \n Make sure your headset and controllers are connected. \n Point at the buttons / objects with your controller and using the trigger click on them to learn more about the mission \n\n\n\n', 'info-label', '0 1 -8.5', '0 0 0')">
+        <a-plane width="1.5" height="0.2" color="black" opacity="0.6" class="clickable"></a-plane>
+        <a-text value="Information" color="white" align="center" position="0 0 0.01"></a-text>
+      </a-entity>
+
       <!-- PSYCHE OBJECTS -->
       <!-- Description Panel -->
       <a-entity id="description-panel" visible="false" class="clickable">
@@ -590,126 +508,14 @@
         <a-text value="Spacecraft" color="white" align="center" position="0 0 0.01" class="clickable"></a-text>
       </a-entity>
 
-      <!-- Front Panel -->
-      <!-- Hexagon Window -->
-      <a-entity id="hexagon-window">
-        <!-- Left-Up -->
-        <a-entity position="-4.5 2.8 -12" rotation="0 40 60" 
-                  geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-        <!-- Left-Down -->
-        <a-entity position="-4.5 -2.8 -12" rotation="0 40 120" 
-                  geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-        <!-- Right-Up -->
-        <a-entity position="4.5 2.8 -12" rotation="0 -40 -60" 
-                  geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-        <!-- Right-Down -->
-        <a-entity position="4.5 -2.8 -12" rotation="0 -40 -120" 
-                  geometry="primitive: triangle; vertexA: 0 6 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-        <!-- Center Piece -->
-        <a-entity position="0 0 -14" rotation="0 0 0" 
-                  geometry="primitive: circle; radius: 4; segments: 6" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-        <!-- Up -->
-        <a-entity position="0 4.2 -12" rotation="80 0 0" 
-                  geometry="primitive: triangle; vertexA: 0 3 0; vertexB: -2 -2 0; vertexC: 2 -2 0" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-        <!-- Down -->
-        <a-entity position="0 -4.2 -12" rotation="-80 180 0" 
-                  geometry="primitive: triangle; vertexA: 0 3 -3; vertexB: -2 -2 0; vertexC: 2 -2 0" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-        <!-- Left -->
-        <a-entity position="-5 0 -12" rotation="0 40 -90" 
-                  geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-        <!-- Right -->
-        <a-entity position="5 0 -12" rotation="0 -40 90" 
-                  geometry="primitive: triangle; vertexA: 0 1 0; vertexB: 4 -4 0; vertexC: -4 -4 0" 
-                  material="color: grey; side: double; wireframe: true"></a-entity>
-      </a-entity>
-
-      <!-- Desk -->
-      <a-entity id="front-desk">
-        <!--BackBoard-->
-        <a-box position="0 -2 -10" depth="0.1" height="2" width="10" material="src: #dark-tiles-texture; repeat: 4 shader: standard"></a-box>
-        <!-- HUD -->
-        <a-box position="0 -2 -9.5" rotation="-20 0 0" depth="0.1" height="2" width="10" material="src: #detail-hud;"></a-box>
-        <!-- desk portion -->
-        <a-box position="0 -2.8 -9" rotation="15 0 0" depth="2" height="0.1" width="10" material="src: #switches-buttons; repeat: 3 0.6; shader: standard"></a-box>          <!-- Legs -->
-          <!--LEGS-->
-          <a-box position="4 -4 -9.5" depth="1.5" height="2.2" width="0.4" material="src: #dark-tiles-texture; repeat: 4 shader: standard"></a-box>
-          <a-box position="-4 -4 -9.5" depth="1.5" height="2.2" width="0.4" material="src: #dark-tiles-texture; repeat: 4 shader: standard"></a-box>
-        <!-- Command buttons -->
-         <!-- Red Go Back Button -->
-        <a-box position="-3 -2.8 -8.5" depth="0.5" height="0.4" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectTo()"></a-box>
-        <a-entity id="reset-label" position="-3 -2.8 -8.2">
-          <a-plane width="1" height="0.2" color="black" opacity="0.6"></a-plane>
-          <a-text value="RESET" color="white" align="center" position="0 0 0.01"></a-text>
-        </a-entity>
-        <!--Blue Information Button -->
-        <a-box position="0 -2.8 -8.5" depth="0.5" height="0.4" width="1" color="#04F" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="showDescription('Info Help', 'On Mobile \n Move phone around to explore the room. \n Click on various buttons / objects to learn more about the Psyche mission. \n\n On VR \n Make sure your headset and controllers are connected. \n Point at the buttons / objects with your controller and using the trigger click on them to learn more about the mission \n\n', 'info-label', '0 1 -8.5', '0 0 0')"></a-box>
-        <a-entity id="info-label" position="0 -2.8 -8.2"
-          onclick="showDescription('Info Help', 'On Mobile \n Move phone around to explore the room. \n Click on various buttons / objects to learn more about the Psyche mission. \n\n\n\n On VR \n Make sure your headset and controllers are connected. \n Point at the buttons / objects with your controller and using the trigger click on them to learn more about the mission \n\n\n\n', 'info-label', '0 1 -8.5', '0 0 0')">
-          <a-plane width="1.5" height="0.2" color="black" opacity="0.6" class="clickable"></a-plane>
-          <a-text value="Information" color="white" align="center" position="0 0 0.01"></a-text>
-        </a-entity>
-      </a-entity>
-
-      <!--Back Gate-->
-      <a-box position="9.5 0 10" depth="0.1" height="10" width="7" color="#333"></a-box>
-      <a-box position="-9.5 0 10" depth="0.1" height="10" width="7" color="#333"></a-box>
-      
-      <!-- LOCKED ROOM (VR Only) -->
-      <a-box position="0 0 10.2" depth="0.1" height="12" width="18" color="#000" opacity="0.6"></a-box>
-      <!-- Text for Locked Room -->
-      <a-entity position="0 0 9.8" rotation="0 180 0">
-        <a-text value="LOCKED ROOM (Wear VR Headset)" color="red" opacity="0.8" align="center" width="10"></a-text>
-      </a-entity>
-
-      <!--Back corridor-->
-      <!-- Ceiling Wall -->
-      <a-box position="0 4.5 20" depth="20" height="0.2" width="18" material="src: #white-walls; repeat: 2 2; shader: standard"></a-box>
-      <!-- Floor Wall -->
-      <a-box position="0 -4 20" depth="20" height="0.2" width="22" material="src: #dark-tiles-texture; repeat: 6 6; shader: standard"></a-box>
-      
-      <!-- Doors and Corridors -->
-      <a-entity id="full-corridor">
-        <!-- Right Side Wall (Top Section) -->
-        <a-box position="-7 3.3 12" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
-        <!-- Right Side Wall (Middle Section) -->
-        <a-box position="-6.2 0 12" depth="4" height="3" width="0.2" color="#888"></a-box>
-        <!-- Right Side Wall (Bottom Section) -->
-        <a-box position="-7 -3.3 12" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
-
-        <!-- Left Side Wall (Top Section) -->
-        <a-box position="7 3.3 12" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
-        <!-- Right Side Wall (Middle Section) -->
-        <a-box position="6.2 0 12" depth="4" height="3" width="0.2" color="#888"></a-box>
-        <!-- Right Side Wall (Bottom Section) -->
-        <a-box position="7 -3.3 12" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
-        
-        <!-- BREAK LEFT AND RIGHT Corridor -->
-        
-        <!-- Filler Wall -->
-        <a-box position="-10 3 14" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
-        <a-box position="-9.5 0 14" depth="0.1" height="3" width="7" color="#333"></a-box>
-        <a-box position="-10 -3 14" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
-        <!-- Right Side Wall (Top Section) -->
-        <a-box position="-7 3.3 20" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
-        <!-- Right Side Wall (Middle Section) -->
-        <a-box position="-6.2 0 20" depth="4" height="3" width="0.2" color="#888"></a-box>
-        <!-- Right Side Wall (Bottom Section) -->
-        <a-box position="-7 -3.3 20" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
-        
+      <!-- CORRIDOR EXPERIENCES -->
         <!-- Red Lights Between First Doors -->
         <!-- Corridor Right Side-->
         <a-light type="point" intensity="5" position="-10 2 16" distance="6" color="#ff0000"></a-light>
         <!-- Instrument Gallery position="-8.5 0 16" rotation="0 90 0" -->
+        <a-light type="point" intensity="10" position="-8 -2 16" distance="6" color="#ffffff"></a-light>
         <!-- Instrument Gallery -->
-        <a-entity id="instrument-gallery" position="0 0 -3" rotation="0 0 0">
+        <a-entity id="instrument-gallery" position="-8.5 0 16" rotation="0 90 0">
           <!-- Left Navigation Button -->
           <a-box id="left-button" position="-1.5 0 0.1" depth="0.01" height="2" width="0.3" color="black" class="clickable" onclick="navigateGallery(-1)">
             <a-text value="<" color="white" align="center" position="0 0 0.1" width="2"></a-text>
@@ -869,71 +675,7 @@
         </a-entity>
 
 
-        <!-- Red Lights End of Last Doors -->
-        <!--Last Corridor Right Side-->
-        <a-light type="point" intensity="5" position="-10 2 24" distance="6" color="#ff0000"></a-light>
-        <!--Last Corridor Left Side-->
-        <a-light type="point" intensity="5" position="10 2 24" distance="6" color="#ff0000"></a-light>   
-
-        <!-- Filler Wall -->
-        <a-box position="10 3 14" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
-        <a-box position="9.5 0 14" depth="0.1" height="3" width="7" color="#333"></a-box>
-        <a-box position="10 -3 14" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
-        <!-- Left Side Wall (Top Section) -->
-        <a-box position="7 3.3 20" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
-        <!-- Right Side Wall (Middle Section) -->
-        <a-box position="6.2 0 20" depth="4" height="3" width="0.2" color="#888"></a-box>
-        <!-- Right Side Wall (Bottom Section) -->
-        <a-box position="7 -3.3 20" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
-
-        <!-- BREAK Corridor -->
-
-        <!-- Filler Wall -->
-        <a-box position="-10 3 18" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
-        <a-box position="-9.5 0 18" depth="0.1" height="3" width="7" color="#333"></a-box>
-        <a-box position="-10 -3 18" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
-        <!-- Right Side Wall (Top Section) -->
-        <a-box position="-7 3.3 28" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
-        <!-- Right Side Wall (Middle Section) -->
-        <a-box position="-6.2 0 28" depth="4" height="3" width="0.2" color="#888"></a-box>
-        <!-- Right Side Wall (Bottom Section) -->
-        <a-box position="-7 -3.3 28" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
-        <!-- Filler Wall -->
-        <a-box position="-10 3 22" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
-        <a-box position="-9.5 0 22" depth="0.1" height="3" width="7" color="#333"></a-box>
-        <a-box position="-10 -3 22" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
         
-
-        <!-- Filler Wall -->
-        <a-box position="10 3 18" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
-        <a-box position="9.5 0 18" depth="0.1" height="3" width="7" color="#333"></a-box>
-        <a-box position="10 -3 18" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
-        <!-- Left Side Wall (Top Section) -->
-        <a-box position="7 3.3 28" depth="4" height="4" width="0.2" color="#888" rotation="0 0 -24"></a-box>
-        <!-- Right Side Wall (Middle Section) -->
-        <a-box position="6.2 0 28" depth="4" height="3" width="0.2" color="#888"></a-box>
-        <!-- Right Side Wall (Bottom Section) -->
-        <a-box position="7 -3.3 28" depth="4" height="4" width="0.2" color="#888" rotation="0 0 24"></a-box>
-        <!-- Filler Wall -->
-        <a-box position="10 3 22" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
-        <a-box position="9.5 0 22" depth="0.1" height="3" width="7" color="#333"></a-box>
-        <a-box position="10 -3 22" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
-        
-
-        <!-- ENDS -->
-        <!-- Filler Wall -->
-        <a-box position="-10 3 26" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
-        <a-box position="-9.5 0 26" depth="0.1" height="3" width="7" color="#333"></a-box>
-        <a-box position="-10 -3 26" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
-        <!-- Filler Wall -->
-        <a-box position="10 3 26" depth="0.1" height="6" width="6" color="#333" rotation="0 0 -24"></a-box>
-        <a-box position="9.5 0 26" depth="0.1" height="3" width="7" color="#333"></a-box>
-        <a-box position="10 -3 26" depth="0.1" height="6" width="6" color="#333" rotation="0 0 24"></a-box>
-        
-        <!-- END OF CORRIDOR -->
-        <a-box position="0 0 30" depth="0.1" height="10" width="20" material="src: #white-walls; repeat: 1 1 shader: standard"></a-box>
-
-      </a-entity>
     </a-scene>
     <script>
       function redirectTo() {

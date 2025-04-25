@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Export Spaceship</title>
+        <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    </head>
+    <body>
+        <a-scene>
+            <a-assets>
+                <img id="tiles-texture" src="assets/textures/Tiles107_2K-JPG_Color.jpg">
+                <img id="brushed-metal-texture" src="assets/textures/Brushed-Metal-Texture.jpg">
+                <img id="metal-texture" src="assets/textures/DiamondPlate001_2K-JPG_Color.jpg">
+                <img id="dark-tiles-texture" src="assets/textures/Tiles129B_2K-JPG_Color.jpg">
+                <img id="white-walls" src="assets/textures/white-walls.jpg">
+                <img id="star-background" src="assets/space.png">
+                <img id="switches-buttons" src="assets/textures/switches-buttons.jpg">
+                <img id="detail-hud" src="assets/Texturelabs_Details_181M.jpg">
+                
+                <a-asset-item id="spacecraft-glb" src="assets/objects/interior-spacecraft.glb"></a-asset-item>
+            </a-assets>
+            <!-- Spaceship interior -->
+
+            <a-entity gltf-model="#spacecraft-glb" position="0 0 0" scale="1 1 1"></a-entity>
+
+        </a-scene>
+    </body>
+</html>
