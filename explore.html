@@ -376,19 +376,66 @@
       <!-- Command buttons -->
       <!-- Red Go Back Button -->
       <a-box position="-3 -2.8 -8.5" depth="0.5" height="0.4" width="1" color="#F04" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="redirectTo()"></a-box>
+      <a-light type="point" intensity="2" position="-3 -2.4 -8.4" color="red"></a-light>
       <a-entity id="reset-label" position="-3 -2.8 -8.2">
-        <a-plane width="1" height="0.2" color="black" opacity="0.6"></a-plane>
+        <a-plane width="1" height="0.2" color="red" opacity="0.1"></a-plane>
         <a-text value="RESET" color="white" align="center" position="0 0 0.01"></a-text>
       </a-entity>
       
       <!--Blue Information Button -->
       <a-box position="0 -2.8 -8.5" depth="0.5" height="0.4" width="1" color="#04F" class="clickable" event-set__click="_event: click; color: #0056b3" onclick="showDescription('Info Help', 'On Mobile \n Move phone around to explore the room. \n Click on various buttons / objects to learn more about the Psyche mission. \n\n On VR \n Make sure your headset and controllers are connected. \n Point at the buttons / objects with your controller and using the trigger click on them to learn more about the mission \n\n', 'info-label', '0 1 -8.5', '0 0 0')"></a-box>
+      <a-light type="point" intensity="2" position="0 -2.4 -8.4" color="blue"></a-light>
       <a-entity id="info-label" position="0 -2.8 -8.2"
         onclick="showDescription('Info Help', 'On Mobile \n Move phone around to explore the room. \n Click on various buttons / objects to learn more about the Psyche mission. \n\n\n\n On VR \n Make sure your headset and controllers are connected. \n Point at the buttons / objects with your controller and using the trigger click on them to learn more about the mission \n\n\n\n', 'info-label', '0 1 -8.5', '0 0 0')">
-        <a-plane width="1.5" height="0.2" color="black" opacity="0.6" class="clickable"></a-plane>
+        <a-plane width="1.5" height="0.2" color="blue" opacity="0.1" class="clickable"></a-plane>
         <a-text value="Information" color="white" align="center" position="0 0 0.01"></a-text>
       </a-entity>
 
+      <!-- ARCADE 360 VIDEO -->
+      <a-entity id="arcade-display" position="-6 0 -7" rotation="0 20 0">
+        <!-- Label on top -->
+        <a-entity id="arcade-label" position="0 2 0.6">
+          <a-box width="2" height="0.3" depth="0.1" color="black"></a-box>
+          <a-text value="PSYCHE 360 Video" color="Orange" align="center" width="3" position="0 -0.04 0.1"></a-text>
+          <a-light type="point" intensity="2" position="0 -0.1 0.2" color="orange"></a-light>
+          <a-light type="point" intensity="2" position="0 -3 0.1" color="orange"></a-light>
+        </a-entity>
+        <!-- Arcade Display -->
+        <a-box width="2.5" height="3.6" depth="0.1" material="src: #detail-hud" position="0 -0.1 0.01"></a-box>
+        <a-box width="2.5" height="4" depth="0.1" color="white"></a-box>
+        <!-- Stand -->
+        <a-box width="2.5" height="2.5" depth="0.6" material="src: #white-walls; repeat: 1 4; shader: standard" position="0 -2.4 0.3"></a-box>
+        <!-- Flat Pieces -->
+        <a-box width="2.5" height="0.4" depth="0.6" material="src: #white-walls;" position="0 2 0.3"></a-box>
+        <a-box width="0.1" height="6" depth="1" material="src: #white-walls;" position="1.2 -1.2 0.1"></a-box>
+        <a-box width="0.1" height="6" depth="1" material="src: #white-walls;" position="-1.2 -1.2 0.1"></a-box>
+        <!-- Play Button -->
+        <a-entity id="play-button" position="0 -1.1 0.4">
+          <a-box width="0.4" height="0.1" depth="0.2" color="orange" class="clickable" onclick="launchYouTubeVideo()"></a-box>
+          <a-text value="Click Button To Watch Video" color="white" align="center" position="0 0.3 0.2" width="3"></a-text>
+        </a-entity>
+      </a-entity>
+      <!-- Embedded Video Panel -->
+      <div id="video-panel" style="display: none; position: absolute; top: 10%; left: 10%; width: 80%; height: 80%; z-index: 1000; background: rgba(0, 0, 0, 0.8);">
+        <iframe id="video-iframe" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <button onclick="closeYouTubeVideo()" style="position: absolute; top: 10px; right: 10px; z-index: 1001; background: red; color: white; border: none; padding: 10px; cursor: pointer;">Close</button>
+      </div>
+      <script>
+        function launchYouTubeVideo() {
+          const videoPanel = document.getElementById('video-panel');
+          const videoIframe = document.getElementById('video-iframe');
+          videoIframe.src = "https://www.youtube.com/embed/fRChtFMx144?autoplay=1&rel=0";
+          videoPanel.style.display = 'block';
+        }
+      
+        function closeYouTubeVideo() {
+          const videoPanel = document.getElementById('video-panel');
+          const videoIframe = document.getElementById('video-iframe');
+          videoIframe.src = ""; // Clear the iframe source
+          videoPanel.style.display = 'none';
+        }
+      </script>
+      
       <!-- PSYCHE OBJECTS -->
       <!-- Description Panel -->
       <a-entity id="description-panel" visible="false" class="clickable">
@@ -526,9 +573,12 @@
       </a-entity>
 
       <!-- CORRIDOR EXPERIENCES -->
+        <a-plane width="30" height="20" color="black" opacity="1" position="11 0 20" rotation="0 -90 0"></a-plane>
+        <a-plane width="30" height="20" color="black" opacity="1" position="-11 0 20" rotation="0 90 0"></a-plane>
         <!-- Red Lights Between First Doors -->
         <!-- Corridor Right Side-->
         <a-light type="point" intensity="5" position="-10 2 16" distance="6" color="#ff0000"></a-light>
+        
         <!-- Instrument Gallery position="-8.5 0 16" rotation="0 90 0" -->
         <a-light type="point" intensity="10" position="-8 -2 16" distance="6" color="#ffffff"></a-light>
         <!-- Instrument Gallery -->
@@ -548,7 +598,7 @@
             <a-text id="carousel-text" value="" color="white" align="center" position="0 0.05 0.1" width="2.5"></a-text>
           </a-plane>
         </a-entity>
-
+        <!-- Carousel Logic -->
         <script>
           const carouselData = [
             {
@@ -596,54 +646,88 @@
 
         <!-- Corridor Left Side-->
         <a-light type="point" intensity="5" position="10 2 16" distance="6" color="#ff0000"></a-light>   
-        <!-- PSYCHE 360 VID position="8.5 0 16" rotation="0 -90 0" -->
-        <a-entity id="arcade-display" position="-6 0 -7" rotation="0 20 0">
-          <!-- Label on top -->
-          <a-entity id="arcade-label" position="0 2 0.6">
-            <a-box width="2" height="0.3" depth="0.1" color="black"></a-box>
-            <a-text value="PSYCHE 360 Video" color="Orange" align="center" width="3" position="0 -0.04 0.1"></a-text>
-            <a-light type="point" intensity="2" position="0 -0.1 0.2" color="orange"></a-light>
-            <a-light type="point" intensity="2" position="0 -3 0.1" color="orange"></a-light>
-          </a-entity>
-          <!-- Arcade Display -->
-          <a-box width="2.5" height="3.6" depth="0.1" material="src: #detail-hud" position="0 -0.1 0.01"></a-box>
-          <a-box width="2.5" height="4" depth="0.1" color="white"></a-box>
-          <!-- Stand -->
-          <a-box width="2.5" height="2.5" depth="0.6" material="src: #white-walls; repeat: 1 4; shader: standard" position="0 -2.4 0.3"></a-box>
-          <!-- Flat Pieces -->
-          <a-box width="2.5" height="0.4" depth="0.6" material="src: #white-walls;" position="0 2 0.3"></a-box>
-          <a-box width="0.1" height="6" depth="1" material="src: #white-walls;" position="1.2 -1.2 0.1"></a-box>
-          <a-box width="0.1" height="6" depth="1" material="src: #white-walls;" position="-1.2 -1.2 0.1"></a-box>
-          <!-- Play Button -->
-          <a-entity id="play-button" position="0 -1.1 0.4">
-            <a-box width="0.4" height="0.1" depth="0.2" color="orange" class="clickable" onclick="openYouTubeFullscreen()"></a-box>
-            <a-text value="Click To Watch Video" color="white" align="center" position="0 0.3 0.2" width="3"></a-text>
-          </a-entity>
+        <!-- CREDITS -->
+        <a-light type="point" intensity="10" position="8 -2 16" distance="6" color="#ffffff"></a-light>
+        <a-entity id="credit-message" position="9 0 16" rotation="0 -90 0">
+          <!-- Left Navigation Button -->
+          <a-box id="credit-left-button" position="-1.5 0 0.1" depth="0.01" height="2" width="0.3" color="black" class="clickable" onclick="navigateCredits(-1)">
+            <a-text value="<" color="white" align="center" position="0 0 0.1" width="2"></a-text>
+          </a-box>
+          <!-- Right Navigation Button -->
+          <a-box id="credit-right-button" position="1.5 0 0.1" depth="0.01" height="2" width="0.3" color="black" class="clickable" onclick="navigateCredits(1)">
+            <a-text value=">" color="white" align="center" position="0 0 0.1" width="2"></a-text>
+          </a-box>
+          <!-- Credit Plane -->
+          <a-plane id="credit-plane" position="0 0 0" width="3" height="2" color="black" visible="true">
+            <a-plane id="credit-border" position="0 2 0.49" rotation="30 0 0" width="3.6" height="2.2" color="black"></a-plane>
+            <a-plane id="credit-image" position="0 2 0.5" rotation="30 0 0" width="3.5" height="2" material="src: #placeholder-image"></a-plane>
+            <a-text id="credit-text" value="" color="white" align="center" position="0 0.05 0.1" width="4"></a-text>
+          </a-plane>
         </a-entity>
         
+        <!-- Credit Logic -->
         <script>
-          function openYouTubeFullscreen() {
-            const url = "https://www.youtube.com/embed/fRChtFMx144?autoplay=1&rel=0";
-            const fullscreenWindow = window.open(
-              url,
-              "_blank",
-              "toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=1920,height=1080"
-            );
-            if (!fullscreenWindow) {
-              alert("Please allow pop-ups to view the video in fullscreen.");
+          const creditData = [
+            {
+              image: 'assets/psyche-logo.svg',
+              text: '\n\n\nCREDITS\n\n\n'
+            },
+            {
+              image: 'assets/nasa-logo.svg',
+              text: '\n Special Thanks:\n\n NASA Psyche Mission Team \n\n Arizona State University\n\n'
+            },
+            {
+              image: null,
+              text: '\nLead Developer: \n\nSantiago Blanco\n\n'
+            },
+            {
+              image: 'assets/textures/switches-buttons.jpg',
+              text: '\n Sound Engineer: \n\nSebastian Blanco \n\n'
+            },
+            {
+              image: 'assets/A-Frame_logo.png',
+              text: 'Powered By:\nA-Frame\n\nThree.js\n\nHowler.js'
             }
+          ];
+        
+          let currentCreditIndex = 0; // Track the currently visible credit panel
+        
+          function navigateCredits(direction) {
+            // Update the index based on the direction (-1 for left, 1 for right)
+            currentCreditIndex = (currentCreditIndex + direction + creditData.length) % creditData.length;
+        
+            // Update the credit content
+            const creditImage = document.querySelector('#credit-image');
+            const creditText = document.querySelector('#credit-text');
+        
+            // Set the new image or placeholder
+            if (creditData[currentCreditIndex].image) {
+              creditImage.setAttribute('material', `src: ${creditData[currentCreditIndex].image}`);
+            } else {
+              creditImage.setAttribute('material', 'src: #psyche-texture'); // Use placeholder if no image
+            }
+        
+            // Set the new text
+            creditText.setAttribute('value', creditData[currentCreditIndex].text);
           }
+        
+          // Initialize the credit screen with the first panel's data
+          document.addEventListener('DOMContentLoaded', () => {
+            navigateCredits(0); // Load the first panel
+          });
         </script>
 
         <!-- Red Lights Between Second Doors -->
         <!-- Corridor Right Side-->
         <a-light type="point" intensity="5" position="-10 2 18" distance="6" color="#ff0000"></a-light>
         <!-- Interactable Psyche position="-9 0 24" rotation="0 30 0" -->
-        
+        <a-light type="point" intensity="20" position="-8 -2 24" distance="6" color="#ffffff"></a-light>
+        <a-light type="point" intensity="20" position="-8 2 24" distance="6" color="#ffffff"></a-light>
         <!-- Asteroid -->
-        <a-entity id="asteroid" obj-model="obj: #psyche" position="-9 0 24" scale="0.5 0.5 0.5" rotation="0 0 0"
+        <a-entity id="asteroid" obj-model="obj: #psyche" position="-8 0 24" scale="0.5 0.5 0.5" rotation="0 0 0"
           class="clickable"
           material="src: #psyche-texture; color: white; metalness: 0.8; roughness: 0.3; emissive: #555; emissiveIntensity: 0.02"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
           animation__scale-in="property: scale; to: 1 1 1; dur: 500; startEvents: zoom-in"
           animation__scale-out="property: scale; to: 0.5 0.5 0.5; dur: 500; startEvents: zoom-out"
           raycaster-listener>
@@ -686,10 +770,18 @@
         
         <!-- Corridor Left Side-->
         <a-light type="point" intensity="5" position="10 2 18" distance="6" color="#ff0000"></a-light>   
-        <!-- Credits position="9 0 24" rotation="0 30 0" -->
-        <a-entity id="credit-message" position="9 0 24" rotation="0 30 0">
-          <a-box></a-box>
+        <!-- Spacecraft Detail -->
+        <a-light type="point" intensity="20" position="8 -2 24" distance="6" color="#ffffff"></a-light>
+        <a-light type="point" intensity="20" position="8 2 24" distance="6" color="#ffffff"></a-light>
+        <!-- Spacecraft Model -->
+        <a-entity gltf-model="#spacecraft-smaller" position="8 0 24" scale="0.2 0.2 0.2" rotation="0 0 0"
+          class="clickable"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
+          animation__scale-in="property: scale; to: 0.4 0.4 0.4; dur: 500; startEvents: zoom-in"
+          animation__scale-out="property: scale; to: 0.2 0.2 0.2; dur: 500; startEvents: zoom-out"
+          raycaster-listener>
         </a-entity>
+        
 
 
         
