@@ -102,23 +102,23 @@
 
         // IF VR, automatically load as VR
         document.addEventListener('DOMContentLoaded', () => {
-        const scene = document.querySelector('a-scene');
+          const scene = document.querySelector('a-scene');
 
-        // Check if the browser supports WebXR or WebVR
-        if (scene && scene.renderer.xr && navigator.xr) {
-          navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
-            if (supported) {
-              // Automatically enter VR mode
-              scene.enterVR();
-              console.log('Automatically entering VR mode.');
-            } else {
-              console.log('VR is not supported on this device.');
-            }
-          });
-        } else {
-          console.log('WebXR or WebVR is not supported in this browser.');
-        }
-      });
+          // Check if the browser supports WebXR or WebVR
+          if (scene && scene.renderer.xr && navigator.xr) {
+            navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+              if (supported) {
+                // Automatically enter VR mode
+                scene.enterVR();
+                console.log('Automatically entering VR mode.');
+              } else {
+                console.log('VR is not supported on this device.');
+              }
+            });
+          } else {
+            console.log('WebXR or WebVR is not supported in this browser.');
+          }
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
         const cameraRig = document.querySelector('#camera-rig');

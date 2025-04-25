@@ -116,6 +116,39 @@
         <img id="psyche-texture" src="assets/textures/psyche-texture.png">
       </a-assets>
 
+      <!-- VR Equivalent of the Popup -->
+      <a-entity id="vr-overlay" visible="false" position="0 1.6 -2">
+        <!-- Background Plane -->
+        <a-plane width="4" height="2" color="black" opacity="0.8"></a-plane>
+        <!-- Title Text -->
+        <a-text value="NASA's Mission To A Metal World:" color="white" align="center" position="0 0.5 0" width="3"></a-text>
+        <!-- Psyche Text -->
+        <a-text value="PSYCHE" color="orange" align="center" position="0 0 0" width="3"></a-text>
+        <!-- Logos -->
+        <a-image src="assets/nasa-logo.svg" position="-0.8 -0.5 0.01" width="0.8" height="0.4"></a-image>
+        <a-image src="assets/psyche-logo.svg" position="0.8 -0.5 0.01" width="0.8" height="0.4"></a-image>
+      </a-entity>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const scene = document.querySelector('a-scene');
+          const overlay = document.getElementById('overlay');
+          const vrOverlay = document.getElementById('vr-overlay');
+
+          // Hide HTML overlay and show VR overlay when entering VR mode
+          scene.addEventListener('enter-vr', () => {
+            overlay.style.display = 'none'; // Hide HTML overlay
+            vrOverlay.setAttribute('visible', true); // Show VR overlay
+          });
+
+          // Show HTML overlay and hide VR overlay when exiting VR mode
+          scene.addEventListener('exit-vr', () => {
+            overlay.style.display = 'block'; // Show HTML overlay
+            vrOverlay.setAttribute('visible', false); // Hide VR overlay
+          });
+        });
+      </script>
+
       <!-- Directional Light -->
       <a-entity light="type: directional; intensity: 0.8; color: white" position="-1 2 1"></a-entity>
 
@@ -182,9 +215,78 @@
       </a-entity>
       <a-camera look-controls="reverseMouseDrag: true"></a-camera>
 
-      <!-- Oculus Controllers -->
-    <a-entity id="left-hand" oculus-touch-controls="hand: left" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
-    <a-entity id="right-hand" oculus-touch-controls="hand: right" raycaster="objects: .clickable" line="color: orange; opacity: 0.75"></a-entity>
+      <!-- CONTROLLER OR HANDS -->
+      <script>
+        // IF VR, automatically load as VR
+        document.addEventListener('DOMContentLoaded', () => {
+          const scene = document.querySelector('a-scene');
+
+          // Check if the browser supports WebXR or WebVR
+          if (scene && scene.renderer.xr && navigator.xr) {
+            navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+              if (supported) {
+                // Automatically enter VR mode
+                scene.enterVR();
+                console.log('Automatically entering VR mode.');
+              } else {
+                console.log('VR is not supported on this device.');
+              }
+            });
+          } else {
+            console.log('WebXR or WebVR is not supported in this browser.');
+          }
+        });
+        // Function to enable or disable hand tracking and controllers
+        function updateControlMode() {
+          const leftHand = document.querySelector('#left-hand');
+          const rightHand = document.querySelector('#right-hand');
+          const leftHandTracking = document.querySelector('#left-hand-tracking');
+          const rightHandTracking = document.querySelector('#right-hand-tracking');
+
+          // Check if controllers are connected
+          const controllers = Array.from(navigator.getGamepads()).filter((gamepad) => gamepad !== null);
+
+          if (controllers.length > 0) {
+            // Enable controller functionality
+            leftHand.setAttribute('visible', true);
+            rightHand.setAttribute('visible', true);
+            leftHandTracking.setAttribute('visible', false);
+            rightHandTracking.setAttribute('visible', false);
+          } else {
+            // Enable hand tracking functionality
+            leftHand.setAttribute('visible', false);
+            rightHand.setAttribute('visible', false);
+            leftHandTracking.setAttribute('visible', true);
+            rightHandTracking.setAttribute('visible', true);
+          }
+        }
+
+        // Listen for controller connection and disconnection events
+        window.addEventListener('gamepadconnected', updateControlMode);
+        window.addEventListener('gamepaddisconnected', updateControlMode);
+
+        // Initial check on page load
+        document.addEventListener('DOMContentLoaded', updateControlMode);
+      </script>
+      <!-- Left Hand Controller (Movement) -->
+      <a-entity id="left-hand" laser-controls="hand: left" 
+      raycaster="objects: .clickable; interval: 100; far: 10" 
+      line="color: orange; opacity: 0.75" thumbstick-movement-left></a-entity>
+  
+      <!-- Right Hand Controller (Camera Rotation) -->
+      <a-entity id="right-hand" laser-controls="hand: right" 
+        raycaster="objects: .clickable; interval: 100; far: 10" 
+        line="color: orange; opacity: 0.75" thumbstick-rotate-camera></a-entity>
+    
+      <!-- Left Hand Tracking with Laser -->
+      <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left" 
+        raycaster="objects: .clickable; interval: 100; far: 10" 
+        line="color: orange; opacity: 0.75" visible="false"></a-entity>
+    
+      <!-- Right Hand Tracking with Laser -->
+      <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right" 
+        raycaster="objects: .clickable; interval: 100; far: 10" 
+        line="color: orange; opacity: 0.75" visible="false"></a-entity>
     </a-scene>
     
     <button id="explore-button" onclick="explorePsyche()">Click To Learn More About The Psyche Mission</button>
