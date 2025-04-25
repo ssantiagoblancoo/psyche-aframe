@@ -38,7 +38,7 @@
     </style>
   </head>
   <body>
-    <a-scene stats physics="gravity: -9.8" loading-screen="dotsColor: red; backgroundColor: black">
+    <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
         <a-sound id="background-music" src="soundtrack/space-by-sebastian-blanco.m4a" autoplay></a-sound>
         <img id="tiles-texture" src="assets/textures/Tiles107_2K-JPG_Color.jpg">
@@ -95,6 +95,26 @@
         function isMobile() {
           return /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
         }
+
+        // IF VR, automatically load as VR
+        document.addEventListener('DOMContentLoaded', () => {
+        const scene = document.querySelector('a-scene');
+
+        // Check if the browser supports WebXR or WebVR
+        if (scene && scene.renderer.xr && navigator.xr) {
+          navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+            if (supported) {
+              // Automatically enter VR mode
+              scene.enterVR();
+              console.log('Automatically entering VR mode.');
+            } else {
+              console.log('VR is not supported on this device.');
+            }
+          });
+        } else {
+          console.log('WebXR or WebVR is not supported in this browser.');
+        }
+      });
 
         document.addEventListener('DOMContentLoaded', () => {
         const cameraRig = document.querySelector('#camera-rig');
@@ -253,11 +273,33 @@
       <a-entity gltf-model="#spacecraft-interior" position="0 0 0" scale="1 1 1"></a-entity>
 
       <!-- LOCKED ROOM (VR Only) -->
-      <a-box position="0 0 10.2" depth="0.1" height="12" width="18" color="#000" opacity="0.6"></a-box>
+      <a-box id="locked-room-box" position="0 0 10.2" depth="0.1" height="12" width="18" color="#000" opacity="0.6" visible="true"></a-box>
       <!-- Text for Locked Room -->
-      <a-entity position="0 0 9.8" rotation="0 180 0">
-          <a-text value="LOCKED ROOM (Wear VR Headset)" color="red" opacity="0.8" align="center" width="10"></a-text>
+      <a-entity id="locked-room-text" position="0 0 9.8" rotation="0 180 0" visible="true">
+        <a-text value="LOCKED ROOM (Wear VR Headset)" color="red" opacity="0.8" align="center" width="10"></a-text>
       </a-entity>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const scene = document.querySelector('a-scene');
+          const lockedRoomBox = document.querySelector('#locked-room-box');
+          const lockedRoomText = document.querySelector('#locked-room-text');
+
+          // Hide the barrier when entering VR mode
+          scene.addEventListener('enter-vr', () => {
+            lockedRoomBox.setAttribute('visible', false);
+            lockedRoomText.setAttribute('visible', false);
+            console.log('Entered VR mode: Barrier hidden.');
+          });
+
+          // Show the barrier when exiting VR mode
+          scene.addEventListener('exit-vr', () => {
+            lockedRoomBox.setAttribute('visible', true);
+            lockedRoomText.setAttribute('visible', true);
+            console.log('Exited VR mode: Barrier visible.');
+          });
+        });
+      </script>
 
       <!-- left side pannel (left) -->
       <a-box position="-10 0 5" depth="10" height="10" width="0.1" material="color: #fff; emissive: #ffffff; emissiveIntensity: 0.5; shader: standard"></a-box>          
