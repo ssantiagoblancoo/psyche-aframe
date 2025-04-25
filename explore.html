@@ -41,9 +41,7 @@
     <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-assets>
         <a-sound id="background-music" src="soundtrack/space-by-sebastian-blanco.m4a" autoplay></a-sound>
-        <img id="tiles-texture" src="assets/textures/Tiles107_2K-JPG_Color.jpg">
         <img id="brushed-metal-texture" src="assets/textures/Brushed-Metal-Texture.jpg">
-        <img id="metal-texture" src="assets/textures/DiamondPlate001_2K-JPG_Color.jpg">
         <img id="dark-tiles-texture" src="assets/textures/Tiles129B_2K-JPG_Color.jpg">
         <img id="white-walls" src="assets/textures/white-walls.jpg">
         <img id="star-background" src="assets/space.png">
@@ -55,6 +53,12 @@
         <img id="magnetometer-image" src="assets/psyche-images/magnetometer.avif" />
         <img id="radio-image" src="assets/psyche-images/radio-science.avif" />
         <img id="dsoc-image" src="assets/psyche-images/dsoc.avif" />
+
+        
+  
+        <img id="nasa-logo" src="assets/nasa-logo.svg" />
+        <img id="psyche-logo" src="assets/psyche-logo.svg" />
+        <img id="a-frame-logo" src="assets/A-Frame_logo.png" />
 
         <a-asset-item id="spacecraft-interior" src="assets/objects/spacecraft-interior.glb"></a-asset-item>
         <a-asset-item id="psyche" src="assets/objects/psyche-asteroid.obj"></a-asset-item>
@@ -704,11 +708,11 @@
         <script>
           const creditData = [
             {
-              image: 'assets/psyche-logo.svg',
+              image: '#psyche-logo',
               text: '\n\n\nCREDITS\n\n\n'
             },
             {
-              image: 'assets/nasa-logo.svg',
+              image: '#nasa-logo',
               text: '\n Special Thanks:\n\n NASA Psyche Mission Team \n\n Arizona State University\n\n'
             },
             {
@@ -716,11 +720,11 @@
               text: '\nLead Developer: \n\nSantiago Blanco\n\n'
             },
             {
-              image: 'assets/textures/switches-buttons.jpg',
+              image: '#switches-buttons',
               text: '\n Sound Engineer: \n\nSebastian Blanco \n\n'
             },
             {
-              image: 'assets/A-Frame_logo.png',
+              image: '#a-frame-logo',
               text: 'Powered By:\nA-Frame\n\nThree.js\n\nHowler.js'
             }
           ];
