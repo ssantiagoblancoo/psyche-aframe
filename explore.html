@@ -56,8 +56,10 @@
         <img id="radio-image" src="assets/psyche-images/radio-science.avif" />
         <img id="dsoc-image" src="assets/psyche-images/dsoc.avif" />
 
-        <a-asset-item id="spacecraft-glb" src="assets/objects/spacecraft-interior.glb"></a-asset-item>
+        <a-asset-item id="spacecraft-interior" src="assets/objects/spacecraft-interior.glb"></a-asset-item>
         <a-asset-item id="psyche" src="assets/objects/psyche-asteroid.obj"></a-asset-item>
+        <a-asset-item id="spacecraft" src="assets/objects/psyche-spacecraft.glb"></a-asset-item>
+        <a-asset-item id="spacecraft-smaller" src="assets/objects/psyche-spacecraft-smaller.glb"></a-asset-item>
       </a-assets>
     
       <!-- Backgroun sound Howler -->
@@ -94,14 +96,23 @@
           return /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
         }
 
-        // Disable movement controls on mobile
         document.addEventListener('DOMContentLoaded', () => {
-          const cameraRig = document.querySelector('#camera-rig');
-          if (isMobile()) {
-            cameraRig.removeAttribute('movement-controls'); // Disable movement controls
+        const cameraRig = document.querySelector('#camera-rig');
+        const lockedRoomBox = document.querySelector('#locked-room-box');
+        const lockedRoomText = document.querySelector('#locked-room-text');
+
+        if (isMobile()) {
+          // Disable movement controls for mobile
+          if (cameraRig) {
+            cameraRig.removeAttribute('movement-controls');
             console.log('Movement controls disabled for mobile.');
           }
-        });
+
+          // Make the locked room visible
+          lockedRoomBox.setAttribute('visible', true);
+          lockedRoomText.setAttribute('visible', true);
+        }
+      });
       </Script>
 
       <!-- CONTROLLER OR HANDS -->
@@ -243,10 +254,10 @@
 
       <!-- Starry Background -->
       <a-sky material="src: #star-background; repeat: 2 2" rotation="0 -90 0"
-      animation="property: rotation; to: 1 1; loop: true; dur: 40000; easing: linear"></a-sky>
+      animation="property: rotation; to: 1 1; loop: true; dur: 60000; easing: linear"></a-sky>
 
       <!-- Spaceship interior -->
-      <a-entity gltf-model="#spacecraft-glb" position="0 0 0" scale="1 1 1"></a-entity>
+      <a-entity gltf-model="#spacecraft-interior" position="0 0 0" scale="1 1 1"></a-entity>
 
       <!-- LOCKED ROOM (VR Only) -->
       <a-box position="0 0 10.2" depth="0.1" height="12" width="18" color="#000" opacity="0.6"></a-box>
@@ -496,11 +507,17 @@
         setInterval(updateClockLabels, 1000);
       </script>
 
-      <!-- Spacecraft -->
-      <a-box position="8 -1.5 3" depth="1" height="1" width="1" color="blue" class="clickable"
-        onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.8 3')"
-        animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
-        animation__bounce="property: position; dir: alternate; dur: 2000; loop: true; to: 8 -1 3"></a-box>
+      <!-- Psyche Spacecraft -->
+      <a-entity id="spacecraft-container" position="7.5 -1.5 3">
+        <!-- Spacecraft Model -->
+        <a-entity gltf-model="#spacecraft-smaller" scale="0.2 0.2 0.2" rotation="0 0 0"
+                  animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+        </a-entity>
+        <!-- Clickable Transparent Block -->
+        <a-box position="0 0 0" depth="2" height="2" width="2" color="white" opacity="0.01" class="clickable"
+              onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.8 3')">
+        </a-box>
+      </a-entity>
       <!-- Spacecraft Label -->
       <a-entity id="spacecraft-label" position="6 -2 2.5" rotation="-20 -90 0" class="clickable" 
                 onclick="showDescription('Spacecraft', 'The Psyche spacecraft and solar panels, built by Maxar Technologies, are about the size of a singles tennis court. \n\n The body of the spacecraft is slightly bigger than a small van and about as tall as a regulation basketball hoop. The spacecraft includes a Gamma-Ray and Neutron Spectrometer, a Multispectral Imager, a Magnetometer and an x-band radio telecommunications system. \n\n The Psyche mission is also testing a sophisticated new laser communication technology, called Deep Space Optical Communication, that encodes data in photons to communicate between a probe in deep space and Earth.', 'spacecraft-label', '8 1.8 3')">
@@ -580,7 +597,7 @@
         <!-- Corridor Left Side-->
         <a-light type="point" intensity="5" position="10 2 16" distance="6" color="#ff0000"></a-light>   
         <!-- PSYCHE 360 VID position="8.5 0 16" rotation="0 -90 0" -->
-        <a-entity id="arcade-display" position="-5 0 -5" rotation="0 30 0">
+        <a-entity id="arcade-display" position="-6 0 -7" rotation="0 20 0">
           <!-- Label on top -->
           <a-entity id="arcade-label" position="0 2 0.6">
             <a-box width="2" height="0.3" depth="0.1" color="black"></a-box>
@@ -624,7 +641,7 @@
         <!-- Interactable Psyche position="-9 0 24" rotation="0 30 0" -->
         
         <!-- Asteroid -->
-        <a-entity id="asteroid" obj-model="obj: #psyche" position="2 0 -4" scale="0.5 0.5 0.5" rotation="0 0 0"
+        <a-entity id="asteroid" obj-model="obj: #psyche" position="-9 0 24" scale="0.5 0.5 0.5" rotation="0 0 0"
           class="clickable"
           material="src: #psyche-texture; color: white; metalness: 0.8; roughness: 0.3; emissive: #555; emissiveIntensity: 0.02"
           animation__scale-in="property: scale; to: 1 1 1; dur: 500; startEvents: zoom-in"
