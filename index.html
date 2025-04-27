@@ -99,6 +99,46 @@
         border: orange 2px solid;
         color: orange;
       }
+
+      #buttons{
+        display: flex;
+        flex-direction: row;
+      }
+      #start-button {
+        font-size: 20px;
+        background-color: black;
+        border: orange 2px solid;
+        border-radius: 4px;
+        color: orange;
+
+        margin: 1rem;
+        width: 10rem;
+        height: min-content;
+      }
+      #start-button:hover {
+        background-color: orange;
+        border: orange 2px solid;
+        border-radius: 4px;
+        color: black;
+      }
+      #credits-button {
+        font-size: 20px;
+        background-color: black;
+        border: blue 2px solid;
+        border-radius: 4px;
+        color: blue;
+
+        margin: 1rem;
+        width: 10rem;
+        height: min-content;
+      }
+      #credits-button:hover {
+        background-color: blue;
+        border: blue 2px solid;
+        border-radius: 4px;
+        color: black;
+        height: min-content;
+      }
     </style>
     
       <script>
@@ -123,9 +163,14 @@
       </script>
   </head>
   <body>
-    <div id="overlay" onclick="hideOverlay()">
+    <div id="overlay"">
       <div id="overlay-text">NASA's Mission To A Metal World:</div>
       <span id="psyche-span">PSYCHE</span>
+      <!-- Buttons -->
+      <div id="buttons">
+        <button id="start-button"  onclick="hideOverlay()">Start</button>
+        <button id="credits-button" onclick="showCredits()">Disclaimer</button>
+      </div>
       <div id="logos">
         <img src="assets/nasa-logo.svg" alt="NASA Logo">
         <div class="divider"></div>
@@ -140,6 +185,67 @@
       </a-assets>
 
       <script>
+        function hideOverlay() {
+          const overlay = document.getElementById('overlay');
+          overlay.classList.add('hidden');
+        }
+        function showCredits() {
+          const creditsButton = document.getElementById('credits-button');
+          const creditsText = `
+            <div style="display: flex; flex-direction: column; gap: 20px; text-align: left;">
+              <!-- Disclaimer Section -->
+              <div style="font-weight: bold; color: red;">
+                Disclaimer:
+              </div>
+              <!-- Message Section -->
+              <div>
+                This work was created in partial fulfillment of Virginia Commonwealth University Capstone Course “CMSC442/CMSC452″.
+                The work is a result of the Psyche Student Collaborations component of NASA's Psyche
+                Mission (https://psyche.asu.edu). “Psyche: A Journey to a Metal World” [Contract number NNM16AA09C] is part
+                of the NASA Discovery Program mission to solar system targets. Trade names and trademarks of ASU and NASA
+                are used in this work for identification only. Their usage does not constitute an official endorsement,
+                either expressed or implied, by Arizona State University or National Aeronautics and Space Administration.
+                The content is solely the responsibility of the authors and does not necessarily represent the official
+                views of ASU or NASA.
+              </div>
+            </div>
+          `;
+
+          // Enlarge the button and display the credits text
+          creditsButton.style.transition = 'all 0.5s ease'; // Smooth animation
+          creditsButton.style.transformOrigin = 'bottom center'; // Set the origin to bottom center
+          creditsButton.style.position = 'relative'; // Ensure the button can be shifted
+          creditsButton.style.top = '-4rem'; // Shift the button upwards as it expands
+          creditsButton.style.width = '42rem';
+          creditsButton.style.height = '10rem';
+          creditsButton.style.fontSize = '12px';
+          creditsButton.style.whiteSpace = 'normal';
+          creditsButton.style.backgroundColor = 'black';
+          creditsButton.style.color = 'blue';
+          creditsButton.innerHTML = creditsText; // Set the credits text
+
+          // Add a click listener to the overlay to collapse the box
+          overlay.addEventListener('click', collapseCredits);
+        }
+
+        function collapseCredits(event) {
+          const creditsButton = document.getElementById('credits-button');
+          const overlay = document.getElementById('overlay');
+
+          // Ensure the click is outside the credits button
+          if (event.target !== creditsButton) {
+            creditsButton.style.position = 'static';
+            creditsButton.style.transition = 'all 0.5s ease'; // Smooth animation
+            creditsButton.style.width = '10rem';
+            creditsButton.style.height = 'min-content';
+            creditsButton.style.fontSize = '20px';
+            creditsButton.innerText = 'Disclaimer'; // Reset the button text
+            creditsButton.style.cursor = 'pointer'; // Re-enable pointer cursor
+
+            // Remove the click listener from the overlay
+            overlay.removeEventListener('click', collapseCredits);
+          }
+        }
         document.addEventListener('DOMContentLoaded', () => {
           const scene = document.querySelector('a-scene');
           const overlay = document.getElementById('overlay');
@@ -327,11 +433,6 @@
       // Add event listeners for user interaction
       document.addEventListener('click', startBackgroundSound);
       document.addEventListener('touchstart', startBackgroundSound);
-
-      function hideOverlay() {
-        const overlay = document.getElementById('overlay');
-        overlay.classList.add('hidden');
-      }
 
       function explorePsyche() {
         window.location.href = "explore.html";
