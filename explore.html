@@ -100,6 +100,11 @@
           return /Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
         }
 
+        if (isMobile()) {
+          const scene = document.querySelector('a-scene');
+          scene.setAttribute('renderer', 'antialias: false; precision: low;');
+        }
+
         // IF VR, automatically load as VR
         document.addEventListener('DOMContentLoaded', () => {
           const scene = document.querySelector('a-scene');
