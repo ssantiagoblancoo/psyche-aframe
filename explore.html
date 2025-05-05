@@ -380,7 +380,7 @@
       <!-- PsycheOrbit Image on Top of the Left Side Panel -->
           <a-box position="-10 1 4" depth="8" height="7" width="0.4" material="src: assets/PsycheOrbit.png; shader: standard; side: double"></a-box>
           <!-- Light for PsycheOrbit -->
-          <a-light type="point" intensity="10" position="-8 1 4" distance="80" color="white"></a-light>
+          <a-light type="point" intensity="10" position="-8 1 4" distance="80" color="white" shadow="cast: false"></a-light>
         <!-- Button -->
         <a-box position="-9.8 -2.8 3" depth="6" height="0.7" width="0.1" color="#000" class="clickable" onclick="launchPlayer()"></a-box>
         <!-- Button Text -->
@@ -897,7 +897,7 @@
     </a-scene>
     <script>
       function redirectTo() {
-        window.location.href = "explore.html";
+        window.location.href = "index.html";
       }
     </script>
   </body>
