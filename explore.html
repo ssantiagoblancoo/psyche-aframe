@@ -300,6 +300,11 @@
           const scene = document.querySelector('a-scene');
           const lockedRoomBox = document.querySelector('#locked-room-box');
           const lockedRoomText = document.querySelector('#locked-room-text');
+          const deferredObjectsContainer = document.createElement('a-entity'); // Container for deferred objects
+          let objectsLoaded = false;
+
+          // Append the container to the scene
+          scene.appendChild(deferredObjectsContainer);
 
           // Hide the barrier when entering VR mode
           scene.addEventListener('enter-vr', () => {
@@ -314,7 +319,60 @@
             lockedRoomText.setAttribute('visible', true);
             console.log('Exited VR mode: Barrier visible.');
           });
+          // Add a listener to detect when the user crosses the barrier
+          lockedRoomBox.addEventListener('mouseenter', () => {
+            if (!objectsLoaded) {
+              loadDeferredObjects(deferredObjectsContainer);
+              objectsLoaded = true; // Prevent multiple loads
+              console.log('User crossed the barrier: Objects loaded.');
+            }
+          });
         });
+        // Function to load deferred objects
+        function loadDeferredObjects(container) {
+          // Load the asteroid
+          const asteroid = document.createElement('a-entity');
+          asteroid.setAttribute('id', 'asteroid');
+          asteroid.setAttribute('obj-model', 'obj: #psyche');
+          asteroid.setAttribute('position', '-8 0 24');
+          asteroid.setAttribute('scale', '0.5 0.5 0.5');
+          asteroid.setAttribute('rotation', '0 0 0');
+          asteroid.setAttribute('class', 'clickable');
+          asteroid.setAttribute(
+            'material',
+            'src: #psyche-texture; color: white; metalness: 0.8; roughness: 0.3; emissive: #555; emissiveIntensity: 0.02'
+          );
+          asteroid.setAttribute(
+            'animation',
+            'property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear'
+          );
+
+          // Load the carousel
+          const carousel = document.createElement('a-entity');
+          carousel.setAttribute('id', 'instrument-gallery');
+          carousel.setAttribute('position', '-8.5 0 16');
+          carousel.setAttribute('rotation', '0 90 0');
+          carousel.innerHTML = `
+            <!-- Left Navigation Button -->
+            <a-box id="left-button" position="-1.5 0 0.1" depth="0.01" height="2" width="0.3" color="black" class="clickable" onclick="navigateGallery(-1)">
+              <a-text value="<" color="white" align="center" position="0 0 0.1" width="2"></a-text>
+            </a-box>
+            <!-- Right Navigation Button -->
+            <a-box id="right-button" position="1.5 0 0.1" depth="0.01" height="2" width="0.3" color="black" class="clickable" onclick="navigateGallery(1)">
+              <a-text value=">" color="white" align="center" position="0 0 0.1" width="2"></a-text>
+            </a-box>
+            <!-- Carousel Plane -->
+            <a-plane id="carousel-plane" position="0 0 0" width="3" height="2" color="black" visible="true">
+              <a-plane id="border" position="0 2 0.49" rotation="30 0 0" width="3.6" height="2.2" color="black"></a-plane>
+              <a-plane id="carousel-image" position="0 2 0.5" rotation="30 0 0" width="3.5" height="2" material="src: #placeholder-image"></a-plane>
+              <a-text id="carousel-text" value="" color="white" align="center" position="0 0.05 0.1" width="2.5"></a-text>
+            </a-plane>
+          `;
+
+          // Append the objects to the container
+          container.appendChild(asteroid);
+          container.appendChild(carousel);
+        }
       </script>
 
       <!-- left side pannel (left) -->
